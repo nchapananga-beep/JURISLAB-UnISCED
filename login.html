@@ -6,7 +6,7 @@
   <meta name="description" content="Entrada na área reservada do JURISLAB UnISCED">
   <title>Entrar | JURISLAB UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=2">
-  <link rel="stylesheet" href="css/login.css?v=1">
+  <link rel="stylesheet" href="css/login.css?v=2">
 </head>
 <body class="pagina-login">
   <header class="topo">
@@ -25,7 +25,7 @@
         <p class="etiqueta etiqueta-clara">Área reservada</p>
         <h1>Entre no ambiente de gestão do JURISLAB.</h1>
         <p>
-          O acesso será autorizado conforme o perfil registado na base de utilizadores da plataforma.
+          O acesso é feito através de um código temporário enviado ao email autorizado.
         </p>
         <ul>
           <li>Coordenação e supervisão</li>
@@ -39,11 +39,11 @@
       <div class="login-cartao">
         <p class="etiqueta">JURISLAB UnISCED</p>
         <h2 id="tituloLogin">Entrar na plataforma</h2>
-        <p class="login-introducao">
-          Introduza o email registado no sistema. A autenticação será activada na próxima etapa.
+        <p class="login-introducao" id="textoInstrucao">
+          Introduza o email registado para receber um código de acesso.
         </p>
 
-        <form id="formLogin" novalidate>
+        <form id="formEmail" novalidate>
           <label for="email">Email</label>
           <input
             id="email"
@@ -54,25 +54,35 @@
             required
           >
 
-          <label for="senha">Palavra-passe</label>
-          <div class="campo-senha">
-            <input
-              id="senha"
-              name="senha"
-              type="password"
-              autocomplete="current-password"
-              placeholder="Introduza a sua palavra-passe"
-              required
-            >
-            <button id="mostrarSenha" type="button" aria-label="Mostrar palavra-passe">Mostrar</button>
-          </div>
-
-          <p class="mensagem-formulario" id="mensagemLogin" role="status" aria-live="polite"></p>
-
-          <button class="botao botao-principal botao-largo" type="submit">
-            Entrar
+          <button class="botao botao-principal botao-largo" id="btnEnviarCodigo" type="submit">
+            Enviar código
           </button>
         </form>
+
+        <form id="formCodigo" class="oculto" novalidate>
+          <label for="codigo">Código de acesso</label>
+          <input
+            id="codigo"
+            name="codigo"
+            type="text"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="6"
+            pattern="[0-9]{6}"
+            placeholder="000000"
+            required
+          >
+
+          <button class="botao botao-principal botao-largo" id="btnValidarCodigo" type="submit">
+            Confirmar e entrar
+          </button>
+
+          <button class="botao-link" id="btnReenviar" type="button">
+            Reenviar código
+          </button>
+        </form>
+
+        <p class="mensagem-formulario" id="mensagemLogin" role="status" aria-live="polite"></p>
 
         <div class="login-ajuda">
           <p>Ainda não tem acesso?</p>
@@ -82,6 +92,6 @@
     </section>
   </main>
 
-  <script src="js/login.js?v=1"></script>
+  <script src="js/login.js?v=2"></script>
 </body>
 </html>
