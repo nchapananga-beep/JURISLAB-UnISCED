@@ -101,39 +101,53 @@
   box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
 }
 
-.campo-senha {
-  position: relative;
-}
-
-.campo-senha input {
-  padding-right: 82px;
-}
-
-.campo-senha button {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  padding: 6px;
-  color: var(--vermelho);
-  background: transparent;
-  border: 0;
+#codigo {
+  text-align: center;
+  font-size: 1.45rem;
   font-weight: 700;
-  cursor: pointer;
+  letter-spacing: 0.35em;
 }
 
 .botao-largo {
   width: 100%;
-  margin-top: 12px;
+  margin-top: 18px;
   border: 0;
   cursor: pointer;
 }
 
+.botao:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.botao-link {
+  display: block;
+  margin: 16px auto 0;
+  padding: 6px;
+  color: var(--vermelho);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.oculto {
+  display: none;
+}
+
 .mensagem-formulario {
   min-height: 24px;
-  margin-top: 14px;
-  color: var(--vermelho-escuro);
+  margin-top: 16px;
   font-size: 0.94rem;
+}
+
+.mensagem-formulario.erro {
+  color: var(--vermelho-escuro);
+}
+
+.mensagem-formulario.sucesso {
+  color: #176b3a;
 }
 
 .login-ajuda {
