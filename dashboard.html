@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel principal do JURISLAB UnISCED">
+  <title>Painel | JURISLAB UnISCED</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/dashboard.css?v=1">
+</head>
+<body class="pagina-dashboard">
+  <header class="dashboard-topo">
+    <a class="marca" href="dashboard.html">
+      <span class="marca-principal">JURISLAB</span>
+      <span class="marca-instituicao">UnISCED</span>
+    </a>
+
+    <div class="utilizador-topo">
+      <div>
+        <strong id="nomeTopo">Utilizador</strong>
+        <span id="perfilTopo">A validar sessão...</span>
+      </div>
+      <button id="btnSair" type="button">Sair</button>
+    </div>
+  </header>
+
+  <main class="dashboard-conteudo">
+    <section class="boas-vindas">
+      <p class="etiqueta">Área reservada</p>
+      <h1>Bem-vindo, <span id="nomeUtilizador">utilizador</span>.</h1>
+      <p id="mensagemSessao">Estamos a confirmar a sua sessão.</p>
+    </section>
+
+    <section class="resumo-dashboard" aria-label="Resumo geral">
+      <article>
+        <span>Casos activos</span>
+        <strong>0</strong>
+      </article>
+      <article>
+        <span>Actividades próximas</span>
+        <strong>0</strong>
+      </article>
+      <article>
+        <span>Documentos pendentes</span>
+        <strong>0</strong>
+      </article>
+      <article>
+        <span>Notificações</span>
+        <strong>0</strong>
+      </article>
+    </section>
+
+    <section class="modulos-dashboard">
+      <div class="secao-cabecalho">
+        <p class="etiqueta">Módulos</p>
+        <h2>Escolha uma área de trabalho</h2>
+      </div>
+
+      <div class="grelha-dashboard">
+        <article class="modulo-dashboard">
+          <span>01</span>
+          <h3>JURISLAB Aconselha</h3>
+          <p>Gestão de utentes, triagens, casos e atendimentos jurídicos.</p>
+          <button type="button" disabled>Em preparação</button>
+        </article>
+
+        <article class="modulo-dashboard">
+          <span>02</span>
+          <h3>JURISLAB Tribunal</h3>
+          <p>Casos fictícios, equipas, audiências e avaliações.</p>
+          <button type="button" disabled>Em preparação</button>
+        </article>
+
+        <article class="modulo-dashboard">
+          <span>03</span>
+          <h3>JURISLAB Olimpíadas</h3>
+          <p>Inscrições, provas, pontuações e classificações.</p>
+          <button type="button" disabled>Em preparação</button>
+        </article>
+
+        <article class="modulo-dashboard">
+          <span>04</span>
+          <h3>JURISLAB Estágios</h3>
+          <p>Candidaturas, planos, actividades e avaliações de estágio.</p>
+          <button type="button" disabled>Em preparação</button>
+        </article>
+
+        <article class="modulo-dashboard">
+          <span>05</span>
+          <h3>JURISLAB Podcast</h3>
+          <p>Programas, episódios, convidados, guiões e agenda.</p>
+          <button type="button" disabled>Em preparação</button>
+        </article>
+
+        <article class="modulo-dashboard">
+          <span>06</span>
+          <h3>Administração</h3>
+          <p>Utilizadores, permissões, configurações e relatórios.</p>
+          <button type="button" disabled>Em preparação</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div>
+      <strong>JURISLAB UnISCED</strong>
+      <p>A validar a sua sessão...</p>
+    </div>
+  </div>
+
+  <script src="js/dashboard.js?v=1"></script>
+</body>
+</html>
