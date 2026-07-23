@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Controlo de prazos do JURISLAB Aconselha">
+  <title>Controlo de Prazos | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/prazos.css?v=1">
+</head>
+<body class="pagina-prazos">
+  <header class="prazos-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Controlo de prazos jurídicos</span></div>
+    </a>
+    <nav class="acoes-topo" aria-label="Navegação do módulo"><a href="casos.html">Casos</a><a href="consultas.html">Consultas</a><a href="encaminhamentos.html">Encaminhamentos</a><a href="gestao-aconselha.html">Utentes</a><a href="dashboard.html">Painel</a></nav>
+  </header>
+
+  <main class="prazos-conteudo">
+    <section class="prazos-cabecalho">
+      <div><p class="etiqueta">Controlo processual</p><h1>Prazos registados</h1><p>Identifique prazos pendentes, próximos, vencidos e cumpridos.</p></div>
+      <a class="botao botao-principal" href="casos.html">Registar novo prazo</a>
+    </section>
+
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <input id="campoPesquisa" type="search" placeholder="Código, caso, utente, descrição ou responsável..." autocomplete="off">
+        <select id="filtroEstado" aria-label="Filtrar por situação"><option value="Todos">Todas as situações</option><option>Pendente</option><option>Próximo</option><option>Vencido</option><option>Cumprido</option></select>
+        <button class="botao botao-principal" type="submit">Pesquisar</button>
+        <button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar prazos...</p>
+    </section>
+
+    <section id="listaPrazos" class="lista-prazos" aria-live="polite"></section>
+    <p id="mensagemPrazos" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div class="modal-fundo oculto" id="modalCumprir" role="dialog" aria-modal="true">
+    <div class="modal-cartao modal-menor">
+      <button class="modal-fechar" id="btnFecharCumprir" type="button">×</button>
+      <p class="etiqueta">Conclusão do prazo</p><h2>Marcar prazo como cumprido</h2><p id="resumoPrazo" class="resumo-seleccionado"></p>
+      <form id="formCumprir" novalidate>
+        <input name="idPrazo" type="hidden">
+        <div class="campo"><label>Observações</label><textarea name="observacoes" rows="5" placeholder="Registe como o prazo foi cumprido ou o documento apresentado."></textarea></div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnConfirmarCumprimento" type="submit">Confirmar cumprimento</button><button class="botao botao-secundario" id="btnCancelarCumprir" type="button">Cancelar</button></div>
+        <p id="mensagemCumprimento" class="mensagem-formulario"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/prazos.js?v=1"></script>
+</body>
+</html>
