@@ -1,0 +1,53 @@
+.navegacao-modulo {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.navegacao-modulo a {
+  color: var(--vermelho);
+  font-weight: 700;
+}
+
+.campo textarea {
+  width: 100%;
+  padding: 14px 15px;
+  color: var(--texto);
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  font: inherit;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.campo textarea:focus,
+.campo input:focus,
+.campo select:focus {
+  outline: 3px solid rgba(200, 16, 46, 0.12);
+  border-color: var(--vermelho);
+}
+
+.campo small {
+  display: block;
+  margin-top: 6px;
+  color: var(--texto-suave);
+}
+
+.aviso-triagem {
+  margin-top: 24px;
+  padding: 16px 18px;
+  color: #5c4211;
+  background: #fff7df;
+  border: 1px solid #ebd59e;
+  border-radius: 10px;
+}
+
+@media (max-width: 720px) {
+  .navegacao-modulo {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    font-size: 0.88rem;
+  }
+}
