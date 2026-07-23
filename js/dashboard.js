@@ -67,6 +67,22 @@ function colocarIndicadoresIndisponiveis() {
   });
 }
 
+function colocarIndicadoresPrazos(resumo) {
+  document.getElementById("indicadorPrazosPendentes").textContent = Number(resumo.pendentes || 0);
+  document.getElementById("indicadorPrazosProximos").textContent = Number(resumo.proximos || 0);
+  document.getElementById("indicadorPrazosVencidos").textContent = Number(resumo.vencidos || 0);
+}
+
+function colocarPrazosIndisponiveis() {
+  [
+    "indicadorPrazosPendentes",
+    "indicadorPrazosProximos",
+    "indicadorPrazosVencidos"
+  ].forEach(function (id) {
+    document.getElementById(id).textContent = "—";
+  });
+}
+
 async function carregarIndicadores(token) {
   const mensagem = document.getElementById("mensagemIndicadores");
   mensagem.textContent = "";
@@ -89,6 +105,37 @@ async function carregarIndicadores(token) {
   } catch (erro) {
     colocarIndicadoresIndisponiveis();
     mensagem.textContent = "Não foi possível carregar os indicadores do painel.";
+    mensagem.classList.add("erro");
+  }
+}
+
+async function carregarIndicadoresPrazos(token) {
+  const mensagem = document.getElementById("mensagemPrazos");
+  mensagem.textContent = "";
+  mensagem.className = "mensagem-formulario";
+
+  try {
+    const resultado = await chamarApi({
+      acao: "obterResumoPrazosPainel",
+      token: token
+    });
+
+    if (!resultado.sucesso) {
+      colocarPrazosIndisponiveis();
+      mensagem.textContent = resultado.mensagem || "Não foi possível carregar os alertas de prazos.";
+      mensagem.classList.add("erro");
+      return;
+    }
+
+    colocarIndicadoresPrazos(resultado);
+
+    if (Number(resultado.vencidos || 0) > 0) {
+      mensagem.textContent = "Existem prazos vencidos que requerem atenção imediata.";
+      mensagem.classList.add("erro");
+    }
+  } catch (erro) {
+    colocarPrazosIndisponiveis();
+    mensagem.textContent = "Não foi possível carregar os alertas de prazos.";
     mensagem.classList.add("erro");
   }
 }
@@ -126,7 +173,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     mensagemSessao.textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + ".";
     ecraValidacao.classList.add("oculto");
 
-    await carregarIndicadores(token);
+    await Promise.all([
+      carregarIndicadores(token),
+      carregarIndicadoresPrazos(token)
+    ]);
   } catch (erro) {
     limparSessaoLocal();
     irParaLogin();
