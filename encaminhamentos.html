@@ -6,19 +6,103 @@
   <meta name="description" content="Encaminhamentos do JURISLAB Aconselha">
   <title>Encaminhamentos | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/encaminhamentos.css?v=1">
+  <link rel="stylesheet" href="css/encaminhamentos.css?v=2">
 </head>
 <body class="pagina-encaminhamentos">
   <header class="encaminhamentos-topo">
-    <a class="marca marca-com-logo" href="dashboard.html"><img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Acompanhamento de encaminhamentos</span></div></a>
-    <nav class="acoes-topo"><a href="casos.html">Casos</a><a href="gestao-aconselha.html">Utentes</a><a href="dashboard.html">Painel</a></nav>
+    <a class="marca marca-com-logo" href="dashboard.html">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Acompanhamento de encaminhamentos</span>
+      </div>
+    </a>
+    <nav class="acoes-topo">
+      <a href="casos.html">Casos</a>
+      <a href="gestao-aconselha.html">Utentes</a>
+      <a href="dashboard.html">Painel</a>
+    </nav>
   </header>
+
   <main class="encaminhamentos-conteudo">
-    <section class="encaminhamentos-cabecalho"><p class="etiqueta">Apoio jurídico externo</p><h1>Encaminhamentos registados</h1><p>Consulte os casos enviados a outras instituições e acompanhe as datas de retorno.</p></section>
-    <section class="filtros-cartao"><form id="formFiltros" class="filtros-formulario"><input id="campoPesquisa" type="search" placeholder="Código, caso, instituição, contacto..."><select id="filtroEstado"><option value="Todos">Todos os estados</option><option>Encaminhado</option><option>Em seguimento</option><option>Respondido</option><option>Concluído</option><option>Sem retorno</option></select><button class="botao botao-principal" type="submit">Pesquisar</button><button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button></form><p id="resumoResultados" class="resumo-resultados">A carregar encaminhamentos...</p></section>
-    <section id="listaEncaminhamentos" class="lista-encaminhamentos" aria-live="polite"></section><p id="mensagemEncaminhamentos" class="mensagem-formulario"></p>
+    <section class="encaminhamentos-cabecalho">
+      <p class="etiqueta">Apoio jurídico externo</p>
+      <h1>Encaminhamentos registados</h1>
+      <p>Consulte os casos enviados a outras instituições e acompanhe as datas de retorno.</p>
+    </section>
+
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <input id="campoPesquisa" type="search" placeholder="Código, caso, instituição, contacto...">
+        <select id="filtroEstado">
+          <option value="Todos">Todos os estados</option>
+          <option>Encaminhado</option>
+          <option>Em seguimento</option>
+          <option>Respondido</option>
+          <option>Concluído</option>
+          <option>Sem retorno</option>
+        </select>
+        <button class="botao botao-principal" type="submit">Pesquisar</button>
+        <button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar encaminhamentos...</p>
+    </section>
+
+    <section id="listaEncaminhamentos" class="lista-encaminhamentos" aria-live="polite"></section>
+    <p id="mensagemEncaminhamentos" class="mensagem-formulario"></p>
   </main>
-  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/encaminhamentos.js?v=1"></script>
+
+  <div class="modal-fundo oculto" id="modalActualizar" role="dialog" aria-modal="true" aria-labelledby="tituloModalActualizar">
+    <div class="modal-cartao modal-menor">
+      <button class="modal-fechar" id="btnFecharActualizar" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Seguimento institucional</p>
+      <h2 id="tituloModalActualizar">Actualizar acompanhamento</h2>
+      <p id="resumoEncaminhamentoSeleccionado" class="resumo-seleccionado"></p>
+
+      <form id="formActualizarEncaminhamento" novalidate>
+        <input id="idEncaminhamentoActualizar" name="idEncaminhamento" type="hidden">
+
+        <div class="grupo-campos">
+          <div class="campo">
+            <label for="estadoEncaminhamentoActualizar">Estado *</label>
+            <select id="estadoEncaminhamentoActualizar" name="estadoEncaminhamento" required>
+              <option value="Encaminhado">Encaminhado</option>
+              <option value="Em seguimento">Em seguimento</option>
+              <option value="Respondido">Respondido</option>
+              <option value="Concluído">Concluído</option>
+              <option value="Sem retorno">Sem retorno</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="dataRetornoActualizar">Data de retorno</label>
+            <input id="dataRetornoActualizar" name="dataRetorno" type="date">
+          </div>
+
+          <div class="campo">
+            <label for="responsavelActualizar">Responsável</label>
+            <input id="responsavelActualizar" name="responsavel" type="text">
+          </div>
+
+          <div class="campo">
+            <label for="resultadoActualizar">Resultado ou resposta obtida</label>
+            <textarea id="resultadoActualizar" name="resultado" rows="5"></textarea>
+          </div>
+        </div>
+
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardarActualizacao" type="submit">Guardar actualização</button>
+          <button class="botao botao-secundario" id="btnCancelarActualizacao" type="button">Cancelar</button>
+        </div>
+        <p id="mensagemActualizacao" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+
+  <script src="js/encaminhamentos.js?v=2"></script>
 </body>
 </html>
