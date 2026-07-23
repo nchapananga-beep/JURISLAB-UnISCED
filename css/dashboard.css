@@ -197,6 +197,13 @@
   border: 1px solid var(--vermelho);
 }
 
+.botao-modulo-agenda {
+  grid-column: 1 / -1;
+  color: #fff;
+  background: #2f2f2f;
+  border: 1px solid #2f2f2f;
+}
+
 .modulo-dashboard button {
   margin-top: auto;
   padding: 11px 15px;
@@ -265,5 +272,9 @@
 
   .acoes-modulo {
     grid-template-columns: 1fr;
+  }
+
+  .botao-modulo-agenda {
+    grid-column: auto;
   }
 }
