@@ -22,20 +22,74 @@ async function validarSessao(token) {
   return resposta.json();
 }
 
+async function chamarApi(dados) {
+  const resposta = await fetch(API_JURISLAB, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(dados)
+  });
+
+  if (!resposta.ok) {
+    throw new Error("Não foi possível contactar o servidor.");
+  }
+
+  return resposta.json();
+}
+
 async function terminarSessao(token) {
   try {
-    await fetch(API_JURISLAB, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
-        acao: "terminarSessao",
-        token: token
-      })
+    await chamarApi({
+      acao: "terminarSessao",
+      token: token
     });
   } catch (erro) {
     console.warn("Não foi possível terminar a sessão no servidor.", erro);
+  }
+}
+
+function colocarIndicadores(resumo) {
+  document.getElementById("indicadorCasosActivos").textContent = Number(resumo.casosActivos || 0);
+  document.getElementById("indicadorTriagensPendentes").textContent = Number(resumo.triagensPendentes || 0);
+  document.getElementById("indicadorEncaminhamentos").textContent = Number(resumo.encaminhamentosAbertos || 0);
+  document.getElementById("indicadorUtentes").textContent = Number(resumo.utentesRegistados || 0);
+}
+
+function colocarIndicadoresIndisponiveis() {
+  [
+    "indicadorCasosActivos",
+    "indicadorTriagensPendentes",
+    "indicadorEncaminhamentos",
+    "indicadorUtentes"
+  ].forEach(function (id) {
+    document.getElementById(id).textContent = "—";
+  });
+}
+
+async function carregarIndicadores(token) {
+  const mensagem = document.getElementById("mensagemIndicadores");
+  mensagem.textContent = "";
+  mensagem.className = "mensagem-formulario";
+
+  try {
+    const resultado = await chamarApi({
+      acao: "obterResumoPainel",
+      token: token
+    });
+
+    if (!resultado.sucesso || !resultado.resumo) {
+      colocarIndicadoresIndisponiveis();
+      mensagem.textContent = resultado.mensagem || "Não foi possível carregar os indicadores.";
+      mensagem.classList.add("erro");
+      return;
+    }
+
+    colocarIndicadores(resultado.resumo);
+  } catch (erro) {
+    colocarIndicadoresIndisponiveis();
+    mensagem.textContent = "Não foi possível carregar os indicadores do painel.";
+    mensagem.classList.add("erro");
   }
 }
 
@@ -71,9 +125,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     nomeUtilizador.textContent = utilizador.nome || "utilizador";
     mensagemSessao.textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + ".";
     ecraValidacao.classList.add("oculto");
+
+    await carregarIndicadores(token);
   } catch (erro) {
     limparSessaoLocal();
     irParaLogin();
+    return;
   }
 
   btnSair.addEventListener("click", async function () {
