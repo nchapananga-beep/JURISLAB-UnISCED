@@ -6,7 +6,7 @@
   <meta name="description" content="Registo de utentes do módulo JURISLAB Aconselha">
   <title>JURISLAB Aconselha | UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/aconselha.css?v=1">
+  <link rel="stylesheet" href="css/aconselha.css?v=2">
 </head>
 <body class="pagina-aconselha">
   <header class="aconselha-topo">
@@ -17,7 +17,10 @@
         <span class="marca-subtitulo">Registo e acompanhamento de utentes</span>
       </div>
     </a>
-    <a class="voltar-painel" href="dashboard.html">Voltar ao painel</a>
+    <nav class="navegacao-modulo" aria-label="Navegação do módulo">
+      <a href="triagem.html">Nova triagem</a>
+      <a href="dashboard.html">Voltar ao painel</a>
+    </nav>
   </header>
 
   <main class="aconselha-conteudo">
@@ -96,6 +99,7 @@
         <div class="acoes-formulario">
           <button class="botao botao-principal" id="btnGuardar" type="submit">Guardar utente</button>
           <button class="botao botao-secundario" id="btnLimpar" type="reset">Limpar formulário</button>
+          <a class="botao botao-secundario" id="btnIrTriagem" href="triagem.html">Abrir triagem</a>
         </div>
 
         <p class="mensagem-formulario" id="mensagemUtente" role="status" aria-live="polite"></p>
@@ -107,6 +111,6 @@
     <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
   </div>
 
-  <script src="js/aconselha.js?v=1"></script>
+  <script src="js/aconselha.js?v=2"></script>
 </body>
 </html>
