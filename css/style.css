@@ -316,3 +316,49 @@ h3 {
     flex-direction: column;
   }
 }
+.marca-com-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.logo-unisced {
+  width: 170px;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.marca-jurislab {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.marca-principal {
+  color: var(--preto);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.marca-subtitulo {
+  color: var(--texto-suave);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .marca-com-logo {
+    gap: 10px;
+  }
+
+  .logo-unisced {
+    width: 120px;
+  }
+
+  .marca-subtitulo {
+    display: none;
+  }
+}
