@@ -6,7 +6,7 @@
   <meta name="description" content="Painel principal do JURISLAB UnISCED">
   <title>Painel | JURISLAB UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/dashboard.css?v=5">
+  <link rel="stylesheet" href="css/dashboard.css?v=6">
 </head>
 <body class="pagina-dashboard">
   <header class="dashboard-topo">
@@ -50,6 +50,35 @@
     </section>
     <p id="mensagemIndicadores" class="mensagem-formulario" role="status" aria-live="polite"></p>
 
+    <section class="alertas-prazos" aria-labelledby="tituloAlertasPrazos">
+      <div class="secao-cabecalho secao-cabecalho-prazos">
+        <div>
+          <p class="etiqueta">Controlo de prazos</p>
+          <h2 id="tituloAlertasPrazos">Alertas jurídicos</h2>
+        </div>
+        <a class="botao-prazos" href="prazos.html">Abrir todos os prazos</a>
+      </div>
+
+      <div class="grelha-prazos">
+        <a class="prazo-indicador prazo-pendente" href="prazos.html?estado=Pendente">
+          <span>Prazos pendentes</span>
+          <strong id="indicadorPrazosPendentes">...</strong>
+          <small>Aguardam cumprimento</small>
+        </a>
+        <a class="prazo-indicador prazo-proximo" href="prazos.html?estado=Próximo">
+          <span>Prazos próximos</span>
+          <strong id="indicadorPrazosProximos">...</strong>
+          <small>Vencem nos próximos 7 dias</small>
+        </a>
+        <a class="prazo-indicador prazo-vencido" href="prazos.html?estado=Vencido">
+          <span>Prazos vencidos</span>
+          <strong id="indicadorPrazosVencidos">...</strong>
+          <small>Requerem atenção imediata</small>
+        </a>
+      </div>
+      <p id="mensagemPrazos" class="mensagem-formulario" role="status" aria-live="polite"></p>
+    </section>
+
     <section class="modulos-dashboard">
       <div class="secao-cabecalho">
         <p class="etiqueta">Módulos</p>
@@ -60,11 +89,12 @@
         <article class="modulo-dashboard modulo-activo">
           <span>01</span>
           <h3>JURISLAB Aconselha</h3>
-          <p>Gestão de utentes, triagens, casos, consultas, atendimentos e encaminhamentos jurídicos.</p>
+          <p>Gestão de utentes, triagens, casos, consultas, prazos, atendimentos e encaminhamentos jurídicos.</p>
           <div class="acoes-modulo">
             <a class="botao-modulo botao-modulo-principal" href="aconselha.html">Novo atendimento</a>
             <a class="botao-modulo botao-modulo-secundario" href="gestao-aconselha.html">Abrir gestão</a>
             <a class="botao-modulo botao-modulo-agenda" href="consultas.html">Agenda de Consultas</a>
+            <a class="botao-modulo botao-modulo-prazos" href="prazos.html">Controlo de Prazos</a>
           </div>
         </article>
         <article class="modulo-dashboard"><span>02</span><h3>JURISLAB Tribunal</h3><p>Casos fictícios, equipas, audiências e avaliações.</p><button type="button" disabled>Em preparação</button></article>
@@ -77,6 +107,6 @@
   </main>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB UnISCED</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/dashboard.js?v=2"></script>
+  <script src="js/dashboard.js?v=3"></script>
 </body>
 </html>
