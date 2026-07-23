@@ -24,11 +24,17 @@ async function validarSessao(token) {
 }
 
 async function listarUtentes(token, pesquisa) {
-  const url = API_JURISLAB +
-    "?acao=listarUtentes&token=" + encodeURIComponent(token) +
-    "&pesquisa=" + encodeURIComponent(pesquisa || "");
-
-  const resposta = await fetch(url, { method: "GET" });
+  const resposta = await fetch(API_JURISLAB, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+      acao: "listarUtentes",
+      token: token,
+      pesquisa: pesquisa || ""
+    })
+  });
 
   if (!resposta.ok) {
     throw new Error("Não foi possível carregar os utentes.");
@@ -128,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function carregar(pesquisa) {
     resumo.textContent = "A carregar utentes...";
     mensagem.textContent = "";
+    mensagem.className = "mensagem-formulario";
 
     try {
       const resultado = await listarUtentes(token, pesquisa);
