@@ -1,6 +1,7 @@
 const API_JURISLAB = "https://script.google.com/macros/s/AKfycbyFzl8x8Kazn2ek0j5N8qF0f5beYNOSrNSfxx837FEF0do_gF3lzW3Z1UCvo9eeTROB/exec";
 const CHAVE_SESSAO = "JURISLAB_TOKEN";
 const CHAVE_UTILIZADOR = "JURISLAB_UTILIZADOR";
+const CHAVE_ULTIMO_UTENTE = "JURISLAB_ULTIMO_UTENTE";
 
 function limparSessaoLocal() {
   localStorage.removeItem(CHAVE_SESSAO);
@@ -92,11 +93,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const dados = new FormData(form);
+    const nomeCompleto = String(dados.get("nomeCompleto") || "").trim();
 
     const pedido = {
       acao: "registarUtente",
       token: token,
-      nomeCompleto: dados.get("nomeCompleto"),
+      nomeCompleto: nomeCompleto,
       sexo: dados.get("sexo"),
       dataNascimento: dados.get("dataNascimento"),
       documentoIdentificacao: dados.get("documentoIdentificacao"),
@@ -129,16 +131,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
+      localStorage.setItem(
+        CHAVE_ULTIMO_UTENTE,
+        JSON.stringify({
+          idUtente: resultado.idUtente || "",
+          nomeUtente: nomeCompleto
+        })
+      );
+
       mostrarMensagem(
         mensagem,
         (resultado.mensagem || "Utente registado com sucesso.") +
-          (resultado.idUtente ? " Código: " + resultado.idUtente : ""),
+          (resultado.idUtente ? " Código: " + resultado.idUtente + ". Pode abrir a triagem." : ""),
         "sucesso"
       );
 
       form.reset();
       document.getElementById("provincia").value = "Sofala";
-      document.getElementById("nomeCompleto").focus();
     } catch (erro) {
       mostrarMensagem(mensagem, "Não foi possível contactar o servidor. Tente novamente.", "erro");
     } finally {
