@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão de casos do JURISLAB Aconselha">
+  <title>Gestão de Casos | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/casos.css?v=1">
+</head>
+<body class="pagina-casos">
+  <header class="casos-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Gestão de casos e atendimentos</span>
+      </div>
+    </a>
+    <nav class="acoes-topo" aria-label="Navegação do módulo">
+      <a href="gestao-aconselha.html">Utentes</a>
+      <a href="triagens-pendentes.html">Triagens</a>
+      <a href="dashboard.html">Painel</a>
+    </nav>
+  </header>
+
+  <main class="casos-conteudo">
+    <section class="casos-cabecalho">
+      <div>
+        <p class="etiqueta">Acompanhamento jurídico</p>
+        <h1>Casos registados</h1>
+        <p>Pesquise, filtre e registe os atendimentos realizados em cada caso.</p>
+      </div>
+    </section>
+
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <input id="campoPesquisa" type="search" placeholder="Código, utente, área, responsável..." autocomplete="off">
+        <select id="filtroEstado" aria-label="Filtrar por estado">
+          <option value="Todos">Todos os estados</option>
+          <option value="Aberto">Aberto</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Em atendimento">Em atendimento</option>
+          <option value="Encaminhado">Encaminhado</option>
+          <option value="Suspenso">Suspenso</option>
+          <option value="Concluído">Concluído</option>
+          <option value="Arquivado">Arquivado</option>
+        </select>
+        <button class="botao botao-principal" type="submit">Pesquisar</button>
+        <button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar casos...</p>
+    </section>
+
+    <section id="listaCasos" class="lista-casos" aria-live="polite"></section>
+    <p id="mensagemCasos" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div class="modal-fundo oculto" id="modalAtendimento" role="dialog" aria-modal="true" aria-labelledby="tituloModalAtendimento">
+    <div class="modal-cartao">
+      <button class="modal-fechar" id="btnFecharModal" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Novo atendimento</p>
+      <h2 id="tituloModalAtendimento">Registar atendimento</h2>
+      <p id="resumoCasoSeleccionado" class="resumo-seleccionado"></p>
+
+      <form id="formAtendimento" novalidate>
+        <input id="idCasoAtendimento" name="idCaso" type="hidden">
+        <input id="idUtenteAtendimento" name="idUtente" type="hidden">
+
+        <div class="grupo-campos duas-colunas">
+          <div class="campo">
+            <label for="tipoAtendimento">Tipo de atendimento *</label>
+            <select id="tipoAtendimento" name="tipoAtendimento" required>
+              <option value="">Seleccionar</option>
+              <option>Presencial</option>
+              <option>Telefone</option>
+              <option>Email</option>
+              <option>Videoconferência</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="estadoAtendimento">Estado *</label>
+            <select id="estadoAtendimento" name="estado" required>
+              <option>Realizado</option>
+              <option>Agendado</option>
+              <option>Adiado</option>
+              <option>Cancelado</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="responsavelAtendimento">Responsável</label>
+            <input id="responsavelAtendimento" name="responsavel" type="text">
+          </div>
+          <div class="campo">
+            <label for="supervisorAtendimento">Supervisor</label>
+            <input id="supervisorAtendimento" name="supervisor" type="text">
+          </div>
+          <div class="campo campo-largo">
+            <label for="resumoAtendimento">Resumo do atendimento *</label>
+            <textarea id="resumoAtendimento" name="resumoAtendimento" rows="4" required></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="orientacaoPrestada">Orientação prestada *</label>
+            <textarea id="orientacaoPrestada" name="orientacaoPrestada" rows="4" required></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="proximaAccao">Próxima acção</label>
+            <textarea id="proximaAccao" name="proximaAccao" rows="3"></textarea>
+          </div>
+          <div class="campo">
+            <label for="dataProximoContacto">Próximo contacto</label>
+            <input id="dataProximoContacto" name="dataProximoContacto" type="date">
+          </div>
+          <div class="campo campo-largo">
+            <label for="observacoesAtendimento">Observações</label>
+            <textarea id="observacoesAtendimento" name="observacoes" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardarAtendimento" type="submit">Guardar atendimento</button>
+          <button class="botao botao-secundario" id="btnCancelarAtendimento" type="button">Cancelar</button>
+        </div>
+        <p class="mensagem-formulario" id="mensagemAtendimento" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+
+  <script src="js/casos.js?v=1"></script>
+</body>
+</html>
