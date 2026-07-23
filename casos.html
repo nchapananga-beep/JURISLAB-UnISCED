@@ -6,7 +6,7 @@
   <meta name="description" content="Gestão de casos do JURISLAB Aconselha">
   <title>Gestão de Casos | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/casos.css?v=1">
+  <link rel="stylesheet" href="css/casos.css?v=2">
 </head>
 <body class="pagina-casos">
   <header class="casos-topo">
@@ -29,7 +29,7 @@
       <div>
         <p class="etiqueta">Acompanhamento jurídico</p>
         <h1>Casos registados</h1>
-        <p>Pesquise, filtre e registe os atendimentos realizados em cada caso.</p>
+        <p>Pesquise, acompanhe o histórico e encerre os casos concluídos.</p>
       </div>
     </section>
 
@@ -44,6 +44,7 @@
           <option value="Encaminhado">Encaminhado</option>
           <option value="Suspenso">Suspenso</option>
           <option value="Concluído">Concluído</option>
+          <option value="Encerrado">Encerrado</option>
           <option value="Arquivado">Arquivado</option>
         </select>
         <button class="botao botao-principal" type="submit">Pesquisar</button>
@@ -62,74 +63,57 @@
       <p class="etiqueta">Novo atendimento</p>
       <h2 id="tituloModalAtendimento">Registar atendimento</h2>
       <p id="resumoCasoSeleccionado" class="resumo-seleccionado"></p>
-
       <form id="formAtendimento" novalidate>
         <input id="idCasoAtendimento" name="idCaso" type="hidden">
         <input id="idUtenteAtendimento" name="idUtente" type="hidden">
-
         <div class="grupo-campos duas-colunas">
-          <div class="campo">
-            <label for="tipoAtendimento">Tipo de atendimento *</label>
-            <select id="tipoAtendimento" name="tipoAtendimento" required>
-              <option value="">Seleccionar</option>
-              <option>Presencial</option>
-              <option>Telefone</option>
-              <option>Email</option>
-              <option>Videoconferência</option>
-            </select>
-          </div>
-          <div class="campo">
-            <label for="estadoAtendimento">Estado *</label>
-            <select id="estadoAtendimento" name="estado" required>
-              <option>Realizado</option>
-              <option>Agendado</option>
-              <option>Adiado</option>
-              <option>Cancelado</option>
-            </select>
-          </div>
-          <div class="campo">
-            <label for="responsavelAtendimento">Responsável</label>
-            <input id="responsavelAtendimento" name="responsavel" type="text">
-          </div>
-          <div class="campo">
-            <label for="supervisorAtendimento">Supervisor</label>
-            <input id="supervisorAtendimento" name="supervisor" type="text">
-          </div>
-          <div class="campo campo-largo">
-            <label for="resumoAtendimento">Resumo do atendimento *</label>
-            <textarea id="resumoAtendimento" name="resumoAtendimento" rows="4" required></textarea>
-          </div>
-          <div class="campo campo-largo">
-            <label for="orientacaoPrestada">Orientação prestada *</label>
-            <textarea id="orientacaoPrestada" name="orientacaoPrestada" rows="4" required></textarea>
-          </div>
-          <div class="campo campo-largo">
-            <label for="proximaAccao">Próxima acção</label>
-            <textarea id="proximaAccao" name="proximaAccao" rows="3"></textarea>
-          </div>
-          <div class="campo">
-            <label for="dataProximoContacto">Próximo contacto</label>
-            <input id="dataProximoContacto" name="dataProximoContacto" type="date">
-          </div>
-          <div class="campo campo-largo">
-            <label for="observacoesAtendimento">Observações</label>
-            <textarea id="observacoesAtendimento" name="observacoes" rows="3"></textarea>
-          </div>
+          <div class="campo"><label for="tipoAtendimento">Tipo de atendimento *</label><select id="tipoAtendimento" name="tipoAtendimento" required><option value="">Seleccionar</option><option>Presencial</option><option>Telefone</option><option>Email</option><option>Videoconferência</option></select></div>
+          <div class="campo"><label for="estadoAtendimento">Estado *</label><select id="estadoAtendimento" name="estado" required><option>Realizado</option><option>Agendado</option><option>Adiado</option><option>Cancelado</option></select></div>
+          <div class="campo"><label for="responsavelAtendimento">Responsável</label><input id="responsavelAtendimento" name="responsavel" type="text"></div>
+          <div class="campo"><label for="supervisorAtendimento">Supervisor</label><input id="supervisorAtendimento" name="supervisor" type="text"></div>
+          <div class="campo campo-largo"><label for="resumoAtendimento">Resumo do atendimento *</label><textarea id="resumoAtendimento" name="resumoAtendimento" rows="4" required></textarea></div>
+          <div class="campo campo-largo"><label for="orientacaoPrestada">Orientação prestada *</label><textarea id="orientacaoPrestada" name="orientacaoPrestada" rows="4" required></textarea></div>
+          <div class="campo campo-largo"><label for="proximaAccao">Próxima acção</label><textarea id="proximaAccao" name="proximaAccao" rows="3"></textarea></div>
+          <div class="campo"><label for="dataProximoContacto">Próximo contacto</label><input id="dataProximoContacto" name="dataProximoContacto" type="date"></div>
+          <div class="campo campo-largo"><label for="observacoesAtendimento">Observações</label><textarea id="observacoesAtendimento" name="observacoes" rows="3"></textarea></div>
         </div>
-
-        <div class="acoes-formulario">
-          <button class="botao botao-principal" id="btnGuardarAtendimento" type="submit">Guardar atendimento</button>
-          <button class="botao botao-secundario" id="btnCancelarAtendimento" type="button">Cancelar</button>
-        </div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnGuardarAtendimento" type="submit">Guardar atendimento</button><button class="botao botao-secundario" id="btnCancelarAtendimento" type="button">Cancelar</button></div>
         <p class="mensagem-formulario" id="mensagemAtendimento" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
 
-  <div class="ecrã-validacao" id="ecraValidacao">
-    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  <div class="modal-fundo oculto" id="modalHistorico" role="dialog" aria-modal="true" aria-labelledby="tituloModalHistorico">
+    <div class="modal-cartao">
+      <button class="modal-fechar" id="btnFecharHistorico" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Acompanhamento do caso</p>
+      <h2 id="tituloModalHistorico">Histórico de atendimentos</h2>
+      <p id="resumoCasoHistorico" class="resumo-seleccionado"></p>
+      <div id="listaHistorico" class="lista-historico" aria-live="polite"></div>
+      <p id="mensagemHistorico" class="mensagem-formulario" role="status"></p>
+    </div>
   </div>
 
-  <script src="js/casos.js?v=1"></script>
+  <div class="modal-fundo oculto" id="modalEncerrar" role="dialog" aria-modal="true" aria-labelledby="tituloModalEncerrar">
+    <div class="modal-cartao modal-menor">
+      <button class="modal-fechar" id="btnFecharEncerrar" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Conclusão do acompanhamento</p>
+      <h2 id="tituloModalEncerrar">Encerrar caso</h2>
+      <p id="resumoCasoEncerrar" class="resumo-seleccionado"></p>
+      <form id="formEncerrarCaso" novalidate>
+        <input id="idCasoEncerrar" name="idCaso" type="hidden">
+        <div class="grupo-campos">
+          <div class="campo"><label for="estadoFinalCaso">Estado final *</label><select id="estadoFinalCaso" name="estadoFinal" required><option value="Encerrado">Encerrado</option><option value="Concluído">Concluído</option><option value="Arquivado">Arquivado</option></select></div>
+          <div class="campo"><label for="resultadoFinalCaso">Resultado final *</label><textarea id="resultadoFinalCaso" name="resultado" rows="5" required></textarea></div>
+          <div class="campo"><label for="observacoesFinaisCaso">Observações finais</label><textarea id="observacoesFinaisCaso" name="observacoes" rows="4"></textarea></div>
+        </div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnConfirmarEncerramento" type="submit">Confirmar encerramento</button><button class="botao botao-secundario" id="btnCancelarEncerramento" type="button">Cancelar</button></div>
+        <p id="mensagemEncerramento" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/casos.js?v=2"></script>
 </body>
 </html>
