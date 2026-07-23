@@ -6,7 +6,7 @@
   <meta name="description" content="Agenda de consultas do JURISLAB Aconselha">
   <title>Agenda de Consultas | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/consultas.css?v=1">
+  <link rel="stylesheet" href="css/consultas.css?v=2">
 </head>
 <body class="pagina-consultas">
   <header class="consultas-topo">
@@ -18,7 +18,20 @@
   </header>
 
   <main class="consultas-conteudo">
-    <section class="consultas-cabecalho"><p class="etiqueta">Agenda jurídica</p><h1>Consultas marcadas</h1><p>Consulte, pesquise e actualize o estado das consultas associadas aos casos.</p></section>
+    <section class="consultas-cabecalho">
+      <div>
+        <p class="etiqueta">Agenda jurídica</p>
+        <h1>Consultas marcadas</h1>
+        <p>Consulte, pesquise e actualize o estado das consultas associadas aos casos.</p>
+      </div>
+      <a class="botao botao-principal botao-nova-consulta" href="casos.html">Marcar nova consulta</a>
+    </section>
+
+    <section class="aviso-marcacao">
+      <strong>Como marcar:</strong>
+      <span>Abra a Gestão de Casos, escolha um caso activo e clique em <b>Marcar consulta</b>.</span>
+    </section>
+
     <section class="filtros-cartao">
       <form id="formFiltros" class="filtros-formulario">
         <input id="campoPesquisa" type="search" placeholder="Código, caso, utente, responsável..." autocomplete="off">
