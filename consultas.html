@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agenda de consultas do JURISLAB Aconselha">
+  <title>Agenda de Consultas | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/consultas.css?v=1">
+</head>
+<body class="pagina-consultas">
+  <header class="consultas-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Agenda de consultas jurídicas</span></div>
+    </a>
+    <nav class="acoes-topo" aria-label="Navegação do módulo"><a href="casos.html">Casos</a><a href="gestao-aconselha.html">Utentes</a><a href="encaminhamentos.html">Encaminhamentos</a><a href="dashboard.html">Painel</a></nav>
+  </header>
+
+  <main class="consultas-conteudo">
+    <section class="consultas-cabecalho"><p class="etiqueta">Agenda jurídica</p><h1>Consultas marcadas</h1><p>Consulte, pesquise e actualize o estado das consultas associadas aos casos.</p></section>
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <input id="campoPesquisa" type="search" placeholder="Código, caso, utente, responsável..." autocomplete="off">
+        <select id="filtroEstado" aria-label="Filtrar por estado"><option value="Todos">Todos os estados</option><option>Agendada</option><option>Confirmada</option><option>Realizada</option><option>Adiada</option><option>Cancelada</option><option>Não compareceu</option></select>
+        <button class="botao botao-principal" type="submit">Pesquisar</button><button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar consultas...</p>
+    </section>
+    <section id="listaConsultas" class="lista-consultas" aria-live="polite"></section>
+    <p id="mensagemConsultas" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div class="modal-fundo oculto" id="modalActualizar" role="dialog" aria-modal="true" aria-labelledby="tituloActualizarConsulta">
+    <div class="modal-cartao modal-menor">
+      <button class="modal-fechar" id="btnFecharActualizar" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Acompanhamento da agenda</p><h2 id="tituloActualizarConsulta">Actualizar consulta</h2><p id="resumoConsulta" class="resumo-seleccionado"></p>
+      <form id="formActualizar" novalidate>
+        <input name="idConsulta" type="hidden">
+        <div class="grupo-campos">
+          <div class="campo"><label for="estadoConsulta">Estado *</label><select id="estadoConsulta" name="estadoConsulta" required><option>Agendada</option><option>Confirmada</option><option>Realizada</option><option>Adiada</option><option>Cancelada</option><option>Não compareceu</option></select></div>
+          <div class="campo"><label for="responsavelConsulta">Responsável</label><input id="responsavelConsulta" name="responsavel"></div>
+          <div class="campo"><label for="observacoesConsulta">Observações</label><textarea id="observacoesConsulta" name="observacoes" rows="5"></textarea></div>
+        </div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnGuardarActualizacao" type="submit">Guardar actualização</button><button class="botao botao-secundario" id="btnCancelarActualizar" type="button">Cancelar</button></div>
+        <p id="mensagemActualizacao" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/consultas.js?v=1"></script>
+</body>
+</html>
