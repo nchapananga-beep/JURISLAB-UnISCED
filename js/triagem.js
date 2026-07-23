@@ -2,6 +2,7 @@ const API_JURISLAB = "https://script.google.com/macros/s/AKfycbyFzl8x8Kazn2ek0j5
 const CHAVE_SESSAO = "JURISLAB_TOKEN";
 const CHAVE_UTILIZADOR = "JURISLAB_UTILIZADOR";
 const CHAVE_ULTIMO_UTENTE = "JURISLAB_ULTIMO_UTENTE";
+const CHAVE_UTENTE_SELECCIONADO = "JURISLAB_UTENTE_SELECCIONADO";
 
 function limparSessaoLocal() {
   localStorage.removeItem(CHAVE_SESSAO);
@@ -53,6 +54,23 @@ function definirEstadoBotao(botao, emProcessamento) {
   botao.textContent = emProcessamento ? "A guardar..." : "Guardar triagem";
 }
 
+function obterUtenteParaTriagem() {
+  const chaves = [CHAVE_UTENTE_SELECCIONADO, CHAVE_ULTIMO_UTENTE];
+
+  for (const chave of chaves) {
+    try {
+      const utente = JSON.parse(localStorage.getItem(chave) || "null");
+      if (utente && utente.idUtente) {
+        return utente;
+      }
+    } catch (erro) {
+      localStorage.removeItem(chave);
+    }
+  }
+
+  return null;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem(CHAVE_SESSAO);
   const ecraValidacao = document.getElementById("ecraValidacao");
@@ -84,14 +102,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  try {
-    const ultimoUtente = JSON.parse(localStorage.getItem(CHAVE_ULTIMO_UTENTE) || "null");
-    if (ultimoUtente) {
-      campoIdUtente.value = ultimoUtente.idUtente || "";
-      campoNomeUtente.value = ultimoUtente.nomeUtente || "";
-    }
-  } catch (erro) {
-    localStorage.removeItem(CHAVE_ULTIMO_UTENTE);
+  const utente = obterUtenteParaTriagem();
+  if (utente) {
+    campoIdUtente.value = utente.idUtente || "";
+    campoNomeUtente.value = utente.nomeUtente || utente.nomeCompleto || "";
   }
 
   form.addEventListener("submit", async function (evento) {
@@ -150,6 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       form.reset();
       campoIdUtente.value = idUtente;
       campoNomeUtente.value = nomeUtente;
+      localStorage.removeItem(CHAVE_UTENTE_SELECCIONADO);
     } catch (erro) {
       mostrarMensagem(mensagem, "Não foi possível contactar o servidor. Tente novamente.", "erro");
     } finally {
