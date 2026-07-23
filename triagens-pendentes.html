@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão de triagens do JURISLAB Aconselha">
+  <title>Triagens | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/triagens-pendentes.css?v=1">
+</head>
+<body class="pagina-triagens">
+  <header class="aconselha-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Análise de triagens e abertura de casos</span>
+      </div>
+    </a>
+    <nav class="acoes-topo" aria-label="Navegação do módulo">
+      <a class="voltar-painel" href="gestao-aconselha.html">Utentes</a>
+      <a class="voltar-painel" href="aconselha.html">Novo utente</a>
+      <a class="voltar-painel" href="dashboard.html">Voltar ao painel</a>
+    </nav>
+  </header>
+
+  <main class="triagens-conteudo">
+    <section class="triagens-cabecalho">
+      <div>
+        <p class="etiqueta">Gestão do módulo</p>
+        <h1>Triagens jurídicas</h1>
+        <p>Pesquise, filtre e analise as triagens registadas.</p>
+      </div>
+      <a class="botao botao-principal" href="triagem.html">Nova triagem</a>
+    </section>
+
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <input id="campoPesquisa" type="search" placeholder="Código, utente, área ou problema" autocomplete="off">
+        <select id="filtroEstado" aria-label="Filtrar pelo estado">
+          <option value="Pendente">Pendentes</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Aprovada">Aprovadas</option>
+          <option value="Recusada">Recusadas</option>
+          <option value="Concluída">Concluídas</option>
+          <option value="Todos">Todos os estados</option>
+        </select>
+        <button class="botao botao-principal" type="submit">Pesquisar</button>
+        <button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar triagens...</p>
+    </section>
+
+    <section id="listaTriagens" class="lista-triagens" aria-live="polite"></section>
+    <p id="mensagemTriagens" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div class="modal oculto" id="modalCaso" role="dialog" aria-modal="true" aria-labelledby="tituloModalCaso">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" id="btnFecharModal" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Abertura de processo</p>
+      <h2 id="tituloModalCaso">Abrir caso</h2>
+      <p id="resumoTriagemSeleccionada" class="resumo-triagem"></p>
+
+      <form id="formAbrirCaso" novalidate>
+        <input id="idTriagemCaso" name="idTriagem" type="hidden">
+        <input id="idUtenteCaso" name="idUtente" type="hidden">
+
+        <div class="grelha-formulario">
+          <div class="campo campo-largo">
+            <label for="tituloCaso">Título do caso *</label>
+            <input id="tituloCaso" name="tituloCaso" type="text" required>
+          </div>
+          <div class="campo">
+            <label for="areaDireitoCaso">Área do Direito *</label>
+            <input id="areaDireitoCaso" name="areaDireito" type="text" required>
+          </div>
+          <div class="campo">
+            <label for="prioridadeCaso">Prioridade *</label>
+            <select id="prioridadeCaso" name="prioridade" required>
+              <option value="Baixa">Baixa</option>
+              <option value="Média" selected>Média</option>
+              <option value="Alta">Alta</option>
+              <option value="Urgente">Urgente</option>
+            </select>
+          </div>
+          <div class="campo campo-largo">
+            <label for="descricaoCaso">Descrição do caso *</label>
+            <textarea id="descricaoCaso" name="descricaoCaso" rows="5" required></textarea>
+          </div>
+          <div class="campo">
+            <label for="responsavelCaso">Responsável</label>
+            <input id="responsavelCaso" name="responsavel" type="text">
+          </div>
+          <div class="campo">
+            <label for="supervisorCaso">Supervisor</label>
+            <input id="supervisorCaso" name="supervisor" type="text">
+          </div>
+          <div class="campo">
+            <label for="prazoCaso">Prazo</label>
+            <input id="prazoCaso" name="prazo" type="date">
+          </div>
+        </div>
+
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnConfirmarCaso" type="submit">Abrir caso</button>
+          <button class="botao botao-secundario" id="btnCancelarCaso" type="button">Cancelar</button>
+        </div>
+        <p id="mensagemCaso" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+
+  <script src="js/triagens-pendentes.js?v=1"></script>
+</body>
+</html>
