@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Triagem jurídica do módulo JURISLAB Aconselha">
+  <title>Triagem Jurídica | JURISLAB UnISCED</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/aconselha.css?v=2">
+  <link rel="stylesheet" href="css/triagem.css?v=1">
+</head>
+<body class="pagina-aconselha">
+  <header class="aconselha-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Triagem jurídica</span>
+      </div>
+    </a>
+    <nav class="navegacao-modulo" aria-label="Navegação do módulo">
+      <a href="aconselha.html">Registar utente</a>
+      <a href="dashboard.html">Voltar ao painel</a>
+    </nav>
+  </header>
+
+  <main class="aconselha-conteudo">
+    <section class="aconselha-apresentacao">
+      <p class="etiqueta">Avaliação inicial</p>
+      <h1>Registar triagem jurídica</h1>
+      <p>Associe a triagem ao utente e registe as informações essenciais do problema apresentado.</p>
+    </section>
+
+    <section class="formulario-cartao">
+      <form id="formTriagem" novalidate>
+        <div class="grupo-campos duas-colunas">
+          <div class="campo">
+            <label for="idUtente">Código do utente *</label>
+            <input id="idUtente" name="idUtente" type="text" placeholder="UTE-20260723-1234" required>
+          </div>
+
+          <div class="campo">
+            <label for="nomeUtente">Nome do utente *</label>
+            <input id="nomeUtente" name="nomeUtente" type="text" required>
+          </div>
+
+          <div class="campo">
+            <label for="areaDireito">Área do Direito *</label>
+            <select id="areaDireito" name="areaDireito" required>
+              <option value="">Seleccionar</option>
+              <option>Direito Civil</option>
+              <option>Direito da Família</option>
+              <option>Direito do Trabalho</option>
+              <option>Direito Penal</option>
+              <option>Direito Administrativo</option>
+              <option>Direito Comercial</option>
+              <option>Direito Fiscal</option>
+              <option>Direito da Terra</option>
+              <option>Direitos Humanos</option>
+              <option>Outra</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="urgencia">Nível de urgência *</label>
+            <select id="urgencia" name="urgencia" required>
+              <option value="">Seleccionar</option>
+              <option>Baixa</option>
+              <option>Média</option>
+              <option>Alta</option>
+              <option>Urgente</option>
+            </select>
+          </div>
+
+          <div class="campo campo-largo">
+            <label for="resumoProblema">Resumo do problema *</label>
+            <textarea id="resumoProblema" name="resumoProblema" rows="6" maxlength="3000" required></textarea>
+            <small>Descreva os factos principais, as pessoas envolvidas e o apoio solicitado.</small>
+          </div>
+
+          <div class="campo">
+            <label for="existemDocumentos">Existem documentos?</label>
+            <select id="existemDocumentos" name="existemDocumentos">
+              <option value="">Seleccionar</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="riscoImediato">Existe risco imediato?</label>
+            <select id="riscoImediato" name="riscoImediato">
+              <option value="">Seleccionar</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </div>
+
+          <div class="campo campo-largo">
+            <label for="tipoApoio">Tipo de apoio pretendido</label>
+            <select id="tipoApoio" name="tipoApoio">
+              <option value="">Seleccionar</option>
+              <option>Informação jurídica</option>
+              <option>Orientação jurídica</option>
+              <option>Mediação</option>
+              <option>Encaminhamento institucional</option>
+              <option>Acompanhamento do caso</option>
+              <option>Outro</option>
+            </select>
+          </div>
+
+          <div class="campo campo-largo">
+            <label for="observacoes">Observações</label>
+            <textarea id="observacoes" name="observacoes" rows="4" maxlength="2000"></textarea>
+          </div>
+        </div>
+
+        <div class="aviso-triagem">
+          A triagem é uma avaliação inicial. O registo não substitui parecer jurídico nem constitui promessa de representação judicial.
+        </div>
+
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardarTriagem" type="submit">Guardar triagem</button>
+          <button class="botao botao-secundario" type="reset">Limpar formulário</button>
+        </div>
+
+        <p class="mensagem-formulario" id="mensagemTriagem" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+
+  <script src="js/triagem.js?v=1"></script>
+</body>
+</html>
