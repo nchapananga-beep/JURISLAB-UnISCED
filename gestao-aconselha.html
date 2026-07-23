@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão de utentes do JURISLAB Aconselha">
+  <title>Gestão de Utentes | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/gestao-aconselha.css?v=1">
+</head>
+<body class="pagina-gestao-aconselha">
+  <header class="aconselha-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Gestão de utentes e triagens</span>
+      </div>
+    </a>
+    <div class="acoes-topo">
+      <a class="voltar-painel" href="aconselha.html">Novo utente</a>
+      <a class="voltar-painel" href="dashboard.html">Voltar ao painel</a>
+    </div>
+  </header>
+
+  <main class="gestao-conteudo">
+    <section class="gestao-cabecalho">
+      <div>
+        <p class="etiqueta">Gestão do módulo</p>
+        <h1>Utentes registados</h1>
+        <p>Pesquise por nome, telefone, documento ou código do utente.</p>
+      </div>
+      <a class="botao botao-principal" href="aconselha.html">Registar novo utente</a>
+    </section>
+
+    <section class="pesquisa-cartao">
+      <form id="formPesquisa" class="pesquisa-formulario">
+        <input id="campoPesquisa" type="search" placeholder="Ex.: nome, telefone ou UTE-..." autocomplete="off">
+        <button class="botao botao-principal" type="submit">Pesquisar</button>
+        <button class="botao botao-secundario" id="btnLimparPesquisa" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar utentes...</p>
+    </section>
+
+    <section id="listaUtentes" class="lista-utentes" aria-live="polite"></section>
+    <p id="mensagemGestao" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+
+  <script src="js/gestao-aconselha.js?v=1"></script>
+</body>
+</html>
