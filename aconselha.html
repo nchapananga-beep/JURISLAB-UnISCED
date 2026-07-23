@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Registo de utentes do módulo JURISLAB Aconselha">
+  <title>JURISLAB Aconselha | UnISCED</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/aconselha.css?v=1">
+</head>
+<body class="pagina-aconselha">
+  <header class="aconselha-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Registo e acompanhamento de utentes</span>
+      </div>
+    </a>
+    <a class="voltar-painel" href="dashboard.html">Voltar ao painel</a>
+  </header>
+
+  <main class="aconselha-conteudo">
+    <section class="aconselha-apresentacao">
+      <p class="etiqueta">Novo registo</p>
+      <h1>Registar utente</h1>
+      <p>Preencha os dados essenciais. Os campos assinalados com * são obrigatórios.</p>
+    </section>
+
+    <section class="formulario-cartao">
+      <form id="formUtente" novalidate>
+        <div class="grupo-campos duas-colunas">
+          <div class="campo campo-largo">
+            <label for="nomeCompleto">Nome completo *</label>
+            <input id="nomeCompleto" name="nomeCompleto" type="text" autocomplete="name" required>
+          </div>
+          <div class="campo">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" name="sexo">
+              <option value="">Seleccionar</option>
+              <option>Masculino</option>
+              <option>Feminino</option>
+              <option>Outro</option>
+              <option>Prefere não informar</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="dataNascimento">Data de nascimento</label>
+            <input id="dataNascimento" name="dataNascimento" type="date">
+          </div>
+          <div class="campo">
+            <label for="documentoIdentificacao">Documento de identificação</label>
+            <select id="documentoIdentificacao" name="documentoIdentificacao">
+              <option value="">Seleccionar</option>
+              <option>Bilhete de Identidade</option>
+              <option>Passaporte</option>
+              <option>Dire</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="numeroDocumento">Número do documento</label>
+            <input id="numeroDocumento" name="numeroDocumento" type="text">
+          </div>
+          <div class="campo">
+            <label for="telefone">Telefone *</label>
+            <input id="telefone" name="telefone" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="campo">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email">
+          </div>
+          <div class="campo">
+            <label for="provincia">Província</label>
+            <input id="provincia" name="provincia" type="text" value="Sofala">
+          </div>
+          <div class="campo">
+            <label for="distrito">Distrito</label>
+            <input id="distrito" name="distrito" type="text">
+          </div>
+          <div class="campo campo-largo">
+            <label for="endereco">Endereço</label>
+            <input id="endereco" name="endereco" type="text">
+          </div>
+          <div class="campo campo-largo">
+            <label for="ocupacao">Ocupação</label>
+            <input id="ocupacao" name="ocupacao" type="text">
+          </div>
+        </div>
+
+        <label class="consentimento">
+          <input id="consentimento" name="consentimento" type="checkbox" required>
+          <span>O utente autoriza o tratamento dos seus dados para efeitos de atendimento jurídico. *</span>
+        </label>
+
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardar" type="submit">Guardar utente</button>
+          <button class="botao botao-secundario" id="btnLimpar" type="reset">Limpar formulário</button>
+        </div>
+
+        <p class="mensagem-formulario" id="mensagemUtente" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+
+  <script src="js/aconselha.js?v=1"></script>
+</body>
+</html>
