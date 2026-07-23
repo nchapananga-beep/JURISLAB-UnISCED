@@ -35,11 +35,12 @@
     </section>
 
     <section class="resumo-dashboard" aria-label="Resumo geral">
-      <article><span>Casos activos</span><strong>0</strong></article>
-      <article><span>Actividades próximas</span><strong>0</strong></article>
-      <article><span>Documentos pendentes</span><strong>0</strong></article>
-      <article><span>Notificações</span><strong>0</strong></article>
+      <article><span>Casos activos</span><strong id="indicadorCasosActivos">...</strong></article>
+      <article><span>Triagens pendentes</span><strong id="indicadorTriagensPendentes">...</strong></article>
+      <article><span>Encaminhamentos em seguimento</span><strong id="indicadorEncaminhamentos">...</strong></article>
+      <article><span>Utentes registados</span><strong id="indicadorUtentes">...</strong></article>
     </section>
+    <p id="mensagemIndicadores" class="mensagem-formulario" role="status" aria-live="polite"></p>
 
     <section class="modulos-dashboard">
       <div class="secao-cabecalho">
@@ -67,6 +68,6 @@
   </main>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB UnISCED</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/dashboard.js?v=1"></script>
+  <script src="js/dashboard.js?v=2"></script>
 </body>
 </html>
