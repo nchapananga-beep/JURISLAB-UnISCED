@@ -24,7 +24,6 @@ async function chamarApi(dados) {
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(dados)
   });
-
   if (!resposta.ok) throw new Error("Não foi possível contactar o servidor.");
   return resposta.json();
 }
@@ -44,7 +43,11 @@ function mostrarMensagem(elemento, texto, tipo) {
   if (tipo) elemento.classList.add(tipo);
 }
 
-function renderizarCasos(casos, lista, resumo, abrirModal) {
+function casoEncerrado(caso) {
+  return ["Encerrado", "Concluído", "Arquivado"].includes(caso.estadoCaso);
+}
+
+function renderizarCasos(casos, lista, resumo, accoes) {
   if (!Array.isArray(casos) || casos.length === 0) {
     lista.innerHTML = '<div class="estado-vazio">Nenhum caso encontrado.</div>';
     resumo.textContent = "0 casos encontrados.";
@@ -54,21 +57,14 @@ function renderizarCasos(casos, lista, resumo, abrirModal) {
   resumo.textContent = casos.length + (casos.length === 1 ? " caso encontrado." : " casos encontrados.");
 
   lista.innerHTML = casos.map(function (caso, indice) {
+    const encerrado = casoEncerrado(caso);
     return `
-      <article class="caso-cartao">
+      <article class="caso-cartao ${encerrado ? "caso-encerrado" : ""}">
         <div class="caso-topo">
-          <div>
-            <h2>${escaparHtml(caso.tituloCaso || "Caso jurídico")}</h2>
-            <span class="caso-codigo">${escaparHtml(caso.idCaso)}</span>
-          </div>
-          <div class="caso-etiquetas">
-            <span>${escaparHtml(caso.estadoCaso || "Sem estado")}</span>
-            <span>${escaparHtml(caso.prioridade || "Sem prioridade")}</span>
-          </div>
+          <div><h2>${escaparHtml(caso.tituloCaso || "Caso jurídico")}</h2><span class="caso-codigo">${escaparHtml(caso.idCaso)}</span></div>
+          <div class="caso-etiquetas"><span>${escaparHtml(caso.estadoCaso || "Sem estado")}</span><span>${escaparHtml(caso.prioridade || "Sem prioridade")}</span></div>
         </div>
-
         <p class="caso-descricao">${escaparHtml(caso.descricaoCaso || "Sem descrição informada.")}</p>
-
         <div class="caso-dados">
           <span><strong>Área:</strong> ${escaparHtml(caso.areaDireito || "Não informada")}</span>
           <span><strong>Utente:</strong> ${escaparHtml(caso.idUtente || "")}</span>
@@ -79,18 +75,38 @@ function renderizarCasos(casos, lista, resumo, abrirModal) {
           <span><strong>Abertura:</strong> ${escaparHtml(caso.dataAbertura || "")}</span>
           <span><strong>Actualização:</strong> ${escaparHtml(caso.ultimaActualizacao || "")}</span>
         </div>
-
+        ${caso.resultado ? `<div class="resultado-caso"><strong>Resultado:</strong> ${escaparHtml(caso.resultado)}</div>` : ""}
         <div class="caso-acoes">
-          <button class="botao botao-principal" type="button" data-indice="${indice}">Registar atendimento</button>
+          <button class="botao botao-secundario" type="button" data-accao="historico" data-indice="${indice}">Ver histórico</button>
+          ${encerrado ? "" : `<button class="botao botao-principal" type="button" data-accao="atendimento" data-indice="${indice}">Registar atendimento</button><button class="botao botao-perigo" type="button" data-accao="encerrar" data-indice="${indice}">Encerrar caso</button>`}
         </div>
       </article>`;
   }).join("");
 
-  lista.querySelectorAll("button[data-indice]").forEach(function (botao) {
+  lista.querySelectorAll("button[data-accao]").forEach(function (botao) {
     botao.addEventListener("click", function () {
-      abrirModal(casos[Number(botao.dataset.indice)]);
+      const caso = casos[Number(botao.dataset.indice)];
+      accoes[botao.dataset.accao](caso);
     });
   });
+}
+
+function renderizarHistorico(atendimentos, recipiente) {
+  if (!Array.isArray(atendimentos) || atendimentos.length === 0) {
+    recipiente.innerHTML = '<div class="estado-vazio">Este caso ainda não possui atendimentos registados.</div>';
+    return;
+  }
+
+  recipiente.innerHTML = atendimentos.map(function (item) {
+    return `
+      <article class="historico-item">
+        <div class="historico-topo"><strong>${escaparHtml(item.tipoAtendimento || "Atendimento")}</strong><span>${escaparHtml(item.dataAtendimento || "")}</span></div>
+        <p><strong>Resumo:</strong> ${escaparHtml(item.resumoAtendimento || "")}</p>
+        <p><strong>Orientação:</strong> ${escaparHtml(item.orientacaoPrestada || "")}</p>
+        ${item.proximaAccao ? `<p><strong>Próxima acção:</strong> ${escaparHtml(item.proximaAccao)}</p>` : ""}
+        <div class="historico-meta"><span>${escaparHtml(item.estado || "")}</span><span>Responsável: ${escaparHtml(item.responsavel || "Não informado")}</span>${item.dataProximoContacto ? `<span>Próximo contacto: ${escaparHtml(item.dataProximoContacto)}</span>` : ""}</div>
+      </article>`;
+  }).join("");
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -104,149 +120,106 @@ document.addEventListener("DOMContentLoaded", async function () {
   const resumo = document.getElementById("resumoResultados");
   const mensagem = document.getElementById("mensagemCasos");
 
-  const modal = document.getElementById("modalAtendimento");
-  const btnFecharModal = document.getElementById("btnFecharModal");
-  const btnCancelarAtendimento = document.getElementById("btnCancelarAtendimento");
+  const modalAtendimento = document.getElementById("modalAtendimento");
   const formAtendimento = document.getElementById("formAtendimento");
-  const btnGuardarAtendimento = document.getElementById("btnGuardarAtendimento");
   const mensagemAtendimento = document.getElementById("mensagemAtendimento");
-  const resumoCasoSeleccionado = document.getElementById("resumoCasoSeleccionado");
+  const btnGuardarAtendimento = document.getElementById("btnGuardarAtendimento");
 
-  if (!token) {
-    limparSessaoLocal();
-    irParaLogin();
-    return;
-  }
+  const modalHistorico = document.getElementById("modalHistorico");
+  const listaHistorico = document.getElementById("listaHistorico");
+  const mensagemHistorico = document.getElementById("mensagemHistorico");
+
+  const modalEncerrar = document.getElementById("modalEncerrar");
+  const formEncerrar = document.getElementById("formEncerrarCaso");
+  const mensagemEncerramento = document.getElementById("mensagemEncerramento");
+  const btnConfirmarEncerramento = document.getElementById("btnConfirmarEncerramento");
+
+  if (!token) { limparSessaoLocal(); irParaLogin(); return; }
 
   try {
     const sessao = await validarSessao(token);
-    if (!sessao.sucesso || !sessao.valida) {
-      limparSessaoLocal();
-      irParaLogin();
-      return;
-    }
+    if (!sessao.sucesso || !sessao.valida) { limparSessaoLocal(); irParaLogin(); return; }
     ecraValidacao.classList.add("oculto");
-  } catch (erro) {
-    limparSessaoLocal();
-    irParaLogin();
-    return;
-  }
+  } catch (erro) { limparSessaoLocal(); irParaLogin(); return; }
 
-  function fecharModal() {
-    modal.classList.add("oculto");
-    formAtendimento.reset();
-    mostrarMensagem(mensagemAtendimento, "", "");
-  }
+  function fecharAtendimento() { modalAtendimento.classList.add("oculto"); formAtendimento.reset(); mostrarMensagem(mensagemAtendimento, "", ""); }
+  function fecharHistorico() { modalHistorico.classList.add("oculto"); listaHistorico.innerHTML = ""; mostrarMensagem(mensagemHistorico, "", ""); }
+  function fecharEncerrar() { modalEncerrar.classList.add("oculto"); formEncerrar.reset(); mostrarMensagem(mensagemEncerramento, "", ""); }
 
-  function abrirModal(caso) {
+  function abrirAtendimento(caso) {
     document.getElementById("idCasoAtendimento").value = caso.idCaso || "";
     document.getElementById("idUtenteAtendimento").value = caso.idUtente || "";
     document.getElementById("responsavelAtendimento").value = caso.responsavel || "";
     document.getElementById("supervisorAtendimento").value = caso.supervisor || "";
-    resumoCasoSeleccionado.textContent = (caso.idCaso || "") + " · " + (caso.tituloCaso || "Caso jurídico");
-    mostrarMensagem(mensagemAtendimento, "", "");
-    modal.classList.remove("oculto");
-    document.getElementById("tipoAtendimento").focus();
+    document.getElementById("resumoCasoSeleccionado").textContent = (caso.idCaso || "") + " · " + (caso.tituloCaso || "Caso jurídico");
+    modalAtendimento.classList.remove("oculto");
+  }
+
+  async function abrirHistorico(caso) {
+    document.getElementById("resumoCasoHistorico").textContent = (caso.idCaso || "") + " · " + (caso.tituloCaso || "Caso jurídico");
+    listaHistorico.innerHTML = '<div class="estado-vazio">A carregar histórico...</div>';
+    mostrarMensagem(mensagemHistorico, "", "");
+    modalHistorico.classList.remove("oculto");
+    try {
+      const resultado = await chamarApi({ acao: "listarAtendimentosCaso", token: token, idCaso: caso.idCaso });
+      if (!resultado.sucesso) { listaHistorico.innerHTML = ""; mostrarMensagem(mensagemHistorico, resultado.mensagem || "Não foi possível carregar o histórico.", "erro"); return; }
+      renderizarHistorico(resultado.atendimentos || [], listaHistorico);
+    } catch (erro) { listaHistorico.innerHTML = ""; mostrarMensagem(mensagemHistorico, "Não foi possível contactar o servidor.", "erro"); }
+  }
+
+  function abrirEncerrar(caso) {
+    document.getElementById("idCasoEncerrar").value = caso.idCaso || "";
+    document.getElementById("resumoCasoEncerrar").textContent = (caso.idCaso || "") + " · " + (caso.tituloCaso || "Caso jurídico");
+    modalEncerrar.classList.remove("oculto");
   }
 
   async function carregarCasos() {
     resumo.textContent = "A carregar casos...";
     mostrarMensagem(mensagem, "", "");
-
     try {
-      const resultado = await chamarApi({
-        acao: "listarCasos",
-        token: token,
-        pesquisa: campoPesquisa.value.trim(),
-        estado: filtroEstado.value
-      });
-
-      if (!resultado.sucesso) {
-        mostrarMensagem(mensagem, resultado.mensagem || "Não foi possível carregar os casos.", "erro");
-        lista.innerHTML = "";
-        resumo.textContent = "";
-        return;
-      }
-
-      renderizarCasos(resultado.casos || [], lista, resumo, abrirModal);
-    } catch (erro) {
-      mostrarMensagem(mensagem, "Não foi possível contactar o servidor. Tente novamente.", "erro");
-      resumo.textContent = "";
-    }
+      const resultado = await chamarApi({ acao: "listarCasos", token: token, pesquisa: campoPesquisa.value.trim(), estado: filtroEstado.value });
+      if (!resultado.sucesso) { mostrarMensagem(mensagem, resultado.mensagem || "Não foi possível carregar os casos.", "erro"); lista.innerHTML = ""; resumo.textContent = ""; return; }
+      renderizarCasos(resultado.casos || [], lista, resumo, { atendimento: abrirAtendimento, historico: abrirHistorico, encerrar: abrirEncerrar });
+    } catch (erro) { mostrarMensagem(mensagem, "Não foi possível contactar o servidor. Tente novamente.", "erro"); resumo.textContent = ""; }
   }
 
-  formFiltros.addEventListener("submit", function (evento) {
-    evento.preventDefault();
-    carregarCasos();
-  });
-
+  formFiltros.addEventListener("submit", function (evento) { evento.preventDefault(); carregarCasos(); });
   filtroEstado.addEventListener("change", carregarCasos);
+  btnLimpar.addEventListener("click", function () { campoPesquisa.value = ""; filtroEstado.value = "Todos"; carregarCasos(); });
 
-  btnLimpar.addEventListener("click", function () {
-    campoPesquisa.value = "";
-    filtroEstado.value = "Todos";
-    carregarCasos();
-  });
-
-  btnFecharModal.addEventListener("click", fecharModal);
-  btnCancelarAtendimento.addEventListener("click", fecharModal);
-  modal.addEventListener("click", function (evento) {
-    if (evento.target === modal) fecharModal();
-  });
+  document.getElementById("btnFecharModal").addEventListener("click", fecharAtendimento);
+  document.getElementById("btnCancelarAtendimento").addEventListener("click", fecharAtendimento);
+  document.getElementById("btnFecharHistorico").addEventListener("click", fecharHistorico);
+  document.getElementById("btnFecharEncerrar").addEventListener("click", fecharEncerrar);
+  document.getElementById("btnCancelarEncerramento").addEventListener("click", fecharEncerrar);
+  [modalAtendimento, modalHistorico, modalEncerrar].forEach(function (modal) { modal.addEventListener("click", function (evento) { if (evento.target === modal) modal.classList.add("oculto"); }); });
 
   formAtendimento.addEventListener("submit", async function (evento) {
     evento.preventDefault();
-
-    if (!formAtendimento.checkValidity()) {
-      formAtendimento.reportValidity();
-      mostrarMensagem(mensagemAtendimento, "Preencha os campos obrigatórios.", "erro");
-      return;
-    }
-
+    if (!formAtendimento.checkValidity()) { formAtendimento.reportValidity(); mostrarMensagem(mensagemAtendimento, "Preencha os campos obrigatórios.", "erro"); return; }
     const dados = new FormData(formAtendimento);
-    btnGuardarAtendimento.disabled = true;
-    btnGuardarAtendimento.textContent = "A guardar...";
-    mostrarMensagem(mensagemAtendimento, "", "");
-
+    btnGuardarAtendimento.disabled = true; btnGuardarAtendimento.textContent = "A guardar...";
     try {
-      const resultado = await chamarApi({
-        acao: "registarAtendimento",
-        token: token,
-        idCaso: dados.get("idCaso"),
-        idUtente: dados.get("idUtente"),
-        tipoAtendimento: dados.get("tipoAtendimento"),
-        responsavel: dados.get("responsavel"),
-        supervisor: dados.get("supervisor"),
-        resumoAtendimento: dados.get("resumoAtendimento"),
-        orientacaoPrestada: dados.get("orientacaoPrestada"),
-        proximaAccao: dados.get("proximaAccao"),
-        dataProximoContacto: dados.get("dataProximoContacto"),
-        estado: dados.get("estado"),
-        observacoes: dados.get("observacoes")
-      });
+      const resultado = await chamarApi({ acao: "registarAtendimento", token: token, idCaso: dados.get("idCaso"), idUtente: dados.get("idUtente"), tipoAtendimento: dados.get("tipoAtendimento"), responsavel: dados.get("responsavel"), supervisor: dados.get("supervisor"), resumoAtendimento: dados.get("resumoAtendimento"), orientacaoPrestada: dados.get("orientacaoPrestada"), proximaAccao: dados.get("proximaAccao"), dataProximoContacto: dados.get("dataProximoContacto"), estado: dados.get("estado"), observacoes: dados.get("observacoes") });
+      if (!resultado.sucesso) { mostrarMensagem(mensagemAtendimento, resultado.mensagem || "Não foi possível guardar o atendimento.", "erro"); return; }
+      mostrarMensagem(mensagemAtendimento, (resultado.mensagem || "Atendimento registado com sucesso.") + (resultado.idAtendimento ? " Código: " + resultado.idAtendimento : ""), "sucesso");
+      setTimeout(function () { fecharAtendimento(); carregarCasos(); }, 1400);
+    } catch (erro) { mostrarMensagem(mensagemAtendimento, "Não foi possível contactar o servidor.", "erro"); }
+    finally { btnGuardarAtendimento.disabled = false; btnGuardarAtendimento.textContent = "Guardar atendimento"; }
+  });
 
-      if (!resultado.sucesso) {
-        mostrarMensagem(mensagemAtendimento, resultado.mensagem || "Não foi possível guardar o atendimento.", "erro");
-        return;
-      }
-
-      mostrarMensagem(
-        mensagemAtendimento,
-        (resultado.mensagem || "Atendimento registado com sucesso.") +
-          (resultado.idAtendimento ? " Código: " + resultado.idAtendimento : ""),
-        "sucesso"
-      );
-
-      setTimeout(function () {
-        fecharModal();
-        carregarCasos();
-      }, 1500);
-    } catch (erro) {
-      mostrarMensagem(mensagemAtendimento, "Não foi possível contactar o servidor. Tente novamente.", "erro");
-    } finally {
-      btnGuardarAtendimento.disabled = false;
-      btnGuardarAtendimento.textContent = "Guardar atendimento";
-    }
+  formEncerrar.addEventListener("submit", async function (evento) {
+    evento.preventDefault();
+    if (!formEncerrar.checkValidity()) { formEncerrar.reportValidity(); mostrarMensagem(mensagemEncerramento, "Preencha o resultado final.", "erro"); return; }
+    const dados = new FormData(formEncerrar);
+    btnConfirmarEncerramento.disabled = true; btnConfirmarEncerramento.textContent = "A encerrar...";
+    try {
+      const resultado = await chamarApi({ acao: "encerrarCaso", token: token, idCaso: dados.get("idCaso"), estadoFinal: dados.get("estadoFinal"), resultado: dados.get("resultado"), observacoes: dados.get("observacoes") });
+      if (!resultado.sucesso) { mostrarMensagem(mensagemEncerramento, resultado.mensagem || "Não foi possível encerrar o caso.", "erro"); return; }
+      mostrarMensagem(mensagemEncerramento, resultado.mensagem || "Caso encerrado com sucesso.", "sucesso");
+      setTimeout(function () { fecharEncerrar(); carregarCasos(); }, 1400);
+    } catch (erro) { mostrarMensagem(mensagemEncerramento, "Não foi possível contactar o servidor.", "erro"); }
+    finally { btnConfirmarEncerramento.disabled = false; btnConfirmarEncerramento.textContent = "Confirmar encerramento"; }
   });
 
   carregarCasos();
