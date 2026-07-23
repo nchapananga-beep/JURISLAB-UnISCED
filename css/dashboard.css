@@ -73,7 +73,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
-  margin: 28px 0 54px;
+  margin: 28px 0 20px;
 }
 
 .indicador-link {
@@ -126,6 +126,100 @@
   color: var(--vermelho);
   font-size: 0.82rem;
   font-weight: 700;
+}
+
+.alertas-prazos {
+  margin: 38px 0 54px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+}
+
+.secao-cabecalho-prazos {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.secao-cabecalho-prazos h2 {
+  margin-top: 5px;
+}
+
+.botao-prazos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 15px;
+  color: #fff;
+  background: #2f2f2f;
+  border-radius: 9px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.grelha-prazos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.prazo-indicador {
+  min-height: 155px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  background: #fafafa;
+  border: 1px solid var(--borda);
+  border-left: 5px solid #666;
+  border-radius: 13px;
+  text-decoration: none;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.prazo-indicador:hover,
+.prazo-indicador:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.11);
+}
+
+.prazo-indicador span {
+  color: var(--texto-suave);
+  font-weight: 700;
+}
+
+.prazo-indicador strong {
+  margin-top: 8px;
+  font-size: 2.25rem;
+}
+
+.prazo-indicador small {
+  margin-top: auto;
+  padding-top: 14px;
+  color: var(--texto-suave);
+}
+
+.prazo-pendente {
+  border-left-color: #666;
+}
+
+.prazo-proximo {
+  border-left-color: #d48b00;
+  background: #fffaf0;
+}
+
+.prazo-vencido {
+  border-left-color: var(--vermelho);
+  background: #fff5f6;
+}
+
+.prazo-vencido strong {
+  color: var(--vermelho);
 }
 
 .grelha-dashboard {
@@ -198,9 +292,14 @@
 }
 
 .botao-modulo-agenda {
-  grid-column: 1 / -1;
   color: #fff;
   background: #2f2f2f;
+  border: 1px solid #2f2f2f;
+}
+
+.botao-modulo-prazos {
+  color: #2f2f2f;
+  background: #fff;
   border: 1px solid #2f2f2f;
 }
 
@@ -237,7 +336,8 @@
 }
 
 @media (max-width: 900px) {
-  .resumo-dashboard {
+  .resumo-dashboard,
+  .grelha-prazos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -266,15 +366,25 @@
   }
 
   .resumo-dashboard,
+  .grelha-prazos,
   .grelha-dashboard {
     grid-template-columns: 1fr;
   }
 
-  .acoes-modulo {
-    grid-template-columns: 1fr;
+  .alertas-prazos {
+    padding: 22px 18px;
   }
 
-  .botao-modulo-agenda {
-    grid-column: auto;
+  .secao-cabecalho-prazos {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .botao-prazos {
+    width: 100%;
+  }
+
+  .acoes-modulo {
+    grid-template-columns: 1fr;
   }
 }
