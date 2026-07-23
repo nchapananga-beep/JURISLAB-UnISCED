@@ -6,7 +6,7 @@
   <meta name="description" content="Painel principal do JURISLAB UnISCED">
   <title>Painel | JURISLAB UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/dashboard.css?v=3">
+  <link rel="stylesheet" href="css/dashboard.css?v=4">
 </head>
 <body class="pagina-dashboard">
   <header class="dashboard-topo">
@@ -35,10 +35,18 @@
     </section>
 
     <section class="resumo-dashboard" aria-label="Resumo geral">
-      <article><span>Casos activos</span><strong id="indicadorCasosActivos">...</strong></article>
-      <article><span>Triagens pendentes</span><strong id="indicadorTriagensPendentes">...</strong></article>
-      <article><span>Encaminhamentos em seguimento</span><strong id="indicadorEncaminhamentos">...</strong></article>
-      <article><span>Utentes registados</span><strong id="indicadorUtentes">...</strong></article>
+      <a class="indicador-link" href="casos.html" aria-label="Abrir casos activos">
+        <article><span>Casos activos</span><strong id="indicadorCasosActivos">...</strong><small>Ver casos</small></article>
+      </a>
+      <a class="indicador-link" href="triagens-pendentes.html" aria-label="Abrir triagens pendentes">
+        <article><span>Triagens pendentes</span><strong id="indicadorTriagensPendentes">...</strong><small>Ver triagens</small></article>
+      </a>
+      <a class="indicador-link" href="encaminhamentos.html" aria-label="Abrir encaminhamentos em seguimento">
+        <article><span>Encaminhamentos em seguimento</span><strong id="indicadorEncaminhamentos">...</strong><small>Ver encaminhamentos</small></article>
+      </a>
+      <a class="indicador-link" href="gestao-aconselha.html" aria-label="Abrir utentes registados">
+        <article><span>Utentes registados</span><strong id="indicadorUtentes">...</strong><small>Ver utentes</small></article>
+      </a>
     </section>
     <p id="mensagemIndicadores" class="mensagem-formulario" role="status" aria-live="polite"></p>
 
