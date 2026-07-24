@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pesquisa global do JURISLAB Aconselha">
+  <title>Pesquisa Global | JURISLAB</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/pesquisa-global.css?v=1">
+</head>
+<body class="pagina-pesquisa">
+  <header class="pesquisa-topo">
+    <a class="marca marca-com-logo" href="dashboard.html">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB</span><span class="marca-subtitulo">Pesquisa Global</span></div>
+    </a>
+    <nav class="acoes-topo"><a href="casos.html">Casos</a><a href="gestao-aconselha.html">Utentes</a><a href="documentos-casos.html">Documentos</a><a href="dashboard.html">Painel</a></nav>
+  </header>
+  <main class="pesquisa-conteudo">
+    <section class="pesquisa-cabecalho"><p class="etiqueta">Localização rápida</p><h1>Pesquisa Global</h1><p>Pesquise por nome, código, área jurídica, responsável, documento, consulta, prazo ou encaminhamento.</p></section>
+    <section class="pesquisa-formulario-cartao">
+      <form id="formPesquisa" class="pesquisa-formulario">
+        <input id="termoPesquisa" type="search" minlength="2" required placeholder="Introduza pelo menos 2 caracteres" autocomplete="off" autofocus>
+        <button id="btnPesquisar" class="botao botao-principal" type="submit">Pesquisar em todo o sistema</button>
+      </form>
+      <p id="estadoPesquisa" class="resumo-resultados">Introduza um termo para iniciar.</p>
+    </section>
+    <section id="resumoCategorias" class="resumo-categorias oculto"></section>
+    <section id="resultadosPesquisa" class="resultados-pesquisa" aria-live="polite"></section>
+    <p id="mensagemPesquisa" class="mensagem-formulario" role="status"></p>
+  </main>
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/pesquisa-global.js?v=1"></script>
+</body>
+</html>
