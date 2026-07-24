@@ -7,173 +7,24 @@
   <title>JURISLAB UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=5">
   <style>
-    .rodape-marca {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .rodape-logo-caixa {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 14px;
-      background: #ffffff;
-      border-radius: 10px;
-      flex-shrink: 0;
-    }
-
-    .logo-unisced-rodape {
-      width: 145px;
-      height: auto;
-      display: block;
-    }
-
-    .rodape-identidade {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .rodape-identidade strong {
-      color: #fff;
-      font-size: 1.05rem;
-    }
-
-    .rodape-direitos {
-      align-self: center;
-      text-align: right;
-    }
-
-    @media (max-width: 620px) {
-      .rodape-marca {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .logo-unisced-rodape {
-        width: 130px;
-      }
-
-      .rodape-direitos {
-        align-self: flex-start;
-        text-align: left;
-      }
-    }
+    .rodape-marca{display:flex;align-items:center;gap:18px}.rodape-logo-caixa{display:flex;align-items:center;justify-content:center;padding:10px 14px;background:#fff;border-radius:10px;flex-shrink:0}.logo-unisced-rodape{width:145px;height:auto;display:block}.rodape-identidade{display:flex;flex-direction:column;gap:2px}.rodape-identidade strong{color:#fff;font-size:1.05rem}.rodape-direitos{align-self:center;text-align:right}@media(max-width:620px){.rodape-marca{align-items:flex-start;flex-direction:column}.logo-unisced-rodape{width:130px}.rodape-direitos{align-self:flex-start;text-align:left}}
   </style>
 </head>
 <body>
-  <header class="topo">
-    <div class="container navegacao">
-      <a class="marca marca-com-logo" href="index.html" aria-label="Página inicial do JURISLAB">
-        <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
-        <div class="marca-jurislab">
-          <span class="marca-principal">JURISLAB</span>
-          <span class="marca-subtitulo">Laboratório Online de Prática e Inovação Jurídica</span>
-        </div>
-      </a>
-
-      <button class="menu-botao" id="menuBotao" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
-
-      <nav class="menu" id="menuPrincipal" aria-label="Navegação principal">
-        <a href="#inicio">Início</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#modulos">Áreas</a>
-        <a href="#contactos">Contactos</a>
-        <a class="botao botao-contorno" href="login.html">Entrar</a>
-      </nav>
-    </div>
-  </header>
-
+  <header class="topo"><div class="container navegacao"><a class="marca marca-com-logo" href="index.html" aria-label="Página inicial do JURISLAB"><img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB</span><span class="marca-subtitulo">Laboratório Online de Prática e Inovação Jurídica</span></div></a><button class="menu-botao" id="menuBotao" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button><nav class="menu" id="menuPrincipal" aria-label="Navegação principal"><a href="#inicio">Início</a><a href="#sobre">Sobre</a><a href="#modulos">Áreas</a><a href="#contactos">Contactos</a><a class="botao botao-contorno" href="login.html">Entrar</a></nav></div></header>
   <main>
-    <section class="destaque" id="inicio">
-      <div class="container destaque-conteudo">
-        <p class="etiqueta">Laboratório Online de Prática e Inovação Jurídica</p>
-        <h1>Aprender, praticar e inovar no Direito.</h1>
-        <p class="subtitulo">Uma plataforma da UnISCED que aproxima estudantes, docentes, juristas e sociedade por meio da prática jurídica, formação e inovação.</p>
-        <div class="acoes">
-          <a class="botao botao-principal" href="#modulos">Conhecer as áreas</a>
-          <a class="botao botao-claro" href="#aconselhamento">Solicitar aconselhamento</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="sobre">
-      <div class="container secao-cabecalho">
-        <p class="etiqueta">Sobre o JURISLAB</p>
-        <h2>Prática jurídica com alcance nacional</h2>
-        <p>O JURISLAB UnISCED integra actividades académicas, profissionais e de extensão universitária num único ambiente online.</p>
-      </div>
-    </section>
-
-    <section class="secao secao-cinza" id="modulos">
-      <div class="container">
-        <div class="secao-cabecalho">
-          <p class="etiqueta">Áreas do laboratório</p>
-          <h2>Uma plataforma, várias experiências jurídicas</h2>
-        </div>
-
-        <div class="grelha-modulos">
-          <article class="cartao" id="aconselhamento">
-            <span class="cartao-numero">01</span>
-            <h3>JURISLAB Aconselha</h3>
-            <p>Atendimento, triagem e orientação jurídica supervisionada.</p>
-            <a href="#">Em preparação</a>
-          </article>
-          <article class="cartao">
-            <span class="cartao-numero">02</span>
-            <h3>JURISLAB Tribunal</h3>
-            <p>Simulações de julgamentos, audiências e prática processual.</p>
-            <a href="#">Em preparação</a>
-          </article>
-          <article class="cartao">
-            <span class="cartao-numero">03</span>
-            <h3>JURISLAB Olimpíadas</h3>
-            <p>Competições, debates, provas e resolução de casos jurídicos.</p>
-            <a href="#">Em preparação</a>
-          </article>
-          <article class="cartao">
-            <span class="cartao-numero">04</span>
-            <h3>JURISLAB Estágios</h3>
-            <p>Experiência prática, supervisão e desenvolvimento profissional.</p>
-            <a href="#">Em preparação</a>
-          </article>
-          <article class="cartao">
-            <span class="cartao-numero">05</span>
-            <h3>JURISLAB Podcast</h3>
-            <p>Conteúdos jurídicos em linguagem clara, acessível e actual.</p>
-            <a href="#">Em preparação</a>
-          </article>
-          <article class="cartao">
-            <span class="cartao-numero">06</span>
-            <h3>JURISLAB Formação</h3>
-            <p>Cursos, oficinas, seminários e capacitações jurídicas.</p>
-            <a href="#">Em preparação</a>
-          </article>
-        </div>
-      </div>
-    </section>
+    <section class="destaque" id="inicio"><div class="container destaque-conteudo"><p class="etiqueta">Laboratório Online de Prática e Inovação Jurídica</p><h1>Aprender, praticar e inovar no Direito.</h1><p class="subtitulo">Uma plataforma da UnISCED que aproxima estudantes, docentes, juristas e sociedade por meio da prática jurídica, formação e inovação.</p><div class="acoes"><a class="botao botao-principal" href="#modulos">Conhecer as áreas</a><a class="botao botao-claro" href="pedido-atendimento.html">Solicitar aconselhamento</a></div></div></section>
+    <section class="secao" id="sobre"><div class="container secao-cabecalho"><p class="etiqueta">Sobre o JURISLAB</p><h2>Prática jurídica com alcance nacional</h2><p>O JURISLAB UnISCED integra actividades académicas, profissionais e de extensão universitária num único ambiente online.</p></div></section>
+    <section class="secao secao-cinza" id="modulos"><div class="container"><div class="secao-cabecalho"><p class="etiqueta">Áreas do laboratório</p><h2>Uma plataforma, várias experiências jurídicas</h2></div><div class="grelha-modulos">
+      <article class="cartao" id="aconselhamento"><span class="cartao-numero">01</span><h3>JURISLAB Aconselha</h3><p>Atendimento, triagem e orientação jurídica supervisionada.</p><a href="pedido-atendimento.html">Solicitar atendimento</a></article>
+      <article class="cartao"><span class="cartao-numero">02</span><h3>JURISLAB Tribunal</h3><p>Simulações de julgamentos, audiências e prática processual.</p><a href="#">Em preparação</a></article>
+      <article class="cartao"><span class="cartao-numero">03</span><h3>JURISLAB Olimpíadas</h3><p>Competições, debates, provas e resolução de casos jurídicos.</p><a href="#">Em preparação</a></article>
+      <article class="cartao"><span class="cartao-numero">04</span><h3>JURISLAB Estágios</h3><p>Experiência prática, supervisão e desenvolvimento profissional.</p><a href="#">Em preparação</a></article>
+      <article class="cartao"><span class="cartao-numero">05</span><h3>JURISLAB Podcast</h3><p>Conteúdos jurídicos em linguagem clara, acessível e actual.</p><a href="#">Em preparação</a></article>
+      <article class="cartao"><span class="cartao-numero">06</span><h3>JURISLAB Formação</h3><p>Cursos, oficinas, seminários e capacitações jurídicas.</p><a href="#">Em preparação</a></article>
+    </div></div></section>
   </main>
-
-  <footer class="rodape" id="contactos">
-    <div class="container rodape-conteudo">
-      <div class="rodape-marca">
-        <div class="rodape-logo-caixa">
-          <img
-            src="./assets/imagens/logo-unisced.png?v=5"
-            alt="Logótipo da UnISCED"
-            class="logo-unisced-rodape"
-          >
-        </div>
-        <div class="rodape-identidade">
-          <strong>JURISLAB UnISCED</strong>
-          <p>Laboratório Online de Prática e Inovação Jurídica</p>
-        </div>
-      </div>
-      <p class="rodape-direitos">© <span id="anoActual"></span> UnISCED. Todos os direitos reservados.</p>
-    </div>
-  </footer>
-
+  <footer class="rodape" id="contactos"><div class="container rodape-conteudo"><div class="rodape-marca"><div class="rodape-logo-caixa"><img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced-rodape"></div><div class="rodape-identidade"><strong>JURISLAB UnISCED</strong><p>Laboratório Online de Prática e Inovação Jurídica</p></div></div><p class="rodape-direitos">© <span id="anoActual"></span> UnISCED. Todos os direitos reservados.</p></div></footer>
   <script src="js/app.js?v=2"></script>
 </body>
 </html>
