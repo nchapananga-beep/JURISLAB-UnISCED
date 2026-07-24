@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão de documentos dos casos do JURISLAB Aconselha">
+  <title>Documentos dos Casos | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/documentos-casos.css?v=1">
+</head>
+<body class="pagina-documentos">
+  <header class="documentos-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Gestão documental dos casos</span>
+      </div>
+    </a>
+    <nav class="acoes-topo" aria-label="Navegação do módulo">
+      <a href="casos.html">Casos</a>
+      <a href="consultas.html">Consultas</a>
+      <a href="prazos.html">Prazos</a>
+      <a href="distribuicao-casos.html">Distribuição</a>
+      <a href="relatorios.html">Relatórios</a>
+      <a href="dashboard.html">Painel</a>
+    </nav>
+  </header>
+
+  <main class="documentos-conteudo">
+    <section class="documentos-cabecalho">
+      <div>
+        <p class="etiqueta">Arquivo jurídico digital</p>
+        <h1>Documentos dos Casos</h1>
+        <p id="contextoCaso">Consulte e organize os documentos associados aos casos.</p>
+      </div>
+      <button class="botao botao-principal" id="btnNovoDocumento" type="button">Anexar documento</button>
+    </section>
+
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <input id="campoCaso" type="search" placeholder="ID do caso" autocomplete="off">
+        <input id="campoPesquisa" type="search" placeholder="Título, tipo ou ficheiro" autocomplete="off">
+        <select id="filtroEstado" aria-label="Filtrar por estado">
+          <option value="Todos">Todos os estados</option>
+          <option value="Activo">Activos</option>
+          <option value="Arquivado">Arquivados</option>
+        </select>
+        <button class="botao botao-principal" type="submit">Pesquisar</button>
+        <button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar documentos...</p>
+    </section>
+
+    <section id="listaDocumentos" class="lista-documentos" aria-live="polite"></section>
+    <p id="mensagemDocumentos" class="mensagem-formulario" role="status" aria-live="polite"></p>
+  </main>
+
+  <div class="modal-fundo oculto" id="modalDocumento">
+    <div class="modal-cartao">
+      <button class="modal-fechar" id="btnFecharDocumento" type="button">×</button>
+      <p class="etiqueta">Novo documento</p>
+      <h2>Anexar documento ao caso</h2>
+      <form id="formDocumento" novalidate>
+        <div class="grupo-campos duas-colunas">
+          <div class="campo">
+            <label for="idCasoDocumento">ID do caso *</label>
+            <input id="idCasoDocumento" name="idCaso" required>
+          </div>
+          <div class="campo">
+            <label for="idUtenteDocumento">ID do utente *</label>
+            <input id="idUtenteDocumento" name="idUtente" required>
+          </div>
+          <div class="campo campo-largo">
+            <label for="tituloDocumento">Título do documento *</label>
+            <input id="tituloDocumento" name="tituloDocumento" required>
+          </div>
+          <div class="campo">
+            <label for="tipoDocumento">Tipo de documento *</label>
+            <select id="tipoDocumento" name="tipoDocumento" required>
+              <option value="">Seleccionar</option>
+              <option>Documento de identificação</option>
+              <option>Procuração</option>
+              <option>Petição</option>
+              <option>Requerimento</option>
+              <option>Contrato</option>
+              <option>Comprovativo</option>
+              <option>Correspondência</option>
+              <option>Decisão</option>
+              <option>Parecer jurídico</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="ficheiroDocumento">Ficheiro, máximo 8 MB *</label>
+            <input id="ficheiroDocumento" name="ficheiro" type="file" required accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.txt">
+          </div>
+          <div class="campo campo-largo">
+            <label for="descricaoDocumento">Descrição</label>
+            <textarea id="descricaoDocumento" name="descricao" rows="4"></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="observacoesDocumento">Observações</label>
+            <textarea id="observacoesDocumento" name="observacoes" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardarDocumento" type="submit">Anexar documento</button>
+          <button class="botao botao-secundario" id="btnCancelarDocumento" type="button">Cancelar</button>
+        </div>
+        <p id="mensagemDocumento" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
+  </div>
+  <script src="js/documentos-casos.js?v=1"></script>
+</body>
+</html>
