@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pedido público de aconselhamento jurídico do JURISLAB UnISCED">
+  <title>Solicitar Aconselhamento | JURISLAB UnISCED</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/pedido-atendimento.css?v=1">
+</head>
+<body class="pagina-pedido-publico">
+  <header class="pedido-topo">
+    <a class="marca marca-com-logo" href="index.html">
+      <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Pedido público de atendimento</span></div>
+    </a>
+    <a class="botao botao-contorno" href="index.html">Voltar ao início</a>
+  </header>
+
+  <main class="pedido-conteudo">
+    <section class="pedido-introducao">
+      <p class="etiqueta">Orientação jurídica supervisionada</p>
+      <h1>Solicitar aconselhamento jurídico</h1>
+      <p>Preencha os dados abaixo. A equipa do JURISLAB analisará o pedido e entrará em contacto.</p>
+      <div class="aviso-publico"><strong>Importante:</strong> o envio do pedido não cria automaticamente uma relação de representação jurídica nem garante a aceitação do caso.</div>
+    </section>
+
+    <section class="pedido-cartao">
+      <form id="formPedidoPublico" novalidate>
+        <div class="grelha-campos">
+          <div class="campo campo-largo"><label for="nomeCompleto">Nome completo *</label><input id="nomeCompleto" name="nomeCompleto" required autocomplete="name"></div>
+          <div class="campo"><label for="telefone">Telefone</label><input id="telefone" name="telefone" autocomplete="tel"></div>
+          <div class="campo"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email"></div>
+          <div class="campo"><label for="provincia">Província *</label><select id="provincia" name="provincia" required><option value="">Seleccionar</option><option>Maputo Cidade</option><option>Maputo Província</option><option>Gaza</option><option>Inhambane</option><option>Sofala</option><option>Manica</option><option>Tete</option><option>Zambézia</option><option>Nampula</option><option>Cabo Delgado</option><option>Niassa</option></select></div>
+          <div class="campo"><label for="distritoLocalidade">Distrito ou localidade</label><input id="distritoLocalidade" name="distritoLocalidade"></div>
+          <div class="campo"><label for="areaJuridica">Área jurídica *</label><select id="areaJuridica" name="areaJuridica" required><option value="">Seleccionar</option><option>Direito Civil</option><option>Direito da Família</option><option>Direito do Trabalho</option><option>Direito Penal</option><option>Direito Administrativo</option><option>Direito Comercial</option><option>Direito Fiscal</option><option>Direito da Terra</option><option>Sucessões e herança</option><option>Outra área</option></select></div>
+          <div class="campo"><label for="urgencia">Nível de urgência</label><select id="urgencia" name="urgencia"><option>Normal</option><option>Urgente</option><option>Muito urgente</option></select></div>
+          <div class="campo"><label for="formaContacto">Forma preferida de contacto</label><select id="formaContacto" name="formaContacto"><option value="">Seleccionar</option><option>Telefone</option><option>WhatsApp</option><option>Email</option></select></div>
+          <div class="campo"><label for="horarioContacto">Melhor horário para contacto</label><input id="horarioContacto" name="horarioContacto" placeholder="Ex.: dias úteis, 14h–17h"></div>
+          <div class="campo campo-largo"><label for="resumoProblema">Resumo do problema jurídico *</label><textarea id="resumoProblema" name="resumoProblema" rows="7" minlength="20" required placeholder="Explique resumidamente o que aconteceu e que ajuda procura."></textarea><small id="contadorResumo">0 caracteres</small></div>
+          <div class="campo campo-largo consentimento"><label><input id="consentimento" name="consentimento" type="checkbox" value="Sim" required> Autorizo o tratamento destes dados exclusivamente para análise e acompanhamento do pedido pelo JURISLAB.</label></div>
+        </div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnEnviarPedido" type="submit">Enviar pedido</button><button class="botao botao-secundario" id="btnLimparPedido" type="button">Limpar</button></div>
+        <p id="mensagemPedido" class="mensagem-formulario" role="status" aria-live="polite"></p>
+        <section id="comprovativoPedido" class="comprovativo oculto" aria-live="polite"></section>
+      </form>
+    </section>
+  </main>
+  <script src="js/pedido-atendimento.js?v=1"></script>
+</body>
+</html>
