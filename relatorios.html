@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Relatórios e estatísticas do JURISLAB Aconselha">
+  <title>Relatórios | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/relatorios.css?v=1">
+</head>
+<body class="pagina-relatorios">
+  <header class="relatorios-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB Aconselha</span>
+        <span class="marca-subtitulo">Relatórios e estatísticas</span>
+      </div>
+    </a>
+    <nav aria-label="Navegação do módulo">
+      <a href="casos.html">Casos</a>
+      <a href="consultas.html">Consultas</a>
+      <a href="prazos.html">Prazos</a>
+      <a href="distribuicao-casos.html">Distribuição</a>
+      <a href="dashboard.html">Painel</a>
+    </nav>
+  </header>
+
+  <main class="relatorios-conteudo">
+    <section class="relatorios-cabecalho">
+      <div>
+        <p class="etiqueta">Visão institucional</p>
+        <h1>Relatórios do JURISLAB Aconselha</h1>
+        <p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos e actividade da equipa.</p>
+      </div>
+      <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button>
+    </section>
+
+    <p id="mensagemRelatorios" class="mensagem-formulario" role="status" aria-live="polite">A carregar indicadores...</p>
+
+    <section class="grelha-indicadores" aria-label="Indicadores principais">
+      <article><span>Utentes registados</span><strong id="totalUtentes">...</strong></article>
+      <article><span>Casos activos</span><strong id="totalCasosActivos">...</strong></article>
+      <article><span>Casos sem responsável</span><strong id="totalSemResponsavel">...</strong></article>
+      <article><span>Triagens pendentes</span><strong id="totalTriagens">...</strong></article>
+      <article><span>Consultas registadas</span><strong id="totalConsultas">...</strong></article>
+      <article><span>Encaminhamentos</span><strong id="totalEncaminhamentos">...</strong></article>
+      <article><span>Atribuições activas</span><strong id="totalAtribuicoes">...</strong></article>
+      <article class="indicador-alerta"><span>Prazos vencidos</span><strong id="totalPrazosVencidos">...</strong></article>
+    </section>
+
+    <section class="grelha-relatorios">
+      <article class="cartao-relatorio">
+        <div class="cartao-cabecalho"><h2>Casos por estado</h2><a href="casos.html">Abrir casos</a></div>
+        <div id="graficoEstados" class="grafico-barras"></div>
+      </article>
+
+      <article class="cartao-relatorio">
+        <div class="cartao-cabecalho"><h2>Casos por área do Direito</h2><a href="casos.html">Ver detalhes</a></div>
+        <div id="graficoAreas" class="grafico-barras"></div>
+      </article>
+
+      <article class="cartao-relatorio">
+        <div class="cartao-cabecalho"><h2>Situação dos prazos</h2><a href="prazos.html">Abrir prazos</a></div>
+        <div id="resumoPrazos" class="lista-resumo"></div>
+      </article>
+
+      <article class="cartao-relatorio">
+        <div class="cartao-cabecalho"><h2>Distribuição interna</h2><a href="distribuicao-casos.html">Abrir distribuição</a></div>
+        <div id="resumoAtribuicoes" class="lista-resumo"></div>
+      </article>
+    </section>
+
+    <section class="rodape-relatorio">
+      <p>Actualizado em <strong id="dataActualizacao">—</strong></p>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/relatorios.js?v=1"></script>
+</body>
+</html>
