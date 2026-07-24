@@ -83,6 +83,41 @@ function colocarPrazosIndisponiveis() {
   });
 }
 
+function casoEstaEncerrado(caso) {
+  return ["Encerrado", "Concluído", "Arquivado"].includes(String(caso.estadoCaso || "").trim());
+}
+
+function casoSemResponsavel(caso) {
+  const responsavel = String(caso.responsavel || "").trim().toLowerCase();
+  return !responsavel || responsavel === "não atribuído" || responsavel === "nao atribuido";
+}
+
+async function carregarCasosSemResponsavel(token) {
+  const indicador = document.getElementById("indicadorCasosSemResponsavel");
+
+  try {
+    const resultado = await chamarApi({
+      acao: "listarCasos",
+      token: token,
+      pesquisa: "",
+      estado: "Todos"
+    });
+
+    if (!resultado.sucesso || !Array.isArray(resultado.casos)) {
+      indicador.textContent = "—";
+      return;
+    }
+
+    const total = resultado.casos.filter(function (caso) {
+      return !casoEstaEncerrado(caso) && casoSemResponsavel(caso);
+    }).length;
+
+    indicador.textContent = total;
+  } catch (erro) {
+    indicador.textContent = "—";
+  }
+}
+
 async function carregarIndicadores(token) {
   const mensagem = document.getElementById("mensagemIndicadores");
   mensagem.textContent = "";
@@ -175,6 +210,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await Promise.all([
       carregarIndicadores(token),
+      carregarCasosSemResponsavel(token),
       carregarIndicadoresPrazos(token)
     ]);
   } catch (erro) {
