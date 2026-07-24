@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão interna dos pedidos públicos do JURISLAB">
+  <title>Pedidos Públicos | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/pedidos-publicos.css?v=1">
+</head>
+<body class="pagina-pedidos-publicos">
+  <header class="pedidos-topo">
+    <a class="marca marca-com-logo" href="dashboard.html"><img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Pedidos públicos de atendimento</span></div></a>
+    <nav class="acoes-topo"><a href="gestao-aconselha.html">Utentes</a><a href="triagens-pendentes.html">Triagens</a><a href="casos.html">Casos</a><a href="dashboard.html">Painel</a></nav>
+  </header>
+
+  <main class="pedidos-conteudo">
+    <section class="pedidos-cabecalho"><div><p class="etiqueta">Entrada pública</p><h1>Pedidos de atendimento</h1><p>Analise os pedidos recebidos, registe observações e actualize o estado de acompanhamento.</p></div><a class="botao botao-secundario" href="pedido-atendimento.html" target="_blank" rel="noopener">Abrir formulário público</a></section>
+
+    <section class="resumo-pedidos"><article><span>Total visível</span><strong id="totalPedidos">...</strong></article><article><span>Pendentes</span><strong id="totalPendentes">...</strong></article><article><span>Em análise</span><strong id="totalAnalise">...</strong></article><article><span>Aceites</span><strong id="totalAceites">...</strong></article></section>
+
+    <section class="filtros-cartao"><form id="formFiltros" class="filtros-formulario"><input id="campoPesquisa" type="search" placeholder="Código, nome, telefone, email ou área"><select id="filtroEstado"><option value="Todos">Todos os estados</option><option>Pendente</option><option>Em análise</option><option>Aguardando contacto</option><option>Aceite</option><option>Encaminhado</option><option>Recusado</option><option>Convertido</option></select><button class="botao botao-principal" type="submit">Pesquisar</button><button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button></form><p id="resumoResultados" class="resumo-resultados">A carregar pedidos...</p></section>
+
+    <section id="listaPedidos" class="lista-pedidos" aria-live="polite"></section>
+    <p id="mensagemPedidos" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div class="modal-fundo oculto" id="modalAnalise"><div class="modal-cartao modal-menor"><button class="modal-fechar" id="btnFecharAnalise" type="button">×</button><p class="etiqueta">Análise do pedido</p><h2>Actualizar pedido</h2><p id="resumoPedidoSeleccionado" class="resumo-seleccionado"></p><form id="formAnalise"><input name="idPedido" type="hidden"><div class="grupo-campos"><div class="campo"><label>Estado *</label><select name="estadoPedido" required><option>Pendente</option><option>Em análise</option><option>Aguardando contacto</option><option>Aceite</option><option>Encaminhado</option><option>Recusado</option><option>Convertido</option></select></div><div class="campo"><label>Observações internas</label><textarea name="observacoesInternas" rows="6" placeholder="Registe contactos realizados, decisão ou próximos passos."></textarea></div></div><div class="acoes-formulario"><button class="botao botao-principal" id="btnGuardarAnalise" type="submit">Guardar alteração</button><button class="botao botao-secundario" id="btnCancelarAnalise" type="button">Cancelar</button></div><p id="mensagemAnalise" class="mensagem-formulario"></p></form></div></div>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/pedidos-publicos.js?v=1"></script>
+</body>
+</html>
