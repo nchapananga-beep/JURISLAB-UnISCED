@@ -6,7 +6,7 @@
   <meta name="description" content="Painel principal do JURISLAB UnISCED">
   <title>Painel | JURISLAB UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/dashboard.css?v=6">
+  <link rel="stylesheet" href="css/dashboard.css?v=7">
 </head>
 <body class="pagina-dashboard">
   <header class="dashboard-topo">
@@ -37,6 +37,9 @@
     <section class="resumo-dashboard" aria-label="Resumo geral">
       <a class="indicador-link" href="casos.html" aria-label="Abrir casos activos">
         <article><span>Casos activos</span><strong id="indicadorCasosActivos">...</strong><small>Ver casos</small></article>
+      </a>
+      <a class="indicador-link indicador-atencao" href="casos.html" aria-label="Abrir casos sem responsável">
+        <article><span>Casos sem responsável</span><strong id="indicadorCasosSemResponsavel">...</strong><small>Atribuir equipa</small></article>
       </a>
       <a class="indicador-link" href="triagens-pendentes.html" aria-label="Abrir triagens pendentes">
         <article><span>Triagens pendentes</span><strong id="indicadorTriagensPendentes">...</strong><small>Ver triagens</small></article>
@@ -95,6 +98,7 @@
             <a class="botao-modulo botao-modulo-secundario" href="gestao-aconselha.html">Abrir gestão</a>
             <a class="botao-modulo botao-modulo-agenda" href="consultas.html">Agenda de Consultas</a>
             <a class="botao-modulo botao-modulo-prazos" href="prazos.html">Controlo de Prazos</a>
+            <a class="botao-modulo botao-modulo-distribuicao" href="distribuicao-casos.html">Distribuição de Casos</a>
           </div>
         </article>
         <article class="modulo-dashboard"><span>02</span><h3>JURISLAB Tribunal</h3><p>Casos fictícios, equipas, audiências e avaliações.</p><button type="button" disabled>Em preparação</button></article>
@@ -107,6 +111,6 @@
   </main>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB UnISCED</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/dashboard.js?v=3"></script>
+  <script src="js/dashboard.js?v=4"></script>
 </body>
 </html>
