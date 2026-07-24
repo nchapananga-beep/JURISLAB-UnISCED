@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ficha completa do caso no JURISLAB Aconselha">
+  <title>Ficha do Caso | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/ficha-caso.css?v=1">
+</head>
+<body class="pagina-ficha-caso">
+  <header class="ficha-topo">
+    <a class="marca marca-com-logo" href="dashboard.html"><img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Ficha completa do caso</span></div></a>
+    <nav class="acoes-topo"><a href="casos.html">Casos</a><a href="documentos-casos.html">Documentos</a><a href="dashboard.html">Painel</a></nav>
+  </header>
+  <main class="ficha-conteudo">
+    <section class="ficha-cabecalho"><div><p class="etiqueta">Visão consolidada</p><h1 id="tituloCaso">Ficha do Caso</h1><p id="codigoCaso">A carregar...</p></div><button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir ficha</button></section>
+    <section id="resumoCaso" class="painel-resumo"></section>
+    <section class="grelha-seccoes">
+      <article class="seccao-ficha"><h2>Atendimentos</h2><div id="listaAtendimentos"></div></article>
+      <article class="seccao-ficha"><h2>Consultas</h2><div id="listaConsultas"></div></article>
+      <article class="seccao-ficha"><h2>Prazos</h2><div id="listaPrazos"></div></article>
+      <article class="seccao-ficha"><h2>Documentos</h2><div id="listaDocumentos"></div></article>
+      <article class="seccao-ficha"><h2>Encaminhamentos</h2><div id="listaEncaminhamentos"></div></article>
+      <article class="seccao-ficha"><h2>Atribuições</h2><div id="listaAtribuicoes"></div></article>
+    </section>
+    <p id="mensagemFicha" class="mensagem-formulario"></p>
+  </main>
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/ficha-caso.js?v=1"></script>
+</body>
+</html>
