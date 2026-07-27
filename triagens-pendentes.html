@@ -58,8 +58,8 @@
   <div class="modal oculto" id="modalCaso" role="dialog" aria-modal="true" aria-labelledby="tituloModalCaso">
     <div class="modal-conteudo">
       <button class="modal-fechar" id="btnFecharModal" type="button" aria-label="Fechar">×</button>
-      <p class="etiqueta">Abertura de processo</p>
-      <h2 id="tituloModalCaso">Abrir caso</h2>
+      <p class="etiqueta">Abertura e atribuição do processo</p>
+      <h2 id="tituloModalCaso">Abrir e atribuir caso</h2>
       <p id="resumoTriagemSeleccionada" class="resumo-triagem"></p>
 
       <form id="formAbrirCaso" novalidate>
@@ -89,21 +89,21 @@
             <textarea id="descricaoCaso" name="descricaoCaso" rows="5" required></textarea>
           </div>
           <div class="campo">
-            <label for="responsavelCaso">Responsável</label>
-            <input id="responsavelCaso" name="responsavel" type="text">
+            <label for="responsavelCaso">Responsável pelo caso *</label>
+            <input id="responsavelCaso" name="responsavel" type="text" placeholder="Nome ou email do responsável" required>
           </div>
           <div class="campo">
-            <label for="supervisorCaso">Supervisor</label>
-            <input id="supervisorCaso" name="supervisor" type="text">
+            <label for="supervisorCaso">Supervisor do caso *</label>
+            <input id="supervisorCaso" name="supervisor" type="text" placeholder="Nome ou email do supervisor" required>
           </div>
           <div class="campo">
-            <label for="prazoCaso">Prazo</label>
+            <label for="prazoCaso">Prazo inicial</label>
             <input id="prazoCaso" name="prazo" type="date">
           </div>
         </div>
 
         <div class="acoes-formulario">
-          <button class="botao botao-principal" id="btnConfirmarCaso" type="submit">Abrir caso</button>
+          <button class="botao botao-principal" id="btnConfirmarCaso" type="submit">Abrir e atribuir caso</button>
           <button class="botao botao-secundario" id="btnCancelarCaso" type="button">Cancelar</button>
         </div>
         <p id="mensagemCaso" class="mensagem-formulario" role="status"></p>
@@ -115,7 +115,7 @@
     <div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div>
   </div>
 
-  <script src="js/triagens-pendentes.js?v=2"></script>
+  <script src="js/triagens-pendentes.js?v=3"></script>
   <script src="js/abrir-triagem-seleccionada.js?v=1"></script>
 </body>
 </html>
