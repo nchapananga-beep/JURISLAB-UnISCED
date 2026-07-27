@@ -14,39 +14,84 @@ function irParaLogin() {
 async function validarSessao(token) {
   const url = API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token);
   const resposta = await fetch(url, { method: "GET" });
-
-  if (!resposta.ok) {
-    throw new Error("Falha na validação da sessão.");
-  }
-
+  if (!resposta.ok) throw new Error("Falha na validação da sessão.");
   return resposta.json();
 }
 
 async function chamarApi(dados) {
   const resposta = await fetch(API_JURISLAB, {
     method: "POST",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(dados)
   });
-
-  if (!resposta.ok) {
-    throw new Error("Não foi possível contactar o servidor.");
-  }
-
+  if (!resposta.ok) throw new Error("Não foi possível contactar o servidor.");
   return resposta.json();
 }
 
 async function terminarSessao(token) {
   try {
-    await chamarApi({
-      acao: "terminarSessao",
-      token: token
-    });
+    await chamarApi({ acao: "terminarSessao", token: token });
   } catch (erro) {
     console.warn("Não foi possível terminar a sessão no servidor.", erro);
   }
+}
+
+function normalizarPermissao(valor) {
+  return String(valor || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function obterModuloPrincipal(utilizador) {
+  return String(
+    utilizador.moduloPrincipal ||
+    utilizador.Modulo_Principal ||
+    utilizador.modulo ||
+    ""
+  ).trim();
+}
+
+function utilizadorEhAdministrador(utilizador) {
+  const perfil = normalizarPermissao(utilizador.perfil);
+  return perfil === "administrador" || perfil === "admin";
+}
+
+function utilizadorTemAcessoAoModulo(utilizador, moduloPretendido) {
+  if (utilizadorEhAdministrador(utilizador)) return true;
+
+  const modulo = normalizarPermissao(obterModuloPrincipal(utilizador));
+  const solicitado = normalizarPermissao(moduloPretendido);
+
+  if (modulo === "todos" || modulo === "todos os modulos") return true;
+
+  // Compatibilidade com utilizadores antigos ainda sem módulo registado.
+  if (!modulo) return solicitado === "jurislab aconselha";
+
+  return modulo === solicitado;
+}
+
+function aplicarPermissoesDoPainel(utilizador) {
+  document.querySelectorAll("[data-modulo]").forEach(function (cartao) {
+    cartao.hidden = !utilizadorTemAcessoAoModulo(
+      utilizador,
+      cartao.dataset.modulo
+    );
+  });
+
+  document.querySelectorAll('[data-administracao="true"]').forEach(function (cartao) {
+    cartao.hidden = !utilizadorEhAdministrador(utilizador);
+  });
+
+  const areaAconselha = document.getElementById("areaAconselhaPainel");
+  const acessoAconselha = utilizadorTemAcessoAoModulo(
+    utilizador,
+    "JURISLAB Aconselha"
+  );
+
+  if (areaAconselha) areaAconselha.hidden = !acessoAconselha;
+  return acessoAconselha;
 }
 
 function colocarIndicadores(resumo) {
@@ -57,12 +102,7 @@ function colocarIndicadores(resumo) {
 }
 
 function colocarIndicadoresIndisponiveis() {
-  [
-    "indicadorCasosActivos",
-    "indicadorTriagensPendentes",
-    "indicadorEncaminhamentos",
-    "indicadorUtentes"
-  ].forEach(function (id) {
+  ["indicadorCasosActivos", "indicadorTriagensPendentes", "indicadorEncaminhamentos", "indicadorUtentes"].forEach(function (id) {
     document.getElementById(id).textContent = "—";
   });
 }
@@ -74,11 +114,7 @@ function colocarIndicadoresPrazos(resumo) {
 }
 
 function colocarPrazosIndisponiveis() {
-  [
-    "indicadorPrazosPendentes",
-    "indicadorPrazosProximos",
-    "indicadorPrazosVencidos"
-  ].forEach(function (id) {
+  ["indicadorPrazosPendentes", "indicadorPrazosProximos", "indicadorPrazosVencidos"].forEach(function (id) {
     document.getElementById(id).textContent = "—";
   });
 }
@@ -94,25 +130,15 @@ function casoSemResponsavel(caso) {
 
 async function carregarCasosSemResponsavel(token) {
   const indicador = document.getElementById("indicadorCasosSemResponsavel");
-
   try {
-    const resultado = await chamarApi({
-      acao: "listarCasos",
-      token: token,
-      pesquisa: "",
-      estado: "Todos"
-    });
-
+    const resultado = await chamarApi({ acao: "listarCasos", token: token, pesquisa: "", estado: "Todos" });
     if (!resultado.sucesso || !Array.isArray(resultado.casos)) {
       indicador.textContent = "—";
       return;
     }
-
-    const total = resultado.casos.filter(function (caso) {
+    indicador.textContent = resultado.casos.filter(function (caso) {
       return !casoEstaEncerrado(caso) && casoSemResponsavel(caso);
     }).length;
-
-    indicador.textContent = total;
   } catch (erro) {
     indicador.textContent = "—";
   }
@@ -122,20 +148,14 @@ async function carregarIndicadores(token) {
   const mensagem = document.getElementById("mensagemIndicadores");
   mensagem.textContent = "";
   mensagem.className = "mensagem-formulario";
-
   try {
-    const resultado = await chamarApi({
-      acao: "obterResumoPainel",
-      token: token
-    });
-
+    const resultado = await chamarApi({ acao: "obterResumoPainel", token: token });
     if (!resultado.sucesso || !resultado.resumo) {
       colocarIndicadoresIndisponiveis();
       mensagem.textContent = resultado.mensagem || "Não foi possível carregar os indicadores.";
       mensagem.classList.add("erro");
       return;
     }
-
     colocarIndicadores(resultado.resumo);
   } catch (erro) {
     colocarIndicadoresIndisponiveis();
@@ -148,22 +168,15 @@ async function carregarIndicadoresPrazos(token) {
   const mensagem = document.getElementById("mensagemPrazos");
   mensagem.textContent = "";
   mensagem.className = "mensagem-formulario";
-
   try {
-    const resultado = await chamarApi({
-      acao: "obterResumoPrazosPainel",
-      token: token
-    });
-
+    const resultado = await chamarApi({ acao: "obterResumoPrazosPainel", token: token });
     if (!resultado.sucesso) {
       colocarPrazosIndisponiveis();
       mensagem.textContent = resultado.mensagem || "Não foi possível carregar os alertas de prazos.";
       mensagem.classList.add("erro");
       return;
     }
-
     colocarIndicadoresPrazos(resultado);
-
     if (Number(resultado.vencidos || 0) > 0) {
       mensagem.textContent = "Existem prazos vencidos que requerem atenção imediata.";
       mensagem.classList.add("erro");
@@ -192,7 +205,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const resultado = await validarSessao(token);
-
     if (!resultado.sucesso || !resultado.valida || !resultado.utilizador) {
       limparSessaoLocal();
       irParaLogin();
@@ -202,17 +214,22 @@ document.addEventListener("DOMContentLoaded", async function () {
     const utilizador = resultado.utilizador;
     localStorage.setItem(CHAVE_UTILIZADOR, JSON.stringify(utilizador));
 
+    const moduloPrincipal = obterModuloPrincipal(utilizador) || "JURISLAB Aconselha";
+    const acessoAconselha = aplicarPermissoesDoPainel(utilizador);
+
     nomeTopo.textContent = utilizador.nome || "Utilizador";
     perfilTopo.textContent = utilizador.perfil || "Perfil não informado";
     nomeUtilizador.textContent = utilizador.nome || "utilizador";
-    mensagemSessao.textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + ".";
+    mensagemSessao.textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + " — acesso: " + moduloPrincipal + ".";
     ecraValidacao.classList.add("oculto");
 
-    await Promise.all([
-      carregarIndicadores(token),
-      carregarCasosSemResponsavel(token),
-      carregarIndicadoresPrazos(token)
-    ]);
+    if (acessoAconselha) {
+      await Promise.all([
+        carregarIndicadores(token),
+        carregarCasosSemResponsavel(token),
+        carregarIndicadoresPrazos(token)
+      ]);
+    }
   } catch (erro) {
     limparSessaoLocal();
     irParaLogin();
@@ -222,7 +239,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   btnSair.addEventListener("click", async function () {
     btnSair.disabled = true;
     btnSair.textContent = "A sair...";
-
     await terminarSessao(token);
     limparSessaoLocal();
     irParaLogin();
