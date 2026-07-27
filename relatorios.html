@@ -6,7 +6,7 @@
   <meta name="description" content="Relatórios e estatísticas do JURISLAB Aconselha">
   <title>Relatórios | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/relatorios.css?v=3">
+  <link rel="stylesheet" href="css/relatorios.css?v=4">
 </head>
 <body class="pagina-relatorios">
   <header class="relatorios-topo">
@@ -20,7 +20,10 @@
   <main class="relatorios-conteudo">
     <section class="relatorios-cabecalho">
       <div><p class="etiqueta">Visão institucional</p><h1>Relatórios do JURISLAB Aconselha</h1><p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos, resultados e actividade da equipa.</p></div>
-      <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button>
+      <div class="acoes-relatorio">
+        <button class="botao botao-secundario" id="btnExportarPdf" type="button">Exportar para PDF</button>
+        <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button>
+      </div>
     </section>
 
     <section class="painel-filtros" aria-labelledby="tituloFiltros">
@@ -33,6 +36,20 @@
         <div class="campo-filtro campo-acoes"><button class="botao botao-principal" id="btnAplicarFiltros" type="button">Aplicar filtros</button></div>
       </div>
       <p id="resumoFiltros" class="resumo-filtros">A mostrar todos os registos.</p>
+    </section>
+
+    <section class="resumo-mensal" aria-labelledby="tituloResumoMensal">
+      <div class="resumo-mensal-cabecalho">
+        <div><p class="etiqueta">Acompanhamento periódico</p><h2 id="tituloResumoMensal">Resumo mensal</h2><p id="descricaoMes">Indicadores do mês seleccionado.</p></div>
+        <div class="campo-filtro campo-mes"><label for="mesResumo">Mês de referência</label><input id="mesResumo" type="month"></div>
+      </div>
+      <div class="grelha-resumo-mensal">
+        <article><span>Casos abertos</span><strong id="mesCasosAbertos">0</strong></article>
+        <article><span>Casos concluídos</span><strong id="mesCasosConcluidos">0</strong></article>
+        <article><span>Casos reabertos</span><strong id="mesCasosReabertos">0</strong></article>
+        <article><span>Consultas realizadas</span><strong id="mesConsultas">0</strong></article>
+        <article><span>Encaminhamentos</span><strong id="mesEncaminhamentos">0</strong></article>
+      </div>
     </section>
 
     <p id="mensagemRelatorios" class="mensagem-formulario" role="status" aria-live="polite">A carregar indicadores...</p>
@@ -65,6 +82,6 @@
   </main>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/relatorios.js?v=3"></script>
+  <script src="js/relatorios.js?v=4"></script>
 </body>
 </html>
