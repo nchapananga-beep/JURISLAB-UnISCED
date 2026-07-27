@@ -6,7 +6,7 @@
   <meta name="description" content="Relatórios e estatísticas do JURISLAB Aconselha">
   <title>Relatórios | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/relatorios.css?v=1">
+  <link rel="stylesheet" href="css/relatorios.css?v=2">
 </head>
 <body class="pagina-relatorios">
   <header class="relatorios-topo">
@@ -31,7 +31,7 @@
       <div>
         <p class="etiqueta">Visão institucional</p>
         <h1>Relatórios do JURISLAB Aconselha</h1>
-        <p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos e actividade da equipa.</p>
+        <p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos, resultados e actividade da equipa.</p>
       </div>
       <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button>
     </section>
@@ -40,7 +40,11 @@
 
     <section class="grelha-indicadores" aria-label="Indicadores principais">
       <article><span>Utentes registados</span><strong id="totalUtentes">...</strong></article>
+      <article><span>Total de casos</span><strong id="totalCasos">...</strong></article>
       <article><span>Casos activos</span><strong id="totalCasosActivos">...</strong></article>
+      <article><span>Casos concluídos</span><strong id="totalConcluidos">...</strong></article>
+      <article><span>Casos arquivados</span><strong id="totalArquivados">...</strong></article>
+      <article><span>Casos reabertos</span><strong id="totalReabertos">...</strong></article>
       <article><span>Casos sem responsável</span><strong id="totalSemResponsavel">...</strong></article>
       <article><span>Triagens pendentes</span><strong id="totalTriagens">...</strong></article>
       <article><span>Consultas registadas</span><strong id="totalConsultas">...</strong></article>
@@ -61,6 +65,16 @@
       </article>
 
       <article class="cartao-relatorio">
+        <div class="cartao-cabecalho"><h2>Casos por responsável</h2><a href="distribuicao-casos.html">Ver distribuição</a></div>
+        <div id="graficoResponsaveis" class="grafico-barras"></div>
+      </article>
+
+      <article class="cartao-relatorio">
+        <div class="cartao-cabecalho"><h2>Resultados dos casos</h2><a href="casos.html">Consultar casos</a></div>
+        <div id="resumoResultados" class="lista-resumo"></div>
+      </article>
+
+      <article class="cartao-relatorio">
         <div class="cartao-cabecalho"><h2>Situação dos prazos</h2><a href="prazos.html">Abrir prazos</a></div>
         <div id="resumoPrazos" class="lista-resumo"></div>
       </article>
@@ -77,6 +91,6 @@
   </main>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/relatorios.js?v=1"></script>
+  <script src="js/relatorios.js?v=2"></script>
 </body>
 </html>
