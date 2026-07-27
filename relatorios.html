@@ -6,34 +6,33 @@
   <meta name="description" content="Relatórios e estatísticas do JURISLAB Aconselha">
   <title>Relatórios | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/relatorios.css?v=2">
+  <link rel="stylesheet" href="css/relatorios.css?v=3">
 </head>
 <body class="pagina-relatorios">
   <header class="relatorios-topo">
     <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
       <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
-      <div class="marca-jurislab">
-        <span class="marca-principal">JURISLAB Aconselha</span>
-        <span class="marca-subtitulo">Relatórios e estatísticas</span>
-      </div>
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Relatórios e estatísticas</span></div>
     </a>
-    <nav aria-label="Navegação do módulo">
-      <a href="casos.html">Casos</a>
-      <a href="consultas.html">Consultas</a>
-      <a href="prazos.html">Prazos</a>
-      <a href="distribuicao-casos.html">Distribuição</a>
-      <a href="dashboard.html">Painel</a>
-    </nav>
+    <nav aria-label="Navegação do módulo"><a href="casos.html">Casos</a><a href="consultas.html">Consultas</a><a href="prazos.html">Prazos</a><a href="distribuicao-casos.html">Distribuição</a><a href="dashboard.html">Painel</a></nav>
   </header>
 
   <main class="relatorios-conteudo">
     <section class="relatorios-cabecalho">
-      <div>
-        <p class="etiqueta">Visão institucional</p>
-        <h1>Relatórios do JURISLAB Aconselha</h1>
-        <p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos, resultados e actividade da equipa.</p>
-      </div>
+      <div><p class="etiqueta">Visão institucional</p><h1>Relatórios do JURISLAB Aconselha</h1><p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos, resultados e actividade da equipa.</p></div>
       <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button>
+    </section>
+
+    <section class="painel-filtros" aria-labelledby="tituloFiltros">
+      <div class="filtros-cabecalho"><div><p class="etiqueta">Consulta personalizada</p><h2 id="tituloFiltros">Filtrar relatório</h2></div><button class="botao botao-secundario" id="btnLimparFiltros" type="button">Limpar filtros</button></div>
+      <div class="grelha-filtros">
+        <div class="campo-filtro"><label for="dataInicial">Data inicial</label><input id="dataInicial" type="date"></div>
+        <div class="campo-filtro"><label for="dataFinal">Data final</label><input id="dataFinal" type="date"></div>
+        <div class="campo-filtro"><label for="filtroArea">Área do Direito</label><select id="filtroArea"><option value="">Todas as áreas</option></select></div>
+        <div class="campo-filtro"><label for="filtroResponsavel">Responsável</label><select id="filtroResponsavel"><option value="">Todos os responsáveis</option></select></div>
+        <div class="campo-filtro campo-acoes"><button class="botao botao-principal" id="btnAplicarFiltros" type="button">Aplicar filtros</button></div>
+      </div>
+      <p id="resumoFiltros" class="resumo-filtros">A mostrar todos os registos.</p>
     </section>
 
     <p id="mensagemRelatorios" class="mensagem-formulario" role="status" aria-live="polite">A carregar indicadores...</p>
@@ -54,43 +53,18 @@
     </section>
 
     <section class="grelha-relatorios">
-      <article class="cartao-relatorio">
-        <div class="cartao-cabecalho"><h2>Casos por estado</h2><a href="casos.html">Abrir casos</a></div>
-        <div id="graficoEstados" class="grafico-barras"></div>
-      </article>
-
-      <article class="cartao-relatorio">
-        <div class="cartao-cabecalho"><h2>Casos por área do Direito</h2><a href="casos.html">Ver detalhes</a></div>
-        <div id="graficoAreas" class="grafico-barras"></div>
-      </article>
-
-      <article class="cartao-relatorio">
-        <div class="cartao-cabecalho"><h2>Casos por responsável</h2><a href="distribuicao-casos.html">Ver distribuição</a></div>
-        <div id="graficoResponsaveis" class="grafico-barras"></div>
-      </article>
-
-      <article class="cartao-relatorio">
-        <div class="cartao-cabecalho"><h2>Resultados dos casos</h2><a href="casos.html">Consultar casos</a></div>
-        <div id="resumoResultados" class="lista-resumo"></div>
-      </article>
-
-      <article class="cartao-relatorio">
-        <div class="cartao-cabecalho"><h2>Situação dos prazos</h2><a href="prazos.html">Abrir prazos</a></div>
-        <div id="resumoPrazos" class="lista-resumo"></div>
-      </article>
-
-      <article class="cartao-relatorio">
-        <div class="cartao-cabecalho"><h2>Distribuição interna</h2><a href="distribuicao-casos.html">Abrir distribuição</a></div>
-        <div id="resumoAtribuicoes" class="lista-resumo"></div>
-      </article>
+      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por estado</h2><a href="casos.html">Abrir casos</a></div><div id="graficoEstados" class="grafico-barras"></div></article>
+      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por área do Direito</h2><a href="casos.html">Ver detalhes</a></div><div id="graficoAreas" class="grafico-barras"></div></article>
+      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por responsável</h2><a href="distribuicao-casos.html">Ver distribuição</a></div><div id="graficoResponsaveis" class="grafico-barras"></div></article>
+      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Resultados dos casos</h2><a href="casos.html">Consultar casos</a></div><div id="resumoResultados" class="lista-resumo"></div></article>
+      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Situação dos prazos</h2><a href="prazos.html">Abrir prazos</a></div><div id="resumoPrazos" class="lista-resumo"></div></article>
+      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Distribuição interna</h2><a href="distribuicao-casos.html">Abrir distribuição</a></div><div id="resumoAtribuicoes" class="lista-resumo"></div></article>
     </section>
 
-    <section class="rodape-relatorio">
-      <p>Actualizado em <strong id="dataActualizacao">—</strong></p>
-    </section>
+    <section class="rodape-relatorio"><p>Actualizado em <strong id="dataActualizacao">—</strong></p></section>
   </main>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/relatorios.js?v=2"></script>
+  <script src="js/relatorios.js?v=3"></script>
 </body>
 </html>
