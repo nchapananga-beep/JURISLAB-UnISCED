@@ -55,14 +55,41 @@ function casoFoiReaberto(caso) {
   return texto(caso.observacoesFinais || caso.observacoes || caso.resultadoFinal).toUpperCase().includes("REABERTURA EM");
 }
 
-function obterDataCaso(caso) {
-  const valor = caso.dataAbertura || caso.dataCriacao || caso.dataRegisto || caso.data || "";
+function converterData(valor) {
   if (!valor) return null;
-  if (/^\d{4}-\d{2}-\d{2}/.test(valor)) return new Date(valor.substring(0, 10) + "T00:00:00");
-  const partes = String(valor).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (valor instanceof Date && !Number.isNaN(valor.getTime())) return valor;
+  const bruto = String(valor).trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(bruto)) return new Date(bruto.substring(0, 10) + "T00:00:00");
+  const partes = bruto.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (partes) return new Date(Number(partes[3]), Number(partes[2]) - 1, Number(partes[1]));
-  const data = new Date(valor);
+  const data = new Date(bruto);
   return Number.isNaN(data.getTime()) ? null : data;
+}
+
+function obterDataCaso(caso) {
+  return converterData(caso.dataAbertura || caso.dataCriacao || caso.dataRegisto || caso.data);
+}
+
+function obterDataConclusao(caso) {
+  return converterData(caso.dataConclusao || caso.dataEncerramento || caso.dataFecho);
+}
+
+function obterDataConsulta(consulta) {
+  return converterData(consulta.dataConsulta || consulta.data || consulta.dataRegisto);
+}
+
+function obterDataEncaminhamento(item) {
+  return converterData(item.dataEncaminhamento || item.data || item.dataRegisto);
+}
+
+function obterDataReabertura(caso) {
+  const conteudo = texto(caso.observacoesFinais || caso.observacoes || caso.resultadoFinal);
+  const correspondencia = conteudo.match(/REABERTURA EM\s+(\d{1,2}\/\d{1,2}\/\d{4})/i);
+  return correspondencia ? converterData(correspondencia[1]) : null;
+}
+
+function pertenceAoMes(data, ano, mes) {
+  return data && data.getFullYear() === ano && data.getMonth() === mes;
 }
 
 function preencherSelect(select, valores, primeiroTexto) {
@@ -87,6 +114,11 @@ addEventListener("DOMContentLoaded", async () => {
 
   const mensagem = elemento("mensagemRelatorios");
   elemento("btnImprimir").onclick = () => window.print();
+  elemento("btnExportarPdf").onclick = () => {
+    document.body.classList.add("modo-pdf");
+    window.print();
+    setTimeout(() => document.body.classList.remove("modo-pdf"), 500);
+  };
 
   try {
     const [painel, prazos, casosResposta, consultasResposta, encaminhamentosResposta, atribuicoesResposta] = await Promise.all([
@@ -106,6 +138,30 @@ addEventListener("DOMContentLoaded", async () => {
 
     preencherSelect(elemento("filtroArea"), todosCasos.map(c => c.areaDireito), "Todas as áreas");
     preencherSelect(elemento("filtroResponsavel"), todosCasos.map(c => c.responsavel), "Todos os responsáveis");
+
+    const hoje = new Date();
+    elemento("mesResumo").value = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}`;
+
+    function actualizarResumoMensal() {
+      const valor = elemento("mesResumo").value;
+      if (!valor) return;
+      const [ano, mesNumero] = valor.split("-").map(Number);
+      const mes = mesNumero - 1;
+      const nomeMes = new Date(ano, mes, 1).toLocaleDateString("pt-PT", { month: "long", year: "numeric" });
+
+      const casosAbertos = todosCasos.filter(c => pertenceAoMes(obterDataCaso(c), ano, mes)).length;
+      const casosConcluidos = todosCasos.filter(c => pertenceAoMes(obterDataConclusao(c), ano, mes)).length;
+      const casosReabertos = todosCasos.filter(c => pertenceAoMes(obterDataReabertura(c), ano, mes)).length;
+      const consultas = todasConsultas.filter(c => pertenceAoMes(obterDataConsulta(c), ano, mes)).length;
+      const encaminhamentos = todosEncaminhamentos.filter(c => pertenceAoMes(obterDataEncaminhamento(c), ano, mes)).length;
+
+      elemento("mesCasosAbertos").textContent = casosAbertos;
+      elemento("mesCasosConcluidos").textContent = casosConcluidos;
+      elemento("mesCasosReabertos").textContent = casosReabertos;
+      elemento("mesConsultas").textContent = consultas;
+      elemento("mesEncaminhamentos").textContent = encaminhamentos;
+      elemento("descricaoMes").textContent = `Indicadores de ${nomeMes}.`;
+    }
 
     function actualizarRelatorio() {
       const inicioTexto = elemento("dataInicial").value;
@@ -197,7 +253,9 @@ addEventListener("DOMContentLoaded", async () => {
       elemento("filtroResponsavel").value = "";
       actualizarRelatorio();
     };
+    elemento("mesResumo").onchange = actualizarResumoMensal;
 
+    actualizarResumoMensal();
     actualizarRelatorio();
   } catch (erro) {
     console.error(erro);
