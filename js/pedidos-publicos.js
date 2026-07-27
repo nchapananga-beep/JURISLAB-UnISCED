@@ -31,8 +31,15 @@ addEventListener("DOMContentLoaded",async()=>{
   function renderizar(pedidos){
     resumo.textContent=pedidos.length+(pedidos.length===1?" pedido encontrado.":" pedidos encontrados.");
     actualizarResumo(pedidos);
-    lista.innerHTML=pedidos.length?pedidos.map((p,i)=>`<article class="pedido-cartao"><div class="pedido-topo-cartao"><div><h2>${esc(p.nomeCompleto)}</h2><span class="pedido-codigo">${esc(p.idPedido)} · ${esc(p.dataPedido)}</span></div><span class="pedido-estado">${esc(p.estadoPedido||"Pendente")}</span></div><div class="pedido-dados"><span><strong>Telefone:</strong> ${esc(p.telefone||"Não indicado")}</span><span><strong>Email:</strong> ${esc(p.email||"Não indicado")}</span><span><strong>Província:</strong> ${esc(p.provincia)}</span><span><strong>Localidade:</strong> ${esc(p.distritoLocalidade||"Não indicada")}</span><span><strong>Área:</strong> ${esc(p.areaJuridica)}</span><span><strong>Urgência:</strong> ${esc(p.urgencia||"Normal")}</span><span><strong>Contacto:</strong> ${esc(p.formaContacto||"Não indicado")}</span><span><strong>Horário:</strong> ${esc(p.horarioContacto||"Não indicado")}</span><span><strong>Analisado por:</strong> ${esc(p.responsavelAnalise||"Ainda não analisado")}</span></div><p class="pedido-resumo">${esc(p.resumoProblema)}</p>${p.observacoesInternas?`<p class="pedido-observacoes"><strong>Observações internas:</strong> ${esc(p.observacoesInternas)}</p>`:""}<div class="pedido-acoes"><button class="botao botao-principal" data-analisar="${i}" type="button">Analisar pedido</button>${p.telefone?`<a class="botao botao-secundario" href="tel:${esc(p.telefone)}">Ligar</a>`:""}${p.email?`<a class="botao botao-secundario" href="mailto:${esc(p.email)}">Enviar email</a>`:""}</div></article>`).join(""):'<div class="estado-vazio">Nenhum pedido encontrado.</div>';
+    lista.innerHTML=pedidos.length?pedidos.map((p,i)=>{
+      const aceite=p.estadoPedido==="Aceite";
+      const convertido=p.estadoPedido==="Convertido";
+      const referencias=convertido?`<p class="pedido-observacoes"><strong>Registos criados:</strong> Utente ${esc(p.idUtente||"—")} · Triagem ${esc(p.idTriagem||"—")}</p>`:"";
+      const botaoConverter=aceite?`<button class="botao botao-principal" data-converter="${i}" type="button">Converter em Utente e Triagem</button>`:"";
+      return `<article class="pedido-cartao"><div class="pedido-topo-cartao"><div><h2>${esc(p.nomeCompleto)}</h2><span class="pedido-codigo">${esc(p.idPedido)} · ${esc(p.dataPedido)}</span></div><span class="pedido-estado">${esc(p.estadoPedido||"Pendente")}</span></div><div class="pedido-dados"><span><strong>Telefone:</strong> ${esc(p.telefone||"Não indicado")}</span><span><strong>Email:</strong> ${esc(p.email||"Não indicado")}</span><span><strong>Província:</strong> ${esc(p.provincia)}</span><span><strong>Localidade:</strong> ${esc(p.distritoLocalidade||"Não indicada")}</span><span><strong>Área:</strong> ${esc(p.areaJuridica)}</span><span><strong>Urgência:</strong> ${esc(p.urgencia||"Normal")}</span><span><strong>Contacto:</strong> ${esc(p.formaContacto||"Não indicado")}</span><span><strong>Horário:</strong> ${esc(p.horarioContacto||"Não indicado")}</span><span><strong>Analisado por:</strong> ${esc(p.responsavelAnalise||"Ainda não analisado")}</span></div><p class="pedido-resumo">${esc(p.resumoProblema)}</p>${p.observacoesInternas?`<p class="pedido-observacoes"><strong>Observações internas:</strong> ${esc(p.observacoesInternas)}</p>`:""}${referencias}<div class="pedido-acoes"><button class="botao botao-secundario" data-analisar="${i}" type="button">Analisar pedido</button>${botaoConverter}${p.telefone?`<a class="botao botao-secundario" href="tel:${esc(p.telefone)}">Ligar</a>`:""}${p.email?`<a class="botao botao-secundario" href="mailto:${esc(p.email)}">Enviar email</a>`:""}</div></article>`;
+    }).join(""):'<div class="estado-vazio">Nenhum pedido encontrado.</div>';
     lista.querySelectorAll("button[data-analisar]").forEach(botao=>botao.onclick=()=>abrirAnalise(pedidos[Number(botao.dataset.analisar)]));
+    lista.querySelectorAll("button[data-converter]").forEach(botao=>botao.onclick=()=>converterPedido(pedidos[Number(botao.dataset.converter)],botao));
   }
 
   function abrirAnalise(pedido){
@@ -45,6 +52,22 @@ addEventListener("DOMContentLoaded",async()=>{
   }
 
   function fecharAnalise(){modal.classList.add("oculto");form.reset();mostrarMensagem(mensagemAnalise,"","")}
+
+  async function converterPedido(pedido,botao){
+    if(pedido.estadoPedido!=="Aceite"){mostrarMensagem(mensagem,"O pedido deve estar no estado Aceite antes da conversão.","erro");return}
+    const confirmado=confirm(`Converter o pedido ${pedido.idPedido} em Utente e Triagem?\n\nEsta operação criará novos registos no sistema.`);
+    if(!confirmado)return;
+    const textoOriginal=botao.textContent;
+    botao.disabled=true;
+    botao.textContent="A converter...";
+    mostrarMensagem(mensagem,"","");
+    try{
+      const resultado=await chamarApi({acao:"converterPedidoPublico",token,idPedido:pedido.idPedido});
+      mostrarMensagem(mensagem,resultado.mensagem||"",resultado.sucesso?"sucesso":"erro");
+      if(resultado.sucesso){setTimeout(carregar,900)}
+    }catch{mostrarMensagem(mensagem,"Não foi possível contactar o servidor.","erro")}
+    finally{botao.disabled=false;botao.textContent=textoOriginal}
+  }
 
   async function carregar(){
     resumo.textContent="A carregar pedidos...";
