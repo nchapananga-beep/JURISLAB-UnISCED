@@ -237,10 +237,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         "sucesso"
       );
 
-      setTimeout(function () {
-        fecharModal();
-        carregarTriagens();
-      }, 1500);
+      if (resultado.idCaso) {
+        setTimeout(function () {
+          window.location.href = "ficha-caso.html?idCaso=" + encodeURIComponent(resultado.idCaso);
+        }, 900);
+      } else {
+        setTimeout(function () {
+          fecharModal();
+          carregarTriagens();
+        }, 1200);
+      }
     } catch (erro) {
       mostrarMensagem(mensagemCaso, "Não foi possível contactar o servidor. Tente novamente.", "erro");
     } finally {
