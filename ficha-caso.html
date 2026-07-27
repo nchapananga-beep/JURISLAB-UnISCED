@@ -6,7 +6,7 @@
   <meta name="description" content="Ficha completa do caso no JURISLAB Aconselha">
   <title>Ficha do Caso | JURISLAB Aconselha</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/ficha-caso.css?v=1">
+  <link rel="stylesheet" href="css/ficha-caso.css?v=2">
 </head>
 <body class="pagina-ficha-caso">
   <header class="ficha-topo">
@@ -14,7 +14,13 @@
     <nav class="acoes-topo"><a href="casos.html">Casos</a><a href="documentos-casos.html">Documentos</a><a href="dashboard.html">Painel</a></nav>
   </header>
   <main class="ficha-conteudo">
-    <section class="ficha-cabecalho"><div><p class="etiqueta">Visão consolidada</p><h1 id="tituloCaso">Ficha do Caso</h1><p id="codigoCaso">A carregar...</p></div><button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir ficha</button></section>
+    <section class="ficha-cabecalho">
+      <div><p class="etiqueta">Visão consolidada</p><h1 id="tituloCaso">Ficha do Caso</h1><p id="codigoCaso">A carregar...</p></div>
+      <div class="acoes-ficha">
+        <button class="botao botao-principal" id="btnNovoAtendimento" type="button">Registar atendimento</button>
+        <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir ficha</button>
+      </div>
+    </section>
     <section id="resumoCaso" class="painel-resumo"></section>
     <section class="grelha-seccoes">
       <article class="seccao-ficha"><h2>Atendimentos</h2><div id="listaAtendimentos"></div></article>
@@ -26,7 +32,78 @@
     </section>
     <p id="mensagemFicha" class="mensagem-formulario"></p>
   </main>
+
+  <div class="modal-fundo oculto" id="modalAtendimento" role="dialog" aria-modal="true" aria-labelledby="tituloModalAtendimento">
+    <div class="modal-cartao modal-atendimento">
+      <button class="modal-fechar" id="btnFecharAtendimento" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Histórico do caso</p>
+      <h2 id="tituloModalAtendimento">Registar atendimento</h2>
+      <p id="resumoCasoAtendimento" class="resumo-seleccionado"></p>
+      <form id="formAtendimento" novalidate>
+        <input type="hidden" name="idCaso" id="idCasoAtendimento">
+        <input type="hidden" name="idUtente" id="idUtenteAtendimento">
+        <div class="grelha-formulario">
+          <div class="campo">
+            <label for="tipoAtendimento">Tipo de atendimento *</label>
+            <select id="tipoAtendimento" name="tipoAtendimento" required>
+              <option value="">Seleccione</option>
+              <option>Primeiro atendimento</option>
+              <option>Acompanhamento</option>
+              <option>Esclarecimento</option>
+              <option>Recepção de documentos</option>
+              <option>Comunicação de resultado</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="modalidadeAtendimento">Modalidade *</label>
+            <select id="modalidadeAtendimento" name="modalidade" required>
+              <option value="">Seleccione</option>
+              <option>Presencial</option>
+              <option>Telefone</option>
+              <option>Email</option>
+              <option>Videochamada</option>
+              <option>WhatsApp</option>
+            </select>
+          </div>
+          <div class="campo campo-largo">
+            <label for="resumoAtendimento">Resumo do atendimento *</label>
+            <textarea id="resumoAtendimento" name="resumoAtendimento" rows="4" required></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="analiseJuridica">Análise jurídica</label>
+            <textarea id="analiseJuridica" name="analiseJuridica" rows="4"></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="orientacaoPrestada">Orientação prestada *</label>
+            <textarea id="orientacaoPrestada" name="orientacaoPrestada" rows="4" required></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="documentosRecebidos">Documentos recebidos</label>
+            <textarea id="documentosRecebidos" name="documentosRecebidos" rows="3" placeholder="Indique os documentos entregues pelo utente."></textarea>
+          </div>
+          <div class="campo campo-largo">
+            <label for="proximaAccao">Próxima acção *</label>
+            <textarea id="proximaAccao" name="proximaAccao" rows="3" required></textarea>
+          </div>
+          <div class="campo">
+            <label for="dataProximaAccao">Data da próxima acção</label>
+            <input id="dataProximaAccao" name="dataProximaAccao" type="date">
+          </div>
+          <div class="campo">
+            <label for="responsavelAtendimento">Responsável *</label>
+            <input id="responsavelAtendimento" name="responsavel" type="text" required>
+          </div>
+        </div>
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardarAtendimento" type="submit">Guardar atendimento</button>
+          <button class="botao botao-secundario" id="btnCancelarAtendimento" type="button">Cancelar</button>
+        </div>
+        <p id="mensagemAtendimento" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/ficha-caso.js?v=1"></script>
+  <script src="js/ficha-caso.js?v=2"></script>
 </body>
 </html>
