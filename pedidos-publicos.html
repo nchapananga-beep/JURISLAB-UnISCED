@@ -15,7 +15,7 @@
   </header>
 
   <main class="pedidos-conteudo">
-    <section class="pedidos-cabecalho"><div><p class="etiqueta">Entrada pública</p><h1>Pedidos de atendimento</h1><p>Analise os pedidos recebidos, registe observações e actualize o estado de acompanhamento.</p></div><a class="botao botao-secundario" href="pedido-atendimento.html" target="_blank" rel="noopener">Abrir formulário público</a></section>
+    <section class="pedidos-cabecalho"><div><p class="etiqueta">Entrada pública</p><h1>Pedidos de atendimento</h1><p>Analise os pedidos recebidos, registe observações, aceite os pedidos elegíveis e converta-os em utente e triagem.</p></div><a class="botao botao-secundario" href="pedido-atendimento.html" target="_blank" rel="noopener">Abrir formulário público</a></section>
 
     <section class="resumo-pedidos"><article><span>Total visível</span><strong id="totalPedidos">...</strong></article><article><span>Pendentes</span><strong id="totalPendentes">...</strong></article><article><span>Em análise</span><strong id="totalAnalise">...</strong></article><article><span>Aceites</span><strong id="totalAceites">...</strong></article></section>
 
@@ -28,6 +28,6 @@
   <div class="modal-fundo oculto" id="modalAnalise"><div class="modal-cartao modal-menor"><button class="modal-fechar" id="btnFecharAnalise" type="button">×</button><p class="etiqueta">Análise do pedido</p><h2>Actualizar pedido</h2><p id="resumoPedidoSeleccionado" class="resumo-seleccionado"></p><form id="formAnalise"><input name="idPedido" type="hidden"><div class="grupo-campos"><div class="campo"><label>Estado *</label><select name="estadoPedido" required><option>Pendente</option><option>Em análise</option><option>Aguardando contacto</option><option>Aceite</option><option>Encaminhado</option><option>Recusado</option><option>Convertido</option></select></div><div class="campo"><label>Observações internas</label><textarea name="observacoesInternas" rows="6" placeholder="Registe contactos realizados, decisão ou próximos passos."></textarea></div></div><div class="acoes-formulario"><button class="botao botao-principal" id="btnGuardarAnalise" type="submit">Guardar alteração</button><button class="botao botao-secundario" id="btnCancelarAnalise" type="button">Cancelar</button></div><p id="mensagemAnalise" class="mensagem-formulario"></p></form></div></div>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
-  <script src="js/pedidos-publicos.js?v=1"></script>
+  <script src="js/pedidos-publicos.js?v=2"></script>
 </body>
 </html>
