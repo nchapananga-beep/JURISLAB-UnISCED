@@ -6,7 +6,7 @@
   <meta name="description" content="Administração de utilizadores e permissões do JURISLAB">
   <title>Utilizadores | Administração JURISLAB</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/administracao-utilizadores.css?v=1">
+  <link rel="stylesheet" href="css/administracao-utilizadores.css?v=2">
 </head>
 <body class="pagina-administracao">
   <header class="admin-topo">
@@ -16,8 +16,11 @@
 
   <main class="admin-conteudo">
     <section class="admin-cabecalho">
-      <div><p class="etiqueta">Controlo de acesso</p><h1>Utilizadores e permissões</h1><p>Consulte os utilizadores registados, altere o perfil institucional e active ou desactive o acesso ao sistema.</p></div>
-      <button class="botao botao-secundario" id="btnActualizar" type="button">Actualizar lista</button>
+      <div><p class="etiqueta">Controlo de acesso</p><h1>Utilizadores e permissões</h1><p>Cadastre utilizadores, altere o perfil institucional e active ou desactive o acesso ao sistema.</p></div>
+      <div class="acoes-cabecalho">
+        <button class="botao botao-principal" id="btnNovoUtilizador" type="button">Novo utilizador</button>
+        <button class="botao botao-secundario" id="btnActualizar" type="button">Actualizar lista</button>
+      </div>
     </section>
 
     <section class="admin-indicadores">
@@ -45,7 +48,31 @@
     </section>
   </main>
 
+  <div class="modal-fundo oculto" id="modalNovoUtilizador" role="dialog" aria-modal="true" aria-labelledby="tituloNovoUtilizador">
+    <div class="modal-cartao modal-utilizador">
+      <button class="modal-fechar" id="btnFecharModal" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Administração</p>
+      <h2 id="tituloNovoUtilizador">Cadastrar novo utilizador</h2>
+      <form id="formNovoUtilizador" novalidate>
+        <div class="grelha-formulario-utilizador">
+          <div class="campo"><label for="nomeCompleto">Nome completo *</label><input id="nomeCompleto" name="nomeCompleto" type="text" required></div>
+          <div class="campo"><label for="emailUtilizador">Email *</label><input id="emailUtilizador" name="email" type="email" required></div>
+          <div class="campo"><label for="telefoneUtilizador">Telefone</label><input id="telefoneUtilizador" name="telefone" type="tel"></div>
+          <div class="campo"><label for="perfilUtilizador">Perfil *</label><select id="perfilUtilizador" name="perfil" required><option value="">Seleccione</option><option>Administrador</option><option>Supervisor</option><option>Jurista</option><option>Tutor interno</option><option>Tutor externo</option><option>Estudante</option></select></div>
+          <div class="campo"><label for="moduloPrincipal">Módulo principal *</label><select id="moduloPrincipal" name="moduloPrincipal" required><option value="JURISLAB Aconselha">JURISLAB Aconselha</option><option value="JURISLAB Tribunal">JURISLAB Tribunal</option><option value="JURISLAB Olimpíadas">JURISLAB Olimpíadas</option><option value="JURISLAB Estágios">JURISLAB Estágios</option><option value="JURISLAB Podcast">JURISLAB Podcast</option></select></div>
+          <div class="campo"><label for="centroRecurso">Centro de Recurso</label><input id="centroRecurso" name="centroRecurso" type="text"></div>
+          <div class="campo"><label for="estadoUtilizador">Estado *</label><select id="estadoUtilizador" name="estado" required><option value="Activo">Activo</option><option value="Inactivo">Inactivo</option></select></div>
+        </div>
+        <div class="acoes-formulario">
+          <button class="botao botao-principal" id="btnGuardarUtilizador" type="submit">Guardar utilizador</button>
+          <button class="botao botao-secundario" id="btnCancelarModal" type="button">Cancelar</button>
+        </div>
+        <p id="mensagemNovoUtilizador" class="mensagem-formulario" role="status"></p>
+      </form>
+    </div>
+  </div>
+
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB</strong><p>A validar permissões...</p></div></div>
-  <script src="js/administracao-utilizadores.js?v=1"></script>
+  <script src="js/administracao-utilizadores.js?v=2"></script>
 </body>
 </html>
