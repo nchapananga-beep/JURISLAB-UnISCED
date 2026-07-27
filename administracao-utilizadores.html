@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Administração de utilizadores e permissões do JURISLAB">
+  <title>Utilizadores | Administração JURISLAB</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/administracao-utilizadores.css?v=1">
+</head>
+<body class="pagina-administracao">
+  <header class="admin-topo">
+    <a class="marca marca-com-logo" href="dashboard.html"><img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB</span><span class="marca-subtitulo">Administração de utilizadores</span></div></a>
+    <nav><a href="dashboard.html">Painel</a><a href="relatorios.html">Relatórios</a></nav>
+  </header>
+
+  <main class="admin-conteudo">
+    <section class="admin-cabecalho">
+      <div><p class="etiqueta">Controlo de acesso</p><h1>Utilizadores e permissões</h1><p>Consulte os utilizadores registados, altere o perfil institucional e active ou desactive o acesso ao sistema.</p></div>
+      <button class="botao botao-secundario" id="btnActualizar" type="button">Actualizar lista</button>
+    </section>
+
+    <section class="admin-indicadores">
+      <article><span>Total de utilizadores</span><strong id="totalUtilizadores">...</strong></article>
+      <article><span>Utilizadores activos</span><strong id="totalActivos">...</strong></article>
+      <article><span>Utilizadores inactivos</span><strong id="totalInactivos">...</strong></article>
+      <article><span>Administradores</span><strong id="totalAdministradores">...</strong></article>
+    </section>
+
+    <section class="painel-pesquisa">
+      <div class="campo-pesquisa"><label for="pesquisaUtilizador">Pesquisar</label><input id="pesquisaUtilizador" type="search" placeholder="Nome, email ou perfil"></div>
+      <div class="campo-pesquisa"><label for="filtroPerfil">Perfil</label><select id="filtroPerfil"><option value="">Todos os perfis</option></select></div>
+      <div class="campo-pesquisa"><label for="filtroEstado">Estado</label><select id="filtroEstado"><option value="">Todos</option><option value="Activo">Activo</option><option value="Inactivo">Inactivo</option></select></div>
+    </section>
+
+    <p id="mensagemAdmin" class="mensagem-formulario" role="status">A carregar utilizadores...</p>
+
+    <section class="tabela-cartao">
+      <div class="tabela-responsiva">
+        <table>
+          <thead><tr><th>Nome</th><th>Email</th><th>Perfil</th><th>Estado</th><th>Último acesso</th><th>Acções</th></tr></thead>
+          <tbody id="corpoUtilizadores"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB</strong><p>A validar permissões...</p></div></div>
+  <script src="js/administracao-utilizadores.js?v=1"></script>
+</body>
+</html>
