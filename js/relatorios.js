@@ -7,313 +7,201 @@ async function api(dados) {
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(dados)
   });
-
   if (!resposta.ok) throw new Error("Falha na API");
   return resposta.json();
 }
 
 async function validar(token) {
-  const resposta = await fetch(
-    API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token)
-  );
-
+  const resposta = await fetch(API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token));
   if (!resposta.ok) throw new Error("Falha na sessão");
   return resposta.json();
 }
 
-function numero(valor) {
-  return Number(valor || 0);
-}
-
-function texto(valor) {
-  return String(valor || "").trim();
-}
+const numero = valor => Number(valor || 0);
+const texto = valor => String(valor || "").trim();
+const elemento = id => document.getElementById(id);
 
 function contarPor(lista, campo, alternativo) {
   return lista.reduce((resultado, item) => {
-    const chave = texto(
-      item[campo] || item[alternativo] || "Não informado"
-    );
-
+    const chave = texto(item[campo] || item[alternativo] || "Não informado");
     resultado[chave] = (resultado[chave] || 0) + 1;
     return resultado;
   }, {});
 }
 
-function renderBarras(elemento, dados) {
-  const entradas = Object.entries(dados)
-    .sort((a, b) => b[1] - a[1]);
-
+function renderBarras(alvo, dados) {
+  const entradas = Object.entries(dados).sort((a, b) => b[1] - a[1]);
   if (!entradas.length) {
-    elemento.innerHTML =
-      '<div class="estado-vazio">Sem dados disponíveis.</div>';
+    alvo.innerHTML = '<div class="estado-vazio">Sem dados disponíveis.</div>';
     return;
   }
-
-  const maximo = Math.max(
-    ...entradas.map(item => item[1]),
-    1
-  );
-
-  elemento.innerHTML = entradas
-    .slice(0, 10)
-    .map(([rotulo, valor]) => {
-      const largura = Math.max(
-        6,
-        Math.round(valor / maximo * 100)
-      );
-
-      const rotuloSeguro = rotulo.replace(/"/g, "&quot;");
-
-      return `
-        <div class="barra-item">
-          <span class="barra-rotulo" title="${rotuloSeguro}">${rotulo}</span>
-          <div class="barra-faixa">
-            <div class="barra-preenchimento" style="width:${largura}%"></div>
-          </div>
-          <strong class="barra-valor">${valor}</strong>
-        </div>
-      `;
-    })
-    .join("");
+  const maximo = Math.max(...entradas.map(item => item[1]), 1);
+  alvo.innerHTML = entradas.slice(0, 10).map(([rotulo, valor]) => {
+    const largura = Math.max(6, Math.round(valor / maximo * 100));
+    const seguro = rotulo.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    return `<div class="barra-item"><span class="barra-rotulo" title="${seguro}">${seguro}</span><div class="barra-faixa"><div class="barra-preenchimento" style="width:${largura}%"></div></div><strong class="barra-valor">${valor}</strong></div>`;
+  }).join("");
 }
 
-function renderResumo(elemento, itens) {
-  elemento.innerHTML = itens
-    .map(item => `
-      <div class="resumo-linha ${item.alerta ? "alerta" : ""}">
-        <span>${item.rotulo}</span>
-        <strong>${item.valor}</strong>
-      </div>
-    `)
-    .join("");
+function renderResumo(alvo, itens) {
+  alvo.innerHTML = itens.map(item => `<div class="resumo-linha ${item.alerta ? "alerta" : ""}"><span>${item.rotulo}</span><strong>${item.valor}</strong></div>`).join("");
 }
 
 function casosActivos(casos) {
-  return casos.filter(caso =>
-    !["Encerrado", "Concluído", "Arquivado"].includes(
-      texto(caso.estadoCaso)
-    )
-  );
+  return casos.filter(caso => !["Encerrado", "Concluído", "Arquivado"].includes(texto(caso.estadoCaso)));
 }
 
 function casoFoiReaberto(caso) {
-  const observacoes = texto(
-    caso.observacoesFinais ||
-    caso.observacoes ||
-    caso.resultadoFinal ||
-    ""
-  ).toUpperCase();
+  return texto(caso.observacoesFinais || caso.observacoes || caso.resultadoFinal).toUpperCase().includes("REABERTURA EM");
+}
 
-  return observacoes.includes("REABERTURA EM");
+function obterDataCaso(caso) {
+  const valor = caso.dataAbertura || caso.dataCriacao || caso.dataRegisto || caso.data || "";
+  if (!valor) return null;
+  if (/^\d{4}-\d{2}-\d{2}/.test(valor)) return new Date(valor.substring(0, 10) + "T00:00:00");
+  const partes = String(valor).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (partes) return new Date(Number(partes[3]), Number(partes[2]) - 1, Number(partes[1]));
+  const data = new Date(valor);
+  return Number.isNaN(data.getTime()) ? null : data;
+}
+
+function preencherSelect(select, valores, primeiroTexto) {
+  const actual = select.value;
+  const unicos = [...new Set(valores.map(texto).filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt"));
+  select.innerHTML = `<option value="">${primeiroTexto}</option>` + unicos.map(valor => `<option value="${valor.replace(/"/g, "&quot;")}">${valor}</option>`).join("");
+  if (unicos.includes(actual)) select.value = actual;
 }
 
 addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem(CHAVE_SESSAO);
-
-  if (!token) {
-    location.href = "login.html";
-    return;
-  }
+  if (!token) { location.href = "login.html"; return; }
 
   try {
     const sessao = await validar(token);
-
-    if (!sessao.sucesso || !sessao.valida) {
-      location.href = "login.html";
-      return;
-    }
-
-    document.getElementById("ecraValidacao")
-      .classList.add("oculto");
+    if (!sessao.sucesso || !sessao.valida) { location.href = "login.html"; return; }
+    elemento("ecraValidacao").classList.add("oculto");
   } catch (erro) {
     location.href = "login.html";
     return;
   }
 
-  const mensagem = document.getElementById(
-    "mensagemRelatorios"
-  );
-
-  document.getElementById("btnImprimir").onclick = () =>
-    window.print();
+  const mensagem = elemento("mensagemRelatorios");
+  elemento("btnImprimir").onclick = () => window.print();
 
   try {
-    const [
-      painel,
-      prazos,
-      casosResposta,
-      consultasResposta,
-      encaminhamentosResposta,
-      atribuicoesResposta
-    ] = await Promise.all([
+    const [painel, prazos, casosResposta, consultasResposta, encaminhamentosResposta, atribuicoesResposta] = await Promise.all([
       api({ acao: "obterResumoPainel", token }),
       api({ acao: "obterResumoPrazosPainel", token }),
-      api({
-        acao: "listarCasos",
-        token,
-        pesquisa: "",
-        estado: "Todos"
-      }),
-      api({
-        acao: "listarConsultas",
-        token,
-        pesquisa: "",
-        estado: "Todos"
-      }),
-      api({
-        acao: "listarEncaminhamentos",
-        token,
-        pesquisa: "",
-        estado: "Todos"
-      }),
-      api({
-        acao: "listarAtribuicoesCasos",
-        token,
-        pesquisa: "",
-        estado: "Todos"
-      })
+      api({ acao: "listarCasos", token, pesquisa: "", estado: "Todos" }),
+      api({ acao: "listarConsultas", token, pesquisa: "", estado: "Todos" }),
+      api({ acao: "listarEncaminhamentos", token, pesquisa: "", estado: "Todos" }),
+      api({ acao: "listarAtribuicoesCasos", token, pesquisa: "", estado: "Todos" })
     ]);
 
     const resumo = painel.resumo || {};
-    const casos = casosResposta.casos || [];
-    const consultas = consultasResposta.consultas || [];
-    const encaminhamentos =
-      encaminhamentosResposta.encaminhamentos || [];
-    const atribuicoes = atribuicoesResposta.atribuicoes || [];
+    const todosCasos = casosResposta.casos || [];
+    const todasConsultas = consultasResposta.consultas || [];
+    const todosEncaminhamentos = encaminhamentosResposta.encaminhamentos || [];
+    const todasAtribuicoes = atribuicoesResposta.atribuicoes || [];
 
-    const activos = casosActivos(casos);
-    const concluidos = casos.filter(
-      caso => texto(caso.estadoCaso) === "Concluído"
-    );
-    const arquivados = casos.filter(
-      caso => texto(caso.estadoCaso) === "Arquivado"
-    );
-    const reabertos = casos.filter(casoFoiReaberto);
-    const semResponsavel = activos.filter(
-      caso => !texto(caso.responsavel)
-    ).length;
-    const atribuicoesActivas = atribuicoes.filter(
-      atribuicao =>
-        texto(atribuicao.estadoAtribuicao) === "Activa"
-    ).length;
+    preencherSelect(elemento("filtroArea"), todosCasos.map(c => c.areaDireito), "Todas as áreas");
+    preencherSelect(elemento("filtroResponsavel"), todosCasos.map(c => c.responsavel), "Todos os responsáveis");
 
-    document.getElementById("totalUtentes").textContent =
-      numero(resumo.utentesRegistados);
-    document.getElementById("totalCasos").textContent =
-      casos.length;
-    document.getElementById("totalCasosActivos").textContent =
-      numero(resumo.casosActivos || activos.length);
-    document.getElementById("totalConcluidos").textContent =
-      concluidos.length;
-    document.getElementById("totalArquivados").textContent =
-      arquivados.length;
-    document.getElementById("totalReabertos").textContent =
-      reabertos.length;
-    document.getElementById("totalSemResponsavel").textContent =
-      semResponsavel;
-    document.getElementById("totalTriagens").textContent =
-      numero(resumo.triagensPendentes);
-    document.getElementById("totalConsultas").textContent =
-      consultas.length;
-    document.getElementById("totalEncaminhamentos").textContent =
-      encaminhamentos.length;
-    document.getElementById("totalAtribuicoes").textContent =
-      atribuicoesActivas;
-    document.getElementById("totalPrazosVencidos").textContent =
-      numero(prazos.vencidos);
+    function actualizarRelatorio() {
+      const inicioTexto = elemento("dataInicial").value;
+      const fimTexto = elemento("dataFinal").value;
+      const area = elemento("filtroArea").value;
+      const responsavel = elemento("filtroResponsavel").value;
+      const inicio = inicioTexto ? new Date(inicioTexto + "T00:00:00") : null;
+      const fim = fimTexto ? new Date(fimTexto + "T23:59:59") : null;
 
-    renderBarras(
-      document.getElementById("graficoEstados"),
-      contarPor(casos, "estadoCaso")
-    );
+      if (inicio && fim && inicio > fim) {
+        mensagem.textContent = "A data inicial não pode ser posterior à data final.";
+        mensagem.className = "mensagem-formulario erro";
+        return;
+      }
 
-    renderBarras(
-      document.getElementById("graficoAreas"),
-      contarPor(casos, "areaDireito")
-    );
-
-    renderBarras(
-      document.getElementById("graficoResponsaveis"),
-      contarPor(activos, "responsavel")
-    );
-
-    renderResumo(
-      document.getElementById("resumoResultados"),
-      [
-        {
-          rotulo: "Activos",
-          valor: activos.length
-        },
-        {
-          rotulo: "Concluídos",
-          valor: concluidos.length
-        },
-        {
-          rotulo: "Arquivados",
-          valor: arquivados.length
-        },
-        {
-          rotulo: "Reabertos",
-          valor: reabertos.length
+      const casos = todosCasos.filter(caso => {
+        if (area && texto(caso.areaDireito) !== area) return false;
+        if (responsavel && texto(caso.responsavel) !== responsavel) return false;
+        if (inicio || fim) {
+          const data = obterDataCaso(caso);
+          if (!data) return false;
+          if (inicio && data < inicio) return false;
+          if (fim && data > fim) return false;
         }
-      ]
-    );
+        return true;
+      });
 
-    renderResumo(
-      document.getElementById("resumoPrazos"),
-      [
-        {
-          rotulo: "Pendentes",
-          valor: numero(prazos.pendentes)
-        },
-        {
-          rotulo: "Próximos 7 dias",
-          valor: numero(prazos.proximos)
-        },
-        {
-          rotulo: "Vencidos",
-          valor: numero(prazos.vencidos),
-          alerta: numero(prazos.vencidos) > 0
-        }
-      ]
-    );
+      const ids = new Set(casos.map(c => texto(c.idCaso)).filter(Boolean));
+      const consultas = todasConsultas.filter(i => ids.has(texto(i.idCaso)));
+      const encaminhamentos = todosEncaminhamentos.filter(i => ids.has(texto(i.idCaso)));
+      const atribuicoes = todasAtribuicoes.filter(i => ids.has(texto(i.idCaso)));
+      const activos = casosActivos(casos);
+      const concluidos = casos.filter(c => texto(c.estadoCaso) === "Concluído");
+      const arquivados = casos.filter(c => texto(c.estadoCaso) === "Arquivado");
+      const reabertos = casos.filter(casoFoiReaberto);
+      const semResponsavel = activos.filter(c => !texto(c.responsavel)).length;
+      const atribuicoesActivas = atribuicoes.filter(a => texto(a.estadoAtribuicao) === "Activa").length;
 
-    const estadosAtribuicoes = contarPor(
-      atribuicoes,
-      "estadoAtribuicao"
-    );
+      elemento("totalUtentes").textContent = numero(resumo.utentesRegistados);
+      elemento("totalCasos").textContent = casos.length;
+      elemento("totalCasosActivos").textContent = activos.length;
+      elemento("totalConcluidos").textContent = concluidos.length;
+      elemento("totalArquivados").textContent = arquivados.length;
+      elemento("totalReabertos").textContent = reabertos.length;
+      elemento("totalSemResponsavel").textContent = semResponsavel;
+      elemento("totalTriagens").textContent = numero(resumo.triagensPendentes);
+      elemento("totalConsultas").textContent = consultas.length;
+      elemento("totalEncaminhamentos").textContent = encaminhamentos.length;
+      elemento("totalAtribuicoes").textContent = atribuicoesActivas;
+      elemento("totalPrazosVencidos").textContent = numero(prazos.vencidos);
 
-    renderResumo(
-      document.getElementById("resumoAtribuicoes"),
-      [
-        {
-          rotulo: "Activas",
-          valor: numero(estadosAtribuicoes.Activa)
-        },
-        {
-          rotulo: "Substituídas",
-          valor: numero(estadosAtribuicoes["Substituída"])
-        },
-        {
-          rotulo: "Finalizadas",
-          valor: numero(estadosAtribuicoes.Finalizada)
-        }
-      ]
-    );
+      renderBarras(elemento("graficoEstados"), contarPor(casos, "estadoCaso"));
+      renderBarras(elemento("graficoAreas"), contarPor(casos, "areaDireito"));
+      renderBarras(elemento("graficoResponsaveis"), contarPor(activos, "responsavel"));
+      renderResumo(elemento("resumoResultados"), [
+        { rotulo: "Activos", valor: activos.length },
+        { rotulo: "Concluídos", valor: concluidos.length },
+        { rotulo: "Arquivados", valor: arquivados.length },
+        { rotulo: "Reabertos", valor: reabertos.length }
+      ]);
+      renderResumo(elemento("resumoPrazos"), [
+        { rotulo: "Pendentes", valor: numero(prazos.pendentes) },
+        { rotulo: "Próximos 7 dias", valor: numero(prazos.proximos) },
+        { rotulo: "Vencidos", valor: numero(prazos.vencidos), alerta: numero(prazos.vencidos) > 0 }
+      ]);
+      const estadosAtribuicoes = contarPor(atribuicoes, "estadoAtribuicao");
+      renderResumo(elemento("resumoAtribuicoes"), [
+        { rotulo: "Activas", valor: numero(estadosAtribuicoes.Activa) },
+        { rotulo: "Substituídas", valor: numero(estadosAtribuicoes["Substituída"]) },
+        { rotulo: "Finalizadas", valor: numero(estadosAtribuicoes.Finalizada) }
+      ]);
 
-    document.getElementById("dataActualizacao").textContent =
-      new Date().toLocaleString("pt-PT");
+      const filtros = [];
+      if (inicioTexto) filtros.push("desde " + new Date(inicioTexto + "T00:00:00").toLocaleDateString("pt-PT"));
+      if (fimTexto) filtros.push("até " + new Date(fimTexto + "T00:00:00").toLocaleDateString("pt-PT"));
+      if (area) filtros.push("área: " + area);
+      if (responsavel) filtros.push("responsável: " + responsavel);
+      elemento("resumoFiltros").textContent = filtros.length ? `A mostrar ${casos.length} caso(s) — ${filtros.join("; ")}.` : `A mostrar todos os ${casos.length} casos.`;
+      elemento("dataActualizacao").textContent = new Date().toLocaleString("pt-PT");
+      mensagem.textContent = "Relatório actualizado com sucesso.";
+      mensagem.className = "mensagem-formulario sucesso";
+    }
 
-    mensagem.textContent =
-      "Relatório carregado com sucesso.";
-    mensagem.className =
-      "mensagem-formulario sucesso";
+    elemento("btnAplicarFiltros").onclick = actualizarRelatorio;
+    elemento("btnLimparFiltros").onclick = () => {
+      elemento("dataInicial").value = "";
+      elemento("dataFinal").value = "";
+      elemento("filtroArea").value = "";
+      elemento("filtroResponsavel").value = "";
+      actualizarRelatorio();
+    };
+
+    actualizarRelatorio();
   } catch (erro) {
     console.error(erro);
-    mensagem.textContent =
-      "Não foi possível carregar todos os dados do relatório.";
-    mensagem.className =
-      "mensagem-formulario erro";
+    mensagem.textContent = "Não foi possível carregar todos os dados do relatório.";
+    mensagem.className = "mensagem-formulario erro";
   }
 });
