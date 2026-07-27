@@ -17,7 +17,6 @@ async function api(dados) {
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(dados)
   });
-
   if (!resposta.ok) throw new Error("Falha no servidor");
   return resposta.json();
 }
@@ -59,6 +58,11 @@ addEventListener("DOMContentLoaded", async () => {
   const btnGuardar = $("btnGuardarAtendimento");
   const mensagemAtendimento = $("mensagemAtendimento");
 
+  const modalReabertura = $("modalReabertura");
+  const formReabertura = $("formReabertura");
+  const btnGuardarReabertura = $("btnGuardarReabertura");
+  const mensagemReabertura = $("mensagemReabertura");
+
   function fecharModalAtendimento() {
     modal.classList.add("oculto");
     form.reset();
@@ -67,16 +71,31 @@ addEventListener("DOMContentLoaded", async () => {
 
   function abrirModalAtendimento() {
     if (!casoActual) return;
-
     $("idCasoAtendimento").value = idCaso;
     $("idUtenteAtendimento").value = casoActual.idUtente || "";
     $("responsavelAtendimento").value = casoActual.responsavel || "";
     $("resumoCasoAtendimento").textContent =
       idCaso + " · " + (casoActual.tituloCaso || "Caso jurídico");
-
     mostrarMensagem(mensagemAtendimento, "", "");
     modal.classList.remove("oculto");
     $("tipoAtendimento").focus();
+  }
+
+  function fecharModalReabertura() {
+    modalReabertura.classList.add("oculto");
+    formReabertura.reset();
+    mostrarMensagem(mensagemReabertura, "", "");
+  }
+
+  function abrirModalReabertura() {
+    if (!casoActual) return;
+    $("idCasoReabertura").value = idCaso;
+    $("responsavelReabertura").value = casoActual.responsavel || "";
+    $("resumoCasoReabertura").textContent =
+      idCaso + " · " + (casoActual.tituloCaso || "Caso jurídico");
+    mostrarMensagem(mensagemReabertura, "", "");
+    modalReabertura.classList.remove("oculto");
+    $("motivoReabertura").focus();
   }
 
   function renderizarResumo(caso) {
@@ -94,6 +113,11 @@ addEventListener("DOMContentLoaded", async () => {
     ].map(([titulo, valor]) =>
       `<div class="dado-resumo"><strong>${esc(titulo)}</strong>${esc(valor || "Não informado")}</div>`
     ).join("");
+
+    const estado = String(caso.estadoCaso || "").trim();
+    const encerrado = estado === "Concluído" || estado === "Arquivado";
+    $("btnReabrirCaso").classList.toggle("oculto", !encerrado);
+    $("btnNovoAtendimento").classList.toggle("oculto", encerrado);
   }
 
   async function carregarFicha() {
@@ -163,15 +187,21 @@ addEventListener("DOMContentLoaded", async () => {
 
     $("btnImprimir").onclick = () => window.print();
     $("btnNovoAtendimento").onclick = abrirModalAtendimento;
+    $("btnReabrirCaso").onclick = abrirModalReabertura;
     $("btnFecharAtendimento").onclick = fecharModalAtendimento;
     $("btnCancelarAtendimento").onclick = fecharModalAtendimento;
+    $("btnFecharReabertura").onclick = fecharModalReabertura;
+    $("btnCancelarReabertura").onclick = fecharModalReabertura;
+
     modal.onclick = evento => {
       if (evento.target === modal) fecharModalAtendimento();
+    };
+    modalReabertura.onclick = evento => {
+      if (evento.target === modalReabertura) fecharModalReabertura();
     };
 
     form.onsubmit = async evento => {
       evento.preventDefault();
-
       if (!form.checkValidity()) {
         form.reportValidity();
         mostrarMensagem(mensagemAtendimento, "Preencha os campos obrigatórios.", "erro");
@@ -214,14 +244,52 @@ addEventListener("DOMContentLoaded", async () => {
           }, 900);
         }
       } catch (erro) {
-        mostrarMensagem(
-          mensagemAtendimento,
-          "Não foi possível contactar o servidor. Tente novamente.",
-          "erro"
-        );
+        mostrarMensagem(mensagemAtendimento, "Não foi possível contactar o servidor. Tente novamente.", "erro");
       } finally {
         btnGuardar.disabled = false;
         btnGuardar.textContent = "Guardar atendimento";
+      }
+    };
+
+    formReabertura.onsubmit = async evento => {
+      evento.preventDefault();
+      if (!formReabertura.checkValidity()) {
+        formReabertura.reportValidity();
+        mostrarMensagem(mensagemReabertura, "Preencha os campos obrigatórios.", "erro");
+        return;
+      }
+
+      const dados = new FormData(formReabertura);
+      btnGuardarReabertura.disabled = true;
+      btnGuardarReabertura.textContent = "A reabrir...";
+      mostrarMensagem(mensagemReabertura, "", "");
+
+      try {
+        const resultado = await api({
+          acao: "reabrirCaso",
+          token,
+          idCaso: dados.get("idCaso"),
+          motivoReabertura: dados.get("motivoReabertura"),
+          responsavel: dados.get("responsavel")
+        });
+
+        mostrarMensagem(
+          mensagemReabertura,
+          resultado.mensagem || (resultado.sucesso ? "Caso reaberto com sucesso." : "Não foi possível reabrir o caso."),
+          resultado.sucesso ? "sucesso" : "erro"
+        );
+
+        if (resultado.sucesso) {
+          setTimeout(async () => {
+            fecharModalReabertura();
+            await carregarFicha();
+          }, 900);
+        }
+      } catch (erro) {
+        mostrarMensagem(mensagemReabertura, "Não foi possível contactar o servidor. Tente novamente.", "erro");
+      } finally {
+        btnGuardarReabertura.disabled = false;
+        btnGuardarReabertura.textContent = "Confirmar reabertura";
       }
     };
   } catch (erro) {
