@@ -51,6 +51,15 @@
       "prazo",
       "encaminhar"
     ],
+    "estudante conselheiro": [
+      "visualizar",
+      "historico",
+      "documentos",
+      "atendimento",
+      "consulta",
+      "prazo",
+      "encaminhar"
+    ],
     estudante: [
       "visualizar",
       "historico",
