@@ -59,7 +59,7 @@ function renderizar() {
     const idUtilizador = String(u.idUtilizador || u.ID_Utilizador || u.id || "").trim();
     const email = String(u.email || "").trim();
     const perfilActual = String(u.perfil || "").trim();
-    const perfis = ["Administrador","Supervisor","Jurista","Tutor interno","Tutor externo","Estudante"];
+    const perfis = ["Administrador","Supervisor","Jurista","Tutor interno","Tutor externo","Estudante Conselheiro","Estudante"];
     if (perfilActual && !perfis.includes(perfilActual)) perfis.push(perfilActual);
     return `<tr>
       <td><strong>${esc(u.nomeCompleto || u.nome || "Não informado")}</strong></td>
