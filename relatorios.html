@@ -10,78 +10,20 @@
 </head>
 <body class="pagina-relatorios">
   <header class="relatorios-topo">
-    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
-      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
-      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Relatórios e estatísticas</span></div>
-    </a>
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel"><img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Relatórios e estatísticas</span></div></a>
     <nav aria-label="Navegação do módulo"><a href="casos.html">Casos</a><a href="consultas.html">Consultas</a><a href="prazos.html">Prazos</a><a href="distribuicao-casos.html">Distribuição</a><a href="dashboard.html">Painel</a></nav>
   </header>
-
   <main class="relatorios-conteudo">
-    <section class="relatorios-cabecalho">
-      <div><p class="etiqueta">Visão institucional</p><h1>Relatórios do JURISLAB Aconselha</h1><p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos, resultados e actividade da equipa.</p></div>
-      <div class="acoes-relatorio">
-        <button class="botao botao-secundario" id="btnExportarPdf" type="button">Exportar para PDF</button>
-        <button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button>
-      </div>
-    </section>
-
-    <section class="painel-filtros" aria-labelledby="tituloFiltros">
-      <div class="filtros-cabecalho"><div><p class="etiqueta">Consulta personalizada</p><h2 id="tituloFiltros">Filtrar relatório</h2></div><button class="botao botao-secundario" id="btnLimparFiltros" type="button">Limpar filtros</button></div>
-      <div class="grelha-filtros">
-        <div class="campo-filtro"><label for="dataInicial">Data inicial</label><input id="dataInicial" type="date"></div>
-        <div class="campo-filtro"><label for="dataFinal">Data final</label><input id="dataFinal" type="date"></div>
-        <div class="campo-filtro"><label for="filtroArea">Área do Direito</label><select id="filtroArea"><option value="">Todas as áreas</option></select></div>
-        <div class="campo-filtro"><label for="filtroResponsavel">Responsável</label><select id="filtroResponsavel"><option value="">Todos os responsáveis</option></select></div>
-        <div class="campo-filtro campo-acoes"><button class="botao botao-principal" id="btnAplicarFiltros" type="button">Aplicar filtros</button></div>
-      </div>
-      <p id="resumoFiltros" class="resumo-filtros">A mostrar todos os registos.</p>
-    </section>
-
-    <section class="resumo-mensal" aria-labelledby="tituloResumoMensal">
-      <div class="resumo-mensal-cabecalho">
-        <div><p class="etiqueta">Acompanhamento periódico</p><h2 id="tituloResumoMensal">Resumo mensal</h2><p id="descricaoMes">Indicadores do mês seleccionado.</p></div>
-        <div class="campo-filtro campo-mes"><label for="mesResumo">Mês de referência</label><input id="mesResumo" type="month"></div>
-      </div>
-      <div class="grelha-resumo-mensal">
-        <article><span>Casos abertos</span><strong id="mesCasosAbertos">0</strong></article>
-        <article><span>Casos concluídos</span><strong id="mesCasosConcluidos">0</strong></article>
-        <article><span>Casos reabertos</span><strong id="mesCasosReabertos">0</strong></article>
-        <article><span>Consultas realizadas</span><strong id="mesConsultas">0</strong></article>
-        <article><span>Encaminhamentos</span><strong id="mesEncaminhamentos">0</strong></article>
-      </div>
-    </section>
-
+    <section class="relatorios-cabecalho"><div><p class="etiqueta">Visão institucional</p><h1>Relatórios do JURISLAB Aconselha</h1><p>Indicadores consolidados do atendimento jurídico, acompanhamento de casos, resultados e actividade da equipa.</p></div><div class="acoes-relatorio"><button class="botao botao-secundario" id="btnExportarPdf" type="button">Exportar para PDF</button><button class="botao botao-secundario" id="btnImprimir" type="button">Imprimir relatório</button></div></section>
+    <section class="painel-filtros" aria-labelledby="tituloFiltros"><div class="filtros-cabecalho"><div><p class="etiqueta">Consulta personalizada</p><h2 id="tituloFiltros">Filtrar relatório</h2></div><button class="botao botao-secundario" id="btnLimparFiltros" type="button">Limpar filtros</button></div><div class="grelha-filtros"><div class="campo-filtro"><label for="dataInicial">Data inicial</label><input id="dataInicial" type="date"></div><div class="campo-filtro"><label for="dataFinal">Data final</label><input id="dataFinal" type="date"></div><div class="campo-filtro"><label for="filtroArea">Área do Direito</label><select id="filtroArea"><option value="">Todas as áreas</option></select></div><div class="campo-filtro"><label for="filtroResponsavel">Responsável</label><select id="filtroResponsavel"><option value="">Todos os responsáveis</option></select></div><div class="campo-filtro campo-acoes"><button class="botao botao-principal" id="btnAplicarFiltros" type="button">Aplicar filtros</button></div></div><p id="resumoFiltros" class="resumo-filtros">A mostrar todos os registos.</p></section>
+    <section class="resumo-mensal" aria-labelledby="tituloResumoMensal"><div class="resumo-mensal-cabecalho"><div><p class="etiqueta">Acompanhamento periódico</p><h2 id="tituloResumoMensal">Resumo mensal</h2><p id="descricaoMes">Indicadores do mês seleccionado.</p></div><div class="campo-filtro campo-mes"><label for="mesResumo">Mês de referência</label><input id="mesResumo" type="month"></div></div><div class="grelha-resumo-mensal"><article><span>Casos abertos</span><strong id="mesCasosAbertos">0</strong></article><article><span>Casos concluídos</span><strong id="mesCasosConcluidos">0</strong></article><article><span>Casos reabertos</span><strong id="mesCasosReabertos">0</strong></article><article><span>Consultas realizadas</span><strong id="mesConsultas">0</strong></article><article><span>Encaminhamentos</span><strong id="mesEncaminhamentos">0</strong></article></div></section>
     <p id="mensagemRelatorios" class="mensagem-formulario" role="status" aria-live="polite">A carregar indicadores...</p>
-
-    <section class="grelha-indicadores" aria-label="Indicadores principais">
-      <article><span>Utentes registados</span><strong id="totalUtentes">...</strong></article>
-      <article><span>Total de casos</span><strong id="totalCasos">...</strong></article>
-      <article><span>Casos activos</span><strong id="totalCasosActivos">...</strong></article>
-      <article><span>Casos concluídos</span><strong id="totalConcluidos">...</strong></article>
-      <article><span>Casos arquivados</span><strong id="totalArquivados">...</strong></article>
-      <article><span>Casos reabertos</span><strong id="totalReabertos">...</strong></article>
-      <article><span>Casos sem responsável</span><strong id="totalSemResponsavel">...</strong></article>
-      <article><span>Triagens pendentes</span><strong id="totalTriagens">...</strong></article>
-      <article><span>Consultas registadas</span><strong id="totalConsultas">...</strong></article>
-      <article><span>Encaminhamentos</span><strong id="totalEncaminhamentos">...</strong></article>
-      <article><span>Atribuições activas</span><strong id="totalAtribuicoes">...</strong></article>
-      <article class="indicador-alerta"><span>Prazos vencidos</span><strong id="totalPrazosVencidos">...</strong></article>
-    </section>
-
-    <section class="grelha-relatorios">
-      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por estado</h2><a href="casos.html">Abrir casos</a></div><div id="graficoEstados" class="grafico-barras"></div></article>
-      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por área do Direito</h2><a href="casos.html">Ver detalhes</a></div><div id="graficoAreas" class="grafico-barras"></div></article>
-      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por responsável</h2><a href="distribuicao-casos.html">Ver distribuição</a></div><div id="graficoResponsaveis" class="grafico-barras"></div></article>
-      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Resultados dos casos</h2><a href="casos.html">Consultar casos</a></div><div id="resumoResultados" class="lista-resumo"></div></article>
-      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Situação dos prazos</h2><a href="prazos.html">Abrir prazos</a></div><div id="resumoPrazos" class="lista-resumo"></div></article>
-      <article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Distribuição interna</h2><a href="distribuicao-casos.html">Abrir distribuição</a></div><div id="resumoAtribuicoes" class="lista-resumo"></div></article>
-    </section>
-
+    <section class="grelha-indicadores" aria-label="Indicadores principais"><article><span>Utentes registados</span><strong id="totalUtentes">...</strong></article><article><span>Total de casos</span><strong id="totalCasos">...</strong></article><article><span>Casos activos</span><strong id="totalCasosActivos">...</strong></article><article><span>Casos concluídos</span><strong id="totalConcluidos">...</strong></article><article><span>Casos arquivados</span><strong id="totalArquivados">...</strong></article><article><span>Casos reabertos</span><strong id="totalReabertos">...</strong></article><article><span>Casos sem responsável</span><strong id="totalSemResponsavel">...</strong></article><article><span>Triagens pendentes</span><strong id="totalTriagens">...</strong></article><article><span>Consultas registadas</span><strong id="totalConsultas">...</strong></article><article><span>Encaminhamentos</span><strong id="totalEncaminhamentos">...</strong></article><article><span>Atribuições activas</span><strong id="totalAtribuicoes">...</strong></article><article class="indicador-alerta"><span>Prazos vencidos</span><strong id="totalPrazosVencidos">...</strong></article></section>
+    <section class="grelha-relatorios"><article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por estado</h2><a href="casos.html">Abrir casos</a></div><div id="graficoEstados" class="grafico-barras"></div></article><article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por área do Direito</h2><a href="casos.html">Ver detalhes</a></div><div id="graficoAreas" class="grafico-barras"></div></article><article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Casos por responsável</h2><a href="distribuicao-casos.html">Ver distribuição</a></div><div id="graficoResponsaveis" class="grafico-barras"></div></article><article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Resultados dos casos</h2><a href="casos.html">Consultar casos</a></div><div id="resumoResultados" class="lista-resumo"></div></article><article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Situação dos prazos</h2><a href="prazos.html">Abrir prazos</a></div><div id="resumoPrazos" class="lista-resumo"></div></article><article class="cartao-relatorio"><div class="cartao-cabecalho"><h2>Distribuição interna</h2><a href="distribuicao-casos.html">Abrir distribuição</a></div><div id="resumoAtribuicoes" class="lista-resumo"></div></article></section>
     <section class="rodape-relatorio"><p>Actualizado em <strong id="dataActualizacao">—</strong></p></section>
   </main>
-
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/controlo-acesso-modulo.js?v=1" data-modulo="JURISLAB Aconselha"></script>
   <script src="js/relatorios.js?v=4"></script>
 </body>
 </html>
