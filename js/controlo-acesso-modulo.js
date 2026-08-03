@@ -35,11 +35,15 @@
     if (!elemento) return;
 
     const alvo = elemento.closest(
-      "a, button, [role='button'], .card, .cartao, article, li"
+      "a, button, [role='button'], input[type='submit'], input[type='button'], li"
     ) || elemento;
 
     alvo.hidden = true;
     alvo.setAttribute("aria-hidden", "true");
+    alvo.setAttribute("tabindex", "-1");
+    alvo.style.setProperty("display", "none", "important");
+    alvo.style.setProperty("visibility", "hidden", "important");
+    alvo.style.setProperty("pointer-events", "none", "important");
   }
 
   function ocultarPorTextoOuLigacao(expressoes) {
@@ -99,12 +103,15 @@
         "atribuir equipa",
         "atribuir novo caso",
         "registar novo utente",
+        "registar utente",
         "novo utente",
         "guardar utente",
+        "ver triagens",
         "nova triagem",
         "abrir triagem",
         "triagens pendentes",
         "pedidos publicos",
+        "relatorios e estatisticas",
         "exportar para pdf",
         "imprimir relatorio",
         "encerrar caso",
@@ -121,12 +128,15 @@
         "atribuir equipa",
         "atribuir novo caso",
         "registar novo utente",
+        "registar utente",
         "novo utente",
         "guardar utente",
+        "ver triagens",
         "nova triagem",
         "abrir triagem",
         "triagens pendentes",
         "pedidos publicos",
+        "relatorios e estatisticas",
         "exportar para pdf",
         "imprimir relatorio",
         "registar novo prazo",
@@ -162,10 +172,15 @@
     const observador = new MutationObserver(reaplicar);
     observador.observe(document.body, {
       childList: true,
-      subtree: true
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "style", "hidden"]
     });
 
     reaplicar();
+    window.setTimeout(reaplicar, 300);
+    window.setTimeout(reaplicar, 1000);
+    window.setTimeout(reaplicar, 2500);
   }
 
   async function verificarAcesso() {
