@@ -4,6 +4,7 @@
   const API_JURISLAB = "https://script.google.com/macros/s/AKfycbyFzl8x8Kazn2ek0j5N8qF0f5beYNOSrNSfxx837FEF0do_gF3lzW3Z1UCvo9eeTROB/exec";
   const CHAVE_SESSAO = "JURISLAB_TOKEN";
   const CHAVE_UTILIZADOR = "JURISLAB_UTILIZADOR";
+  const CHAVE_AVISO_ACESSO = "JURISLAB_AVISO_ACESSO";
 
   function normalizar(valor) {
     return String(valor || "")
@@ -20,8 +21,11 @@
 
   function bloquear(mensagem) {
     document.documentElement.style.visibility = "hidden";
-    alert(mensagem);
-    window.location.replace("dashboard.html");
+    sessionStorage.setItem(
+      CHAVE_AVISO_ACESSO,
+      String(mensagem || "Acesso não autorizado.")
+    );
+    window.location.replace("dashboard.html?acesso=negado");
   }
 
   async function validarSessao(token) {
