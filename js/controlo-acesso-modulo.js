@@ -30,9 +30,36 @@
     return resposta.json();
   }
 
+  function paginaActual() {
+    return normalizar(window.location.pathname.split("/").pop() || "");
+  }
+
+  function paginaBloqueadaParaPerfil(perfil) {
+    const pagina = paginaActual();
+    const comuns = [
+      "aconselha.html",
+      "triagem.html",
+      "triagens-pendentes.html",
+      "pedidos-publicos.html",
+      "relatorios.html"
+    ];
+
+    if (["estudante", "estudante conselheiro"].includes(perfil) && comuns.includes(pagina)) {
+      return true;
+    }
+
+    const exclusivasConselheiro = [
+      "consultas.html",
+      "prazos.html",
+      "distribuicao-casos.html",
+      "encaminhamentos.html"
+    ];
+
+    return perfil === "estudante" && exclusivasConselheiro.includes(pagina);
+  }
+
   function ocultarElemento(elemento) {
     if (!elemento) return;
-
     const alvo = elemento.closest(
       "a, button, [role='button'], input[type='submit'], input[type='button'], li"
     ) || elemento;
@@ -41,7 +68,6 @@
     alvo.setAttribute("aria-hidden", "true");
     alvo.setAttribute("tabindex", "-1");
     alvo.style.setProperty("display", "none", "important");
-    alvo.style.setProperty("visibility", "hidden", "important");
     alvo.style.setProperty("pointer-events", "none", "important");
   }
 
@@ -52,53 +78,16 @@
       const texto = normalizar(
         elemento.textContent || elemento.value || elemento.getAttribute("aria-label")
       );
-      const ligacao = normalizar(elemento.getAttribute("href"));
+      const href = normalizar(elemento.getAttribute("href"));
 
-      if (expressoes.some((expressao) => texto.includes(expressao) || ligacao.includes(expressao))) {
+      if (expressoes.some((expressao) => texto.includes(expressao) || href.includes(expressao))) {
         ocultarElemento(elemento);
       }
     });
   }
 
-  function paginaActual() {
-    return normalizar(window.location.pathname.split("/").pop() || "");
-  }
-
-  function paginaBloqueadaParaPerfil(perfil) {
-    const pagina = paginaActual();
-
-    const reservadasComuns = [
-      "aconselha.html",
-      "triagem.html",
-      "triagens-pendentes.html",
-      "pedidos-publicos.html",
-      "relatorios.html"
-    ];
-
-    if (
-      ["estudante", "estudante conselheiro"].includes(perfil) &&
-      reservadasComuns.includes(pagina)
-    ) {
-      return true;
-    }
-
-    const reservadasAoEstudante = [
-      "consultas.html",
-      "prazos.html",
-      "distribuicao-casos.html",
-      "encaminhamentos.html"
-    ];
-
-    return perfil === "estudante" && reservadasAoEstudante.includes(pagina);
-  }
-
   function aplicarInterfacePorPerfil(utilizador) {
     const perfil = normalizar(utilizador.perfil);
-
-    if (paginaBloqueadaParaPerfil(perfil)) {
-      redireccionarPainel();
-      return;
-    }
 
     if (perfil === "estudante conselheiro") {
       ocultarPorTextoOuLigacao([
@@ -164,25 +153,20 @@
     const reaplicar = () => {
       if (agendado) return;
       agendado = true;
-
-      window.requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         agendado = false;
         aplicarInterfacePorPerfil(utilizador);
       });
     };
 
-    const observador = new MutationObserver(reaplicar);
-    observador.observe(document.body, {
+    new MutationObserver(reaplicar).observe(document.body, {
       childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["class", "style", "hidden"]
+      subtree: true
     });
 
     reaplicar();
-    window.setTimeout(reaplicar, 300);
-    window.setTimeout(reaplicar, 1000);
-    window.setTimeout(reaplicar, 2500);
+    setTimeout(reaplicar, 500);
+    setTimeout(reaplicar, 1500);
   }
 
   function obterUtilizadorLocal() {
@@ -193,31 +177,29 @@
     }
   }
 
-  function autorizarPagina(utilizador, moduloPretendido, apenasAdministrador) {
+  function autorizarModulo(utilizador, moduloPretendido, apenasAdministrador) {
     const perfil = normalizar(utilizador.perfil);
-    const modulo = normalizar(
-      utilizador.moduloPrincipal || utilizador.Modulo_Principal
-    );
+    const modulo = normalizar(utilizador.moduloPrincipal || utilizador.Modulo_Principal);
     const pretendido = normalizar(moduloPretendido);
     const administrador = perfil === "administrador";
 
     if (apenasAdministrador && !administrador) return false;
 
-    return (
-      administrador ||
-      modulo === "todos" ||
-      !pretendido ||
-      modulo === pretendido
-    );
+    return administrador || modulo === "todos" || !pretendido || modulo === pretendido;
   }
 
-  function concluirAutorizacao(utilizador, moduloPretendido) {
+  function concluirAcesso(utilizador, moduloPretendido) {
+    const perfil = normalizar(utilizador.perfil);
+
+    if (paginaBloqueadaParaPerfil(perfil)) {
+      redireccionarPainel();
+      return;
+    }
+
     aplicarInterfacePorPerfil(utilizador);
-
-    if (document.documentElement.style.visibility === "hidden") return;
-
     observarInterface(utilizador);
     document.documentElement.style.visibility = "visible";
+
     window.dispatchEvent(new CustomEvent("jurislab:AcessoAutorizado", {
       detail: { utilizador, modulo: moduloPretendido }
     }));
@@ -230,7 +212,6 @@
     const token = localStorage.getItem(CHAVE_SESSAO);
 
     if (!token) {
-      limparSessao();
       window.location.replace("login.html");
       return;
     }
@@ -247,34 +228,33 @@
       const utilizador = resultado.utilizador;
       localStorage.setItem(CHAVE_UTILIZADOR, JSON.stringify(utilizador));
 
-      if (!autorizarPagina(utilizador, moduloPretendido, apenasAdministrador)) {
+      if (!autorizarModulo(utilizador, moduloPretendido, apenasAdministrador)) {
         redireccionarPainel();
         return;
       }
 
-      concluirAutorizacao(utilizador, moduloPretendido);
+      concluirAcesso(utilizador, moduloPretendido);
     } catch (erro) {
       console.warn("Validação remota indisponível; será usada a sessão local.", erro);
-
       const utilizadorLocal = obterUtilizadorLocal();
 
       if (!utilizadorLocal) {
         document.documentElement.style.visibility = "visible";
         document.body.innerHTML =
           '<main style="font-family:Arial,sans-serif;padding:32px;text-align:center">' +
-          '<h1>Não foi possível validar a sessão</h1>' +
-          '<p>Verifique a ligação à Internet e actualize a página.</p>' +
+          '<h1>Ligação indisponível</h1>' +
+          '<p>Não foi possível validar a sessão agora. Actualize a página quando a ligação melhorar.</p>' +
           '<p><a href="dashboard.html">Voltar ao painel</a></p>' +
           '</main>';
         return;
       }
 
-      if (!autorizarPagina(utilizadorLocal, moduloPretendido, apenasAdministrador)) {
+      if (!autorizarModulo(utilizadorLocal, moduloPretendido, apenasAdministrador)) {
         redireccionarPainel();
         return;
       }
 
-      concluirAutorizacao(utilizadorLocal, moduloPretendido);
+      concluirAcesso(utilizadorLocal, moduloPretendido);
     }
   }
 
