@@ -12,10 +12,27 @@ function irParaLogin() {
 }
 
 async function validarSessao(token) {
-  const url = API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token);
-  const resposta = await fetch(url, { method: "GET", cache: "no-store" });
-  if (!resposta.ok) throw new Error("Falha na validação da sessão.");
-  return resposta.json();
+  const controlador = new AbortController();
+  const limite = setTimeout(function () {
+    controlador.abort();
+  }, 12000);
+
+  try {
+    const url = API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token);
+    const resposta = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      signal: controlador.signal
+    });
+
+    if (!resposta.ok) {
+      throw new Error("Falha na validação da sessão.");
+    }
+
+    return resposta.json();
+  } finally {
+    clearTimeout(limite);
+  }
 }
 
 async function chamarApi(dados) {
@@ -24,7 +41,11 @@ async function chamarApi(dados) {
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(dados)
   });
-  if (!resposta.ok) throw new Error("Não foi possível contactar o servidor.");
+
+  if (!resposta.ok) {
+    throw new Error("Não foi possível contactar o servidor.");
+  }
+
   return resposta.json();
 }
 
@@ -69,6 +90,23 @@ function utilizadorTemAcessoAoModulo(utilizador, moduloPretendido) {
   return modulo === solicitado;
 }
 
+function definirVisibilidadeForcada(elemento, visivel) {
+  if (!elemento) return;
+
+  elemento.hidden = !visivel;
+  elemento.setAttribute("aria-hidden", visivel ? "false" : "true");
+
+  if (visivel) {
+    elemento.style.removeProperty("display");
+    elemento.style.removeProperty("visibility");
+    elemento.style.removeProperty("pointer-events");
+  } else {
+    elemento.style.setProperty("display", "none", "important");
+    elemento.style.setProperty("visibility", "hidden", "important");
+    elemento.style.setProperty("pointer-events", "none", "important");
+  }
+}
+
 function ocultarLigacoesPorPerfil(utilizador) {
   const perfil = normalizarPermissao(utilizador.perfil);
   const estudante = perfil === "estudante";
@@ -86,7 +124,8 @@ function ocultarLigacoesPorPerfil(utilizador) {
   const proibidasEstudante = [
     "consultas.html",
     "prazos.html",
-    "distribuicao-casos.html"
+    "distribuicao-casos.html",
+    "encaminhamentos.html"
   ];
 
   document.querySelectorAll("a[href]").forEach(function (ligacao) {
@@ -101,10 +140,7 @@ function ocultarLigacoesPorPerfil(utilizador) {
     );
 
     if (bloquear) {
-      ligacao.hidden = true;
-      ligacao.style.setProperty("display", "none", "important");
-      ligacao.setAttribute("aria-hidden", "true");
-      ligacao.setAttribute("tabindex", "-1");
+      definirVisibilidadeForcada(ligacao, false);
     }
   });
 
@@ -117,23 +153,25 @@ function ocultarLigacoesPorPerfil(utilizador) {
     ?.closest("a");
 
   [cartaoSemResponsavel, cartaoTriagens].forEach(function (elemento) {
-    if (elemento) {
-      elemento.hidden = true;
-      elemento.style.setProperty("display", "none", "important");
-    }
+    definirVisibilidadeForcada(elemento, false);
   });
 }
 
 function aplicarPermissoesDoPainel(utilizador) {
   document.querySelectorAll("[data-modulo]").forEach(function (cartao) {
-    cartao.hidden = !utilizadorTemAcessoAoModulo(
+    const visivel = utilizadorTemAcessoAoModulo(
       utilizador,
       cartao.dataset.modulo
     );
+
+    definirVisibilidadeForcada(cartao, visivel);
   });
 
   document.querySelectorAll('[data-administracao="true"]').forEach(function (cartao) {
-    cartao.hidden = !utilizadorEhAdministrador(utilizador);
+    definirVisibilidadeForcada(
+      cartao,
+      utilizadorEhAdministrador(utilizador)
+    );
   });
 
   const areaAconselha = document.getElementById("areaAconselhaPainel");
@@ -142,8 +180,9 @@ function aplicarPermissoesDoPainel(utilizador) {
     "JURISLAB Aconselha"
   );
 
-  if (areaAconselha) areaAconselha.hidden = !acessoAconselha;
+  definirVisibilidadeForcada(areaAconselha, acessoAconselha);
   ocultarLigacoesPorPerfil(utilizador);
+
   return acessoAconselha;
 }
 
@@ -188,11 +227,18 @@ async function carregarCasosSemResponsavel(token) {
   if (!indicador || indicador.closest("a")?.hidden) return;
 
   try {
-    const resultado = await chamarApi({ acao: "listarCasos", token: token, pesquisa: "", estado: "Todos" });
+    const resultado = await chamarApi({
+      acao: "listarCasos",
+      token: token,
+      pesquisa: "",
+      estado: "Todos"
+    });
+
     if (!resultado.sucesso || !Array.isArray(resultado.casos)) {
       indicador.textContent = "—";
       return;
     }
+
     indicador.textContent = resultado.casos.filter(function (caso) {
       return !casoEstaEncerrado(caso) && casoSemResponsavel(caso);
     }).length;
@@ -205,14 +251,20 @@ async function carregarIndicadores(token) {
   const mensagem = document.getElementById("mensagemIndicadores");
   mensagem.textContent = "";
   mensagem.className = "mensagem-formulario";
+
   try {
-    const resultado = await chamarApi({ acao: "obterResumoPainel", token: token });
+    const resultado = await chamarApi({
+      acao: "obterResumoPainel",
+      token: token
+    });
+
     if (!resultado.sucesso || !resultado.resumo) {
       colocarIndicadoresIndisponiveis();
       mensagem.textContent = resultado.mensagem || "Não foi possível carregar os indicadores.";
       mensagem.classList.add("erro");
       return;
     }
+
     colocarIndicadores(resultado.resumo);
   } catch (erro) {
     colocarIndicadoresIndisponiveis();
@@ -225,14 +277,20 @@ async function carregarIndicadoresPrazos(token) {
   const mensagem = document.getElementById("mensagemPrazos");
   mensagem.textContent = "";
   mensagem.className = "mensagem-formulario";
+
   try {
-    const resultado = await chamarApi({ acao: "obterResumoPrazosPainel", token: token });
+    const resultado = await chamarApi({
+      acao: "obterResumoPrazosPainel",
+      token: token
+    });
+
     if (!resultado.sucesso) {
       colocarPrazosIndisponiveis();
       mensagem.textContent = resultado.mensagem || "Não foi possível carregar os alertas de prazos.";
       mensagem.classList.add("erro");
       return;
     }
+
     colocarIndicadoresPrazos(resultado);
   } catch (erro) {
     colocarPrazosIndisponiveis();
@@ -248,9 +306,14 @@ function apresentarPainel(utilizador, ecraValidacao) {
   document.getElementById("nomeTopo").textContent = utilizador.nome || utilizador.nomeCompleto || "Utilizador";
   document.getElementById("perfilTopo").textContent = utilizador.perfil || "Perfil não informado";
   document.getElementById("nomeUtilizador").textContent = utilizador.nome || utilizador.nomeCompleto || "utilizador";
-  document.getElementById("mensagemSessao").textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + " — acesso: " + moduloPrincipal + ".";
-  ecraValidacao.classList.add("oculto");
+  document.getElementById("mensagemSessao").textContent =
+    "Sessão activa como " +
+    (utilizador.perfil || "utilizador") +
+    " — acesso: " +
+    moduloPrincipal +
+    ".";
 
+  ecraValidacao.classList.add("oculto");
   return acessoAconselha;
 }
 
