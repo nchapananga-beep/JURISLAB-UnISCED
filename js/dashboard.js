@@ -155,6 +155,13 @@ function ocultarLigacoesPorPerfil(utilizador) {
   [cartaoSemResponsavel, cartaoTriagens].forEach(function (elemento) {
     definirVisibilidadeForcada(elemento, false);
   });
+
+  if (estudante) {
+    definirVisibilidadeForcada(
+      document.querySelector(".alertas-prazos"),
+      false
+    );
+  }
 }
 
 function aplicarPermissoesDoPainel(utilizador) {
@@ -364,11 +371,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   if (acessoAconselha && utilizador) {
-    await Promise.all([
+    const tarefas = [
       carregarIndicadores(token),
-      carregarCasosSemResponsavel(token),
-      carregarIndicadoresPrazos(token)
-    ]);
+      carregarCasosSemResponsavel(token)
+    ];
+
+    if (normalizarPermissao(utilizador.perfil) !== "estudante") {
+      tarefas.push(carregarIndicadoresPrazos(token));
+    }
+
+    await Promise.all(tarefas);
   }
 
   btnSair.addEventListener("click", async function () {
