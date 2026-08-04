@@ -8,12 +8,12 @@ function limparSessaoLocal() {
 }
 
 function irParaLogin() {
-  window.location.href = "login.html";
+  window.location.replace("login.html");
 }
 
 async function validarSessao(token) {
   const url = API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token);
-  const resposta = await fetch(url, { method: "GET" });
+  const resposta = await fetch(url, { method: "GET", cache: "no-store" });
   if (!resposta.ok) throw new Error("Falha na validação da sessão.");
   return resposta.json();
 }
@@ -65,11 +65,63 @@ function utilizadorTemAcessoAoModulo(utilizador, moduloPretendido) {
   const solicitado = normalizarPermissao(moduloPretendido);
 
   if (modulo === "todos" || modulo === "todos os modulos") return true;
-
-  // Compatibilidade com utilizadores antigos ainda sem módulo registado.
   if (!modulo) return solicitado === "jurislab aconselha";
-
   return modulo === solicitado;
+}
+
+function ocultarLigacoesPorPerfil(utilizador) {
+  const perfil = normalizarPermissao(utilizador.perfil);
+  const estudante = perfil === "estudante";
+  const conselheiro = perfil === "estudante conselheiro";
+
+  if (!estudante && !conselheiro) return;
+
+  const proibidasComuns = [
+    "aconselha.html",
+    "pedidos-publicos.html",
+    "relatorios.html",
+    "triagens-pendentes.html"
+  ];
+
+  const proibidasEstudante = [
+    "consultas.html",
+    "prazos.html",
+    "distribuicao-casos.html"
+  ];
+
+  document.querySelectorAll("a[href]").forEach(function (ligacao) {
+    const href = normalizarPermissao(ligacao.getAttribute("href"));
+    const bloquear = proibidasComuns.some(function (pagina) {
+      return href.includes(pagina);
+    }) || (
+      estudante &&
+      proibidasEstudante.some(function (pagina) {
+        return href.includes(pagina);
+      })
+    );
+
+    if (bloquear) {
+      ligacao.hidden = true;
+      ligacao.style.setProperty("display", "none", "important");
+      ligacao.setAttribute("aria-hidden", "true");
+      ligacao.setAttribute("tabindex", "-1");
+    }
+  });
+
+  const cartaoSemResponsavel = document
+    .getElementById("indicadorCasosSemResponsavel")
+    ?.closest("a");
+
+  const cartaoTriagens = document
+    .getElementById("indicadorTriagensPendentes")
+    ?.closest("a");
+
+  [cartaoSemResponsavel, cartaoTriagens].forEach(function (elemento) {
+    if (elemento) {
+      elemento.hidden = true;
+      elemento.style.setProperty("display", "none", "important");
+    }
+  });
 }
 
 function aplicarPermissoesDoPainel(utilizador) {
@@ -91,6 +143,7 @@ function aplicarPermissoesDoPainel(utilizador) {
   );
 
   if (areaAconselha) areaAconselha.hidden = !acessoAconselha;
+  ocultarLigacoesPorPerfil(utilizador);
   return acessoAconselha;
 }
 
@@ -103,7 +156,8 @@ function colocarIndicadores(resumo) {
 
 function colocarIndicadoresIndisponiveis() {
   ["indicadorCasosActivos", "indicadorTriagensPendentes", "indicadorEncaminhamentos", "indicadorUtentes"].forEach(function (id) {
-    document.getElementById(id).textContent = "—";
+    const elemento = document.getElementById(id);
+    if (elemento) elemento.textContent = "—";
   });
 }
 
@@ -115,7 +169,8 @@ function colocarIndicadoresPrazos(resumo) {
 
 function colocarPrazosIndisponiveis() {
   ["indicadorPrazosPendentes", "indicadorPrazosProximos", "indicadorPrazosVencidos"].forEach(function (id) {
-    document.getElementById(id).textContent = "—";
+    const elemento = document.getElementById(id);
+    if (elemento) elemento.textContent = "—";
   });
 }
 
@@ -130,6 +185,8 @@ function casoSemResponsavel(caso) {
 
 async function carregarCasosSemResponsavel(token) {
   const indicador = document.getElementById("indicadorCasosSemResponsavel");
+  if (!indicador || indicador.closest("a")?.hidden) return;
+
   try {
     const resultado = await chamarApi({ acao: "listarCasos", token: token, pesquisa: "", estado: "Todos" });
     if (!resultado.sucesso || !Array.isArray(resultado.casos)) {
@@ -177,10 +234,6 @@ async function carregarIndicadoresPrazos(token) {
       return;
     }
     colocarIndicadoresPrazos(resultado);
-    if (Number(resultado.vencidos || 0) > 0) {
-      mensagem.textContent = "Existem prazos vencidos que requerem atenção imediata.";
-      mensagem.classList.add("erro");
-    }
   } catch (erro) {
     colocarPrazosIndisponiveis();
     mensagem.textContent = "Não foi possível carregar os alertas de prazos.";
@@ -188,52 +241,71 @@ async function carregarIndicadoresPrazos(token) {
   }
 }
 
+function apresentarPainel(utilizador, ecraValidacao) {
+  const moduloPrincipal = obterModuloPrincipal(utilizador) || "JURISLAB Aconselha";
+  const acessoAconselha = aplicarPermissoesDoPainel(utilizador);
+
+  document.getElementById("nomeTopo").textContent = utilizador.nome || utilizador.nomeCompleto || "Utilizador";
+  document.getElementById("perfilTopo").textContent = utilizador.perfil || "Perfil não informado";
+  document.getElementById("nomeUtilizador").textContent = utilizador.nome || utilizador.nomeCompleto || "utilizador";
+  document.getElementById("mensagemSessao").textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + " — acesso: " + moduloPrincipal + ".";
+  ecraValidacao.classList.add("oculto");
+
+  return acessoAconselha;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem(CHAVE_SESSAO);
   const ecraValidacao = document.getElementById("ecraValidacao");
-  const nomeTopo = document.getElementById("nomeTopo");
-  const perfilTopo = document.getElementById("perfilTopo");
-  const nomeUtilizador = document.getElementById("nomeUtilizador");
-  const mensagemSessao = document.getElementById("mensagemSessao");
   const btnSair = document.getElementById("btnSair");
 
   if (!token) {
-    limparSessaoLocal();
     irParaLogin();
     return;
   }
 
+  let utilizador = null;
+  let acessoAconselha = false;
+
   try {
     const resultado = await validarSessao(token);
+
     if (!resultado.sucesso || !resultado.valida || !resultado.utilizador) {
       limparSessaoLocal();
       irParaLogin();
       return;
     }
 
-    const utilizador = resultado.utilizador;
+    utilizador = resultado.utilizador;
     localStorage.setItem(CHAVE_UTILIZADOR, JSON.stringify(utilizador));
-
-    const moduloPrincipal = obterModuloPrincipal(utilizador) || "JURISLAB Aconselha";
-    const acessoAconselha = aplicarPermissoesDoPainel(utilizador);
-
-    nomeTopo.textContent = utilizador.nome || "Utilizador";
-    perfilTopo.textContent = utilizador.perfil || "Perfil não informado";
-    nomeUtilizador.textContent = utilizador.nome || "utilizador";
-    mensagemSessao.textContent = "Sessão activa como " + (utilizador.perfil || "utilizador") + " — acesso: " + moduloPrincipal + ".";
-    ecraValidacao.classList.add("oculto");
-
-    if (acessoAconselha) {
-      await Promise.all([
-        carregarIndicadores(token),
-        carregarCasosSemResponsavel(token),
-        carregarIndicadoresPrazos(token)
-      ]);
-    }
+    acessoAconselha = apresentarPainel(utilizador, ecraValidacao);
   } catch (erro) {
-    limparSessaoLocal();
-    irParaLogin();
-    return;
+    console.warn("Validação remota indisponível; será usada a sessão local.", erro);
+
+    try {
+      utilizador = JSON.parse(localStorage.getItem(CHAVE_UTILIZADOR) || "null");
+    } catch (erroLeitura) {
+      utilizador = null;
+    }
+
+    if (!utilizador) {
+      ecraValidacao.classList.add("oculto");
+      document.getElementById("mensagemSessao").textContent =
+        "Não foi possível validar a sessão. Verifique a ligação e actualize a página.";
+      return;
+    }
+
+    acessoAconselha = apresentarPainel(utilizador, ecraValidacao);
+    document.getElementById("mensagemSessao").textContent +=
+      " A ligação ao servidor está temporariamente indisponível.";
+  }
+
+  if (acessoAconselha && utilizador) {
+    await Promise.all([
+      carregarIndicadores(token),
+      carregarCasosSemResponsavel(token),
+      carregarIndicadoresPrazos(token)
+    ]);
   }
 
   btnSair.addEventListener("click", async function () {
