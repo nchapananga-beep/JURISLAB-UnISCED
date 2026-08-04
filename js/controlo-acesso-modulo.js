@@ -18,16 +18,52 @@
     localStorage.removeItem(CHAVE_UTILIZADOR);
   }
 
+  function mostrarRedireccionamento() {
+    document.documentElement.style.visibility = "visible";
+    document.body.innerHTML =
+      '<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#f6f6f6;font-family:Arial,sans-serif;text-align:center">' +
+      '<section style="max-width:420px;background:#fff;border:1px solid #ddd;border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(0,0,0,.08)">' +
+      '<h1 style="margin:0 0 12px;font-size:28px">Acesso reservado</h1>' +
+      '<p style="margin:0;color:#555;line-height:1.6">Esta área não está disponível para o seu perfil. A voltar ao painel...</p>' +
+      '</section></main>';
+  }
+
   function redireccionarPainel() {
-    document.documentElement.style.visibility = "hidden";
-    window.location.replace("dashboard.html");
+    mostrarRedireccionamento();
+
+    window.setTimeout(function () {
+      window.location.replace("dashboard.html");
+    }, 350);
+
+    window.setTimeout(function () {
+      if (!window.location.pathname.toLowerCase().endsWith("dashboard.html")) {
+        window.location.href = "dashboard.html";
+      }
+    }, 1800);
   }
 
   async function validarSessao(token) {
-    const url = API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token);
-    const resposta = await fetch(url, { method: "GET", cache: "no-store" });
-    if (!resposta.ok) throw new Error("Não foi possível validar a sessão.");
-    return resposta.json();
+    const controlador = new AbortController();
+    const limite = window.setTimeout(function () {
+      controlador.abort();
+    }, 12000);
+
+    try {
+      const url = API_JURISLAB + "?acao=validarSessao&token=" + encodeURIComponent(token);
+      const resposta = await fetch(url, {
+        method: "GET",
+        cache: "no-store",
+        signal: controlador.signal
+      });
+
+      if (!resposta.ok) {
+        throw new Error("Não foi possível validar a sessão.");
+      }
+
+      return resposta.json();
+    } finally {
+      window.clearTimeout(limite);
+    }
   }
 
   function paginaActual() {
@@ -36,6 +72,7 @@
 
   function paginaBloqueadaParaPerfil(perfil) {
     const pagina = paginaActual();
+
     const comuns = [
       "aconselha.html",
       "triagem.html",
@@ -44,7 +81,10 @@
       "relatorios.html"
     ];
 
-    if (["estudante", "estudante conselheiro"].includes(perfil) && comuns.includes(pagina)) {
+    if (
+      ["estudante", "estudante conselheiro"].includes(perfil) &&
+      comuns.includes(pagina)
+    ) {
       return true;
     }
 
@@ -55,11 +95,15 @@
       "encaminhamentos.html"
     ];
 
-    return perfil === "estudante" && exclusivasConselheiro.includes(pagina);
+    return (
+      perfil === "estudante" &&
+      exclusivasConselheiro.includes(pagina)
+    );
   }
 
   function ocultarElemento(elemento) {
     if (!elemento) return;
+
     const alvo = elemento.closest(
       "a, button, [role='button'], input[type='submit'], input[type='button'], li"
     ) || elemento;
@@ -74,13 +118,22 @@
   function ocultarPorTextoOuLigacao(expressoes) {
     document.querySelectorAll(
       "a, button, [role='button'], input[type='submit'], input[type='button']"
-    ).forEach((elemento) => {
+    ).forEach(function (elemento) {
       const texto = normalizar(
-        elemento.textContent || elemento.value || elemento.getAttribute("aria-label")
+        elemento.textContent ||
+        elemento.value ||
+        elemento.getAttribute("aria-label")
       );
-      const href = normalizar(elemento.getAttribute("href"));
 
-      if (expressoes.some((expressao) => texto.includes(expressao) || href.includes(expressao))) {
+      const href = normalizar(
+        elemento.getAttribute("href")
+      );
+
+      if (
+        expressoes.some(function (expressao) {
+          return texto.includes(expressao) || href.includes(expressao);
+        })
+      ) {
         ocultarElemento(elemento);
       }
     });
@@ -150,10 +203,11 @@
   function observarInterface(utilizador) {
     let agendado = false;
 
-    const reaplicar = () => {
+    const reaplicar = function () {
       if (agendado) return;
       agendado = true;
-      requestAnimationFrame(() => {
+
+      requestAnimationFrame(function () {
         agendado = false;
         aplicarInterfacePorPerfil(utilizador);
       });
@@ -165,27 +219,43 @@
     });
 
     reaplicar();
-    setTimeout(reaplicar, 500);
-    setTimeout(reaplicar, 1500);
+    window.setTimeout(reaplicar, 500);
+    window.setTimeout(reaplicar, 1500);
   }
 
   function obterUtilizadorLocal() {
     try {
-      return JSON.parse(localStorage.getItem(CHAVE_UTILIZADOR) || "null");
+      return JSON.parse(
+        localStorage.getItem(CHAVE_UTILIZADOR) || "null"
+      );
     } catch (erro) {
       return null;
     }
   }
 
-  function autorizarModulo(utilizador, moduloPretendido, apenasAdministrador) {
+  function autorizarModulo(
+    utilizador,
+    moduloPretendido,
+    apenasAdministrador
+  ) {
     const perfil = normalizar(utilizador.perfil);
-    const modulo = normalizar(utilizador.moduloPrincipal || utilizador.Modulo_Principal);
+    const modulo = normalizar(
+      utilizador.moduloPrincipal ||
+      utilizador.Modulo_Principal
+    );
     const pretendido = normalizar(moduloPretendido);
     const administrador = perfil === "administrador";
 
-    if (apenasAdministrador && !administrador) return false;
+    if (apenasAdministrador && !administrador) {
+      return false;
+    }
 
-    return administrador || modulo === "todos" || !pretendido || modulo === pretendido;
+    return (
+      administrador ||
+      modulo === "todos" ||
+      !pretendido ||
+      modulo === pretendido
+    );
   }
 
   function concluirAcesso(utilizador, moduloPretendido) {
@@ -200,15 +270,22 @@
     observarInterface(utilizador);
     document.documentElement.style.visibility = "visible";
 
-    window.dispatchEvent(new CustomEvent("jurislab:AcessoAutorizado", {
-      detail: { utilizador, modulo: moduloPretendido }
-    }));
+    window.dispatchEvent(
+      new CustomEvent("jurislab:AcessoAutorizado", {
+        detail: {
+          utilizador: utilizador,
+          modulo: moduloPretendido
+        }
+      })
+    );
   }
 
   async function verificarAcesso() {
     const scriptActual = document.currentScript;
     const moduloPretendido = scriptActual?.dataset?.modulo || "";
-    const apenasAdministrador = scriptActual?.dataset?.administrador === "true";
+    const apenasAdministrador =
+      scriptActual?.dataset?.administrador === "true";
+
     const token = localStorage.getItem(CHAVE_SESSAO);
 
     if (!token) {
@@ -219,23 +296,40 @@
     try {
       const resultado = await validarSessao(token);
 
-      if (!resultado.sucesso || !resultado.valida || !resultado.utilizador) {
+      if (
+        !resultado.sucesso ||
+        !resultado.valida ||
+        !resultado.utilizador
+      ) {
         limparSessao();
         window.location.replace("login.html");
         return;
       }
 
       const utilizador = resultado.utilizador;
-      localStorage.setItem(CHAVE_UTILIZADOR, JSON.stringify(utilizador));
+      localStorage.setItem(
+        CHAVE_UTILIZADOR,
+        JSON.stringify(utilizador)
+      );
 
-      if (!autorizarModulo(utilizador, moduloPretendido, apenasAdministrador)) {
+      if (
+        !autorizarModulo(
+          utilizador,
+          moduloPretendido,
+          apenasAdministrador
+        )
+      ) {
         redireccionarPainel();
         return;
       }
 
       concluirAcesso(utilizador, moduloPretendido);
     } catch (erro) {
-      console.warn("Validação remota indisponível; será usada a sessão local.", erro);
+      console.warn(
+        "Validação remota indisponível; será usada a sessão local.",
+        erro
+      );
+
       const utilizadorLocal = obterUtilizadorLocal();
 
       if (!utilizadorLocal) {
@@ -249,12 +343,21 @@
         return;
       }
 
-      if (!autorizarModulo(utilizadorLocal, moduloPretendido, apenasAdministrador)) {
+      if (
+        !autorizarModulo(
+          utilizadorLocal,
+          moduloPretendido,
+          apenasAdministrador
+        )
+      ) {
         redireccionarPainel();
         return;
       }
 
-      concluirAcesso(utilizadorLocal, moduloPretendido);
+      concluirAcesso(
+        utilizadorLocal,
+        moduloPretendido
+      );
     }
   }
 
