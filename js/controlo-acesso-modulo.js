@@ -4,7 +4,6 @@
   const API_JURISLAB = "https://script.google.com/macros/s/AKfycbyFzl8x8Kazn2ek0j5N8qF0f5beYNOSrNSfxx837FEF0do_gF3lzW3Z1UCvo9eeTROB/exec";
   const CHAVE_SESSAO = "JURISLAB_TOKEN";
   const CHAVE_UTILIZADOR = "JURISLAB_UTILIZADOR";
-  const CHAVE_AVISO_ACESSO = "JURISLAB_AVISO_ACESSO";
 
   function normalizar(valor) {
     return String(valor || "")
@@ -19,13 +18,9 @@
     localStorage.removeItem(CHAVE_UTILIZADOR);
   }
 
-  function bloquear(mensagem) {
+  function redireccionarPainel() {
     document.documentElement.style.visibility = "hidden";
-    sessionStorage.setItem(
-      CHAVE_AVISO_ACESSO,
-      String(mensagem || "Acesso não autorizado.")
-    );
-    window.location.replace("dashboard.html?acesso=negado");
+    window.location.replace("dashboard.html");
   }
 
   async function validarSessao(token) {
@@ -51,11 +46,9 @@
   }
 
   function ocultarPorTextoOuLigacao(expressoes) {
-    const elementos = document.querySelectorAll(
+    document.querySelectorAll(
       "a, button, [role='button'], input[type='submit'], input[type='button']"
-    );
-
-    elementos.forEach((elemento) => {
+    ).forEach((elemento) => {
       const texto = normalizar(
         elemento.textContent || elemento.value || elemento.getAttribute("aria-label")
       );
@@ -67,19 +60,14 @@
     });
   }
 
-  function bloquearPaginaPorPerfil(perfil) {
-    const pagina = normalizar(
-      window.location.pathname.split("/").pop() || ""
-    );
+  function paginaActual() {
+    return normalizar(window.location.pathname.split("/").pop() || "");
+  }
 
-    const estudanteOuConselheiro = [
-      "estudante",
-      "estudante conselheiro"
-    ].includes(perfil);
+  function paginaBloqueadaParaPerfil(perfil) {
+    const pagina = paginaActual();
 
-    if (!estudanteOuConselheiro) return false;
-
-    const paginasReservadas = [
+    const reservadasComuns = [
       "aconselha.html",
       "triagem.html",
       "triagens-pendentes.html",
@@ -87,20 +75,30 @@
       "relatorios.html"
     ];
 
-    if (paginasReservadas.includes(pagina)) {
-      bloquear(
-        "Esta página é reservada à equipa responsável pela triagem e gestão institucional."
-      );
+    if (
+      ["estudante", "estudante conselheiro"].includes(perfil) &&
+      reservadasComuns.includes(pagina)
+    ) {
       return true;
     }
 
-    return false;
+    const reservadasAoEstudante = [
+      "consultas.html",
+      "prazos.html",
+      "distribuicao-casos.html",
+      "encaminhamentos.html"
+    ];
+
+    return perfil === "estudante" && reservadasAoEstudante.includes(pagina);
   }
 
   function aplicarInterfacePorPerfil(utilizador) {
     const perfil = normalizar(utilizador.perfil);
 
-    if (bloquearPaginaPorPerfil(perfil)) return;
+    if (paginaBloqueadaParaPerfil(perfil)) {
+      redireccionarPainel();
+      return;
+    }
 
     if (perfil === "estudante conselheiro") {
       ocultarPorTextoOuLigacao([
@@ -187,6 +185,44 @@
     window.setTimeout(reaplicar, 2500);
   }
 
+  function obterUtilizadorLocal() {
+    try {
+      return JSON.parse(localStorage.getItem(CHAVE_UTILIZADOR) || "null");
+    } catch (erro) {
+      return null;
+    }
+  }
+
+  function autorizarPagina(utilizador, moduloPretendido, apenasAdministrador) {
+    const perfil = normalizar(utilizador.perfil);
+    const modulo = normalizar(
+      utilizador.moduloPrincipal || utilizador.Modulo_Principal
+    );
+    const pretendido = normalizar(moduloPretendido);
+    const administrador = perfil === "administrador";
+
+    if (apenasAdministrador && !administrador) return false;
+
+    return (
+      administrador ||
+      modulo === "todos" ||
+      !pretendido ||
+      modulo === pretendido
+    );
+  }
+
+  function concluirAutorizacao(utilizador, moduloPretendido) {
+    aplicarInterfacePorPerfil(utilizador);
+
+    if (document.documentElement.style.visibility === "hidden") return;
+
+    observarInterface(utilizador);
+    document.documentElement.style.visibility = "visible";
+    window.dispatchEvent(new CustomEvent("jurislab:AcessoAutorizado", {
+      detail: { utilizador, modulo: moduloPretendido }
+    }));
+  }
+
   async function verificarAcesso() {
     const scriptActual = document.currentScript;
     const moduloPretendido = scriptActual?.dataset?.modulo || "";
@@ -201,6 +237,7 @@
 
     try {
       const resultado = await validarSessao(token);
+
       if (!resultado.sucesso || !resultado.valida || !resultado.utilizador) {
         limparSessao();
         window.location.replace("login.html");
@@ -210,40 +247,34 @@
       const utilizador = resultado.utilizador;
       localStorage.setItem(CHAVE_UTILIZADOR, JSON.stringify(utilizador));
 
-      const perfil = normalizar(utilizador.perfil);
-      const modulo = normalizar(
-        utilizador.moduloPrincipal || utilizador.Modulo_Principal
-      );
-      const pretendido = normalizar(moduloPretendido);
-      const administrador = perfil === "administrador";
-
-      if (apenasAdministrador && !administrador) {
-        bloquear("Esta área é reservada aos administradores.");
+      if (!autorizarPagina(utilizador, moduloPretendido, apenasAdministrador)) {
+        redireccionarPainel();
         return;
       }
 
-      const autorizado =
-        administrador ||
-        modulo === "todos" ||
-        !pretendido ||
-        modulo === pretendido;
-
-      if (!autorizado) {
-        bloquear("Não tem autorização para aceder a este módulo.");
-        return;
-      }
-
-      aplicarInterfacePorPerfil(utilizador);
-      observarInterface(utilizador);
-
-      document.documentElement.style.visibility = "visible";
-      window.dispatchEvent(new CustomEvent("jurislab:AcessoAutorizado", {
-        detail: { utilizador, modulo: moduloPretendido }
-      }));
+      concluirAutorizacao(utilizador, moduloPretendido);
     } catch (erro) {
-      console.error(erro);
-      limparSessao();
-      window.location.replace("login.html");
+      console.warn("Validação remota indisponível; será usada a sessão local.", erro);
+
+      const utilizadorLocal = obterUtilizadorLocal();
+
+      if (!utilizadorLocal) {
+        document.documentElement.style.visibility = "visible";
+        document.body.innerHTML =
+          '<main style="font-family:Arial,sans-serif;padding:32px;text-align:center">' +
+          '<h1>Não foi possível validar a sessão</h1>' +
+          '<p>Verifique a ligação à Internet e actualize a página.</p>' +
+          '<p><a href="dashboard.html">Voltar ao painel</a></p>' +
+          '</main>';
+        return;
+      }
+
+      if (!autorizarPagina(utilizadorLocal, moduloPretendido, apenasAdministrador)) {
+        redireccionarPainel();
+        return;
+      }
+
+      concluirAutorizacao(utilizadorLocal, moduloPretendido);
     }
   }
 
