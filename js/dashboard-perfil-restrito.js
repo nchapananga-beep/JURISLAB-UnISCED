@@ -31,7 +31,7 @@
 
     if (perfil !== "estudante") return;
 
-    removerElemento(document.querySelector(".alertas-prazos"));
+   removerElemento(document.getElementById("painelPrazos"));
 
     [
       "indicadorCasosSemResponsavel",
