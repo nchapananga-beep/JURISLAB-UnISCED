@@ -153,12 +153,26 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
 
       renderizarUtentes(resultado.utentes || [], lista, resumo);
-    } catch (erro) {
-      mensagem.textContent = "Não foi possível contactar o servidor. Tente novamente.";
-      mensagem.className = "mensagem-formulario erro";
-      resumo.textContent = "";
-    }
-  }
+   } catch (erro) {
+  console.error(
+    "Erro ao carregar utentes:",
+    erro
+  );
+
+  mensagem.textContent =
+    "Erro ao carregar utentes: " +
+    (
+      erro && erro.message
+        ? erro.message
+        : String(erro)
+    );
+
+  mensagem.className =
+    "mensagem-formulario erro";
+
+  resumo.textContent = "";
+}
+}
 
   formPesquisa.addEventListener("submit", function (evento) {
     evento.preventDefault();
