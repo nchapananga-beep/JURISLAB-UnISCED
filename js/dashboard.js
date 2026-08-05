@@ -194,10 +194,20 @@ function aplicarPermissoesDoPainel(utilizador) {
 }
 
 function colocarIndicadores(resumo) {
-  document.getElementById("indicadorCasosActivos").textContent = Number(resumo.casosActivos || 0);
-  document.getElementById("indicadorTriagensPendentes").textContent = Number(resumo.triagensPendentes || 0);
-  document.getElementById("indicadorEncaminhamentos").textContent = Number(resumo.encaminhamentosAbertos || 0);
-  document.getElementById("indicadorUtentes").textContent = Number(resumo.utentesRegistados || 0);
+  const indicadores = {
+    indicadorCasosActivos: resumo.casosActivos,
+    indicadorTriagensPendentes: resumo.triagensPendentes,
+    indicadorEncaminhamentos: resumo.encaminhamentosAbertos,
+    indicadorUtentes: resumo.utentesRegistados
+  };
+
+  Object.keys(indicadores).forEach(function(id) {
+    const elemento = document.getElementById(id);
+
+    if (elemento) {
+      elemento.textContent = Number(indicadores[id] || 0);
+    }
+  });
 }
 
 function colocarIndicadoresIndisponiveis() {
