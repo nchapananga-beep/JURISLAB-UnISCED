@@ -387,13 +387,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   await Promise.all(tarefas);
 }
 
-    if (normalizarPermissao(utilizador.perfil) !== "estudante") {
-      tarefas.push(carregarIndicadoresPrazos(token));
-    }
-
-    await Promise.all(tarefas);
-  }
-
   btnSair.addEventListener("click", async function () {
     btnSair.disabled = true;
     btnSair.textContent = "A sair...";
