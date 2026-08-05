@@ -370,11 +370,22 @@ document.addEventListener("DOMContentLoaded", async function () {
       " A ligação ao servidor está temporariamente indisponível.";
   }
 
-  if (acessoAconselha && utilizador) {
-    const tarefas = [
+ if (acessoAconselha && utilizador) {
+  const perfilActual =
+    normalizarPermissao(utilizador.perfil);
+
+  const tarefas = [];
+
+  if (perfilActual !== "estudante") {
+    tarefas.push(
       carregarIndicadores(token),
-      carregarCasosSemResponsavel(token)
-    ];
+      carregarCasosSemResponsavel(token),
+      carregarIndicadoresPrazos(token)
+    );
+  }
+
+  await Promise.all(tarefas);
+}
 
     if (normalizarPermissao(utilizador.perfil) !== "estudante") {
       tarefas.push(carregarIndicadoresPrazos(token));
