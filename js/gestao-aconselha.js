@@ -154,26 +154,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       renderizarUtentes(resultado.utentes || [], lista, resumo);
    } catch (erro) {
-  console.error(
-    "Erro ao carregar utentes:",
-    erro
-  );
+  console.error("Erro ao carregar utentes:", erro);
 
   mensagem.textContent =
-    "Erro ao carregar utentes: " +
-    (
-      erro && erro.message
-        ? erro.message
-        : String(erro)
-    );
+    "Não foi possível carregar os utentes. Tente novamente.";
 
   mensagem.className =
     "mensagem-formulario erro";
 
   resumo.textContent = "";
 }
-}
-
   formPesquisa.addEventListener("submit", function (evento) {
     evento.preventDefault();
     carregar(campoPesquisa.value.trim());
