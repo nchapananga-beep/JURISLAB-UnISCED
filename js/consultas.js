@@ -3,8 +3,50 @@ const CHAVE_SESSAO="JURISLAB_TOKEN";
 const CHAVE_UTILIZADOR="JURISLAB_UTILIZADOR";
 function limparSessaoLocal(){localStorage.removeItem(CHAVE_SESSAO);localStorage.removeItem(CHAVE_UTILIZADOR)}
 function irParaLogin(){location.href="login.html"}
-async function validarSessao(token){const r=await fetch(API_JURISLAB+"?acao=validarSessao&token="+encodeURIComponent(token));if(!r.ok)throw new Error();return r.json()}
-async function chamarApi(dados){const r=await fetch(API_JURISLAB,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(dados)});if(!r.ok)throw new Error();return r.json()}
+async function validarSessao(token) {
+  const resposta = await fetch(
+    API_JURISLAB +
+      "?acao=validarSessao&token=" +
+      encodeURIComponent(token)
+  );
+
+  if (!resposta.ok) {
+    throw new Error(
+      "Falha ao validar a sessão. Código HTTP: " +
+        resposta.status
+    );
+  }
+
+  return resposta.json();
+}
+
+async function chamarApi(dados) {
+  const resposta = await fetch(API_JURISLAB, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(dados)
+  });
+
+  if (!resposta.ok) {
+    throw new Error(
+      "Falha na comunicação com a API. Código HTTP: " +
+        resposta.status
+    );
+  }
+
+  const texto = await resposta.text();
+
+  try {
+    return JSON.parse(texto);
+  } catch (erro) {
+    throw new Error(
+      "A API devolveu uma resposta inválida: " +
+        texto.substring(0, 200)
+    );
+  }
+}
 function escapar(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 function mostrar(el,texto,tipo){el.textContent=texto;el.className="mensagem-formulario";if(tipo)el.classList.add(tipo)}
 function renderizar(itens,lista,resumo,abrirActualizar){
