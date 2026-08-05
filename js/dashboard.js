@@ -374,11 +374,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   const perfilActual =
     normalizarPermissao(utilizador.perfil);
 
-  const tarefas = [];
+  /*
+   * Todos os perfis autorizados carregam o resumo principal.
+   * Para o Estudante, a API devolve apenas os casos atribuídos.
+   */
+  const tarefas = [
+    carregarIndicadores(token)
+  ];
 
+  /*
+   * Apenas os outros perfis carregam indicadores gerais
+   * e alertas de prazos.
+   */
   if (perfilActual !== "estudante") {
     tarefas.push(
-      carregarIndicadores(token),
       carregarCasosSemResponsavel(token),
       carregarIndicadoresPrazos(token)
     );
@@ -386,7 +395,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   await Promise.all(tarefas);
 }
-
   btnSair.addEventListener("click", async function () {
     btnSair.disabled = true;
     btnSair.textContent = "A sair...";
