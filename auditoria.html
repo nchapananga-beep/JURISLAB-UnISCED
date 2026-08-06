@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel de auditoria do JURISLAB UnISCED">
+  <title>Auditoria | JURISLAB UnISCED</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/auditoria.css?v=1">
+</head>
+<body class="pagina-auditoria">
+  <header class="auditoria-topo">
+    <a class="marca marca-com-logo" href="dashboard.html" aria-label="Voltar ao painel">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB UnISCED</span>
+        <span class="marca-subtitulo">Auditoria e rastreabilidade do sistema</span>
+      </div>
+    </a>
+    <nav class="acoes-topo" aria-label="Navegação da auditoria">
+      <a class="voltar-painel" href="dashboard.html">Voltar ao painel</a>
+    </nav>
+  </header>
+
+  <main class="auditoria-conteudo">
+    <section class="auditoria-cabecalho">
+      <div>
+        <p class="etiqueta">Controlo interno</p>
+        <h1>Painel de Auditoria</h1>
+        <p>Consulte as operações realizadas, identifique recusas e acompanhe a actividade dos utilizadores.</p>
+      </div>
+      <div class="cabecalho-acoes">
+        <button class="botao botao-secundario" id="btnExportar" type="button">Exportar CSV</button>
+        <button class="botao botao-principal" id="btnImprimir" type="button">Imprimir / PDF</button>
+      </div>
+    </section>
+
+    <section class="indicadores-auditoria" aria-label="Resumo da auditoria">
+      <article class="indicador-cartao">
+        <span>Total de operações</span>
+        <strong id="indicadorTotal">...</strong>
+      </article>
+      <article class="indicador-cartao">
+        <span>Operações hoje</span>
+        <strong id="indicadorHoje">...</strong>
+      </article>
+      <article class="indicador-cartao">
+        <span>Logins</span>
+        <strong id="indicadorLogins">...</strong>
+      </article>
+      <article class="indicador-cartao indicador-alerta">
+        <span>Operações recusadas</span>
+        <strong id="indicadorRecusadas">...</strong>
+      </article>
+      <article class="indicador-cartao">
+        <span>Utilizadores activos</span>
+        <strong id="indicadorUtilizadores">...</strong>
+      </article>
+      <article class="indicador-cartao">
+        <span>Módulos auditados</span>
+        <strong id="indicadorModulos">...</strong>
+      </article>
+    </section>
+
+    <section class="painel-distribuicao">
+      <div class="painel-titulo">
+        <div>
+          <p class="etiqueta">Distribuição</p>
+          <h2>Operações por módulo</h2>
+        </div>
+      </div>
+      <div id="graficoModulos" class="grafico-modulos" aria-live="polite"></div>
+    </section>
+
+    <section class="filtros-cartao">
+      <form id="formFiltros" class="filtros-formulario">
+        <div class="campo campo-pesquisa">
+          <label for="campoPesquisa">Pesquisa</label>
+          <input id="campoPesquisa" type="search" placeholder="Utilizador, código, descrição ou email" autocomplete="off">
+        </div>
+        <div class="campo">
+          <label for="filtroModulo">Módulo</label>
+          <select id="filtroModulo">
+            <option value="Todos">Todos os módulos</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="filtroResultado">Resultado</label>
+          <select id="filtroResultado">
+            <option value="Todos">Todos</option>
+            <option value="Sucesso">Sucesso</option>
+            <option value="Recusado">Recusado</option>
+            <option value="Erro">Erro</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="dataInicial">Data inicial</label>
+          <input id="dataInicial" type="date">
+        </div>
+        <div class="campo">
+          <label for="dataFinal">Data final</label>
+          <input id="dataFinal" type="date">
+        </div>
+        <div class="filtros-acoes">
+          <button class="botao botao-principal" type="submit">Pesquisar</button>
+          <button class="botao botao-secundario" id="btnLimpar" type="button">Limpar</button>
+        </div>
+      </form>
+      <p id="resumoResultados" class="resumo-resultados">A carregar auditoria...</p>
+      <p id="mensagemAuditoria" class="mensagem-formulario" role="status"></p>
+    </section>
+
+    <section class="tabela-cartao" aria-labelledby="tituloRegistos">
+      <div class="tabela-cabecalho">
+        <div>
+          <p class="etiqueta">Histórico</p>
+          <h2 id="tituloRegistos">Registos de auditoria</h2>
+        </div>
+      </div>
+      <div class="tabela-responsiva">
+        <table>
+          <thead>
+            <tr>
+              <th>Data/Hora</th>
+              <th>Utilizador</th>
+              <th>Perfil</th>
+              <th>Módulo</th>
+              <th>Acção</th>
+              <th>Código</th>
+              <th>Descrição</th>
+              <th>Anterior</th>
+              <th>Novo</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
+          <tbody id="corpoAuditoria"></tbody>
+        </table>
+      </div>
+      <div id="estadoVazio" class="estado-vazio oculto">Nenhum registo de auditoria encontrado.</div>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao">
+    <div>
+      <strong>JURISLAB UnISCED</strong>
+      <p>A validar a sua sessão...</p>
+    </div>
+  </div>
+
+  <script src="js/controlo-acesso-modulo.js?v=1" data-modulo="JURISLAB Aconselha"></script>
+  <script src="js/auditoria.js?v=1"></script>
+</body>
+</html>
