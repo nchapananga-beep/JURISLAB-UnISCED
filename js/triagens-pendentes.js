@@ -105,6 +105,17 @@ document.addEventListener("DOMContentLoaded", async function () {
   const resumo = document.getElementById("resumoResultados");
   const mensagem = document.getElementById("mensagemTriagens");
 
+  const parametrosUrl =
+    new URLSearchParams(window.location.search);
+
+  const pesquisaUrl = String(
+    parametrosUrl.get("pesquisa") || ""
+  ).trim();
+
+  if (pesquisaUrl) {
+    campoPesquisa.value = pesquisaUrl;
+  }
+
   const modal = document.getElementById("modalCaso");
   const btnFecharModal = document.getElementById("btnFecharModal");
   const btnCancelarCaso = document.getElementById("btnCancelarCaso");
