@@ -159,12 +159,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         "sucesso"
       );
 
-      const idUtente = campoIdUtente.value;
-      const nomeUtente = campoNomeUtente.value;
-      form.reset();
-      campoIdUtente.value = idUtente;
-      campoNomeUtente.value = nomeUtente;
       localStorage.removeItem(CHAVE_UTENTE_SELECCIONADO);
+
+setTimeout(() => {
+  window.location.href =
+    "triagens-pendentes.html?pesquisa=" +
+    encodeURIComponent(resultado.idTriagem);
+}, 800);
     } catch (erro) {
       mostrarMensagem(mensagem, "Não foi possível contactar o servidor. Tente novamente.", "erro");
     } finally {
