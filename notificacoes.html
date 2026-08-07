@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Centro de notificações do JURISLAB Aconselha">
+  <title>Notificações | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/notificacoes.css?v=1">
+</head>
+<body class="pagina-notificacoes">
+  <header class="notificacoes-topo">
+    <a class="marca marca-com-logo" href="dashboard.html">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Centro de Notificações</span></div>
+    </a>
+    <a class="botao botao-secundario" href="dashboard.html">Voltar ao Painel</a>
+  </header>
+
+  <main class="notificacoes-conteudo">
+    <section class="notificacoes-cabecalho">
+      <div><p class="etiqueta">Acompanhamento</p><h1>Centro de Notificações</h1><p>Prioridades e acontecimentos que merecem atenção no JURISLAB Aconselha.</p></div>
+      <button id="btnActualizarNotificacoes" type="button" class="botao botao-principal">Actualizar</button>
+    </section>
+
+    <section class="resumo-notificacoes" aria-label="Resumo das notificações">
+      <article><span>Urgentes</span><strong id="notUrgentes">...</strong></article>
+      <article><span>Atenção</span><strong id="notAtencao">...</strong></article>
+      <article><span>Informativas</span><strong id="notInformativas">...</strong></article>
+      <article><span>Total</span><strong id="notTotal">...</strong></article>
+    </section>
+
+    <section class="filtros-notificacoes">
+      <button type="button" class="filtro-notificacao activo" data-filtro="todos">Todas</button>
+      <button type="button" class="filtro-notificacao" data-filtro="urgente">Urgentes</button>
+      <button type="button" class="filtro-notificacao" data-filtro="atencao">Atenção</button>
+      <button type="button" class="filtro-notificacao" data-filtro="informativa">Informativas</button>
+    </section>
+
+    <section id="listaNotificacoes" class="lista-notificacoes"><div class="estado-vazio">A carregar notificações...</div></section>
+    <p id="mensagemNotificacoes" class="mensagem-formulario" role="status"></p>
+  </main>
+
+  <div id="ecraValidacao" class="ecrã-validacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/notificacoes.js?v=1"></script>
+</body>
+</html>
