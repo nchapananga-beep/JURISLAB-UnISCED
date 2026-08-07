@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Centro de Administração e diagnóstico do JURISLAB UnISCED">
+  <title>Centro de Administração | JURISLAB</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/centro-administracao.css?v=1">
+</head>
+<body class="pagina-centro-admin">
+  <header class="centro-topo">
+    <a class="marca marca-com-logo" href="dashboard.html">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB</span>
+        <span class="marca-subtitulo">Centro de Administração</span>
+      </div>
+    </a>
+    <nav class="centro-nav">
+      <a href="dashboard.html">Painel</a>
+      <a href="notificacoes.html">Notificações</a>
+      <a href="auditoria.html">Auditoria</a>
+    </nav>
+  </header>
+
+  <main class="centro-conteudo">
+    <section class="centro-hero">
+      <div>
+        <p class="etiqueta">Administração institucional</p>
+        <h1>Centro de Administração</h1>
+        <p>Gestão, segurança, diagnóstico e manutenção do JURISLAB num único lugar.</p>
+      </div>
+      <div class="versao-sistema">
+        <span>Versão actual</span>
+        <strong>1.0</strong>
+        <small id="estadoGeral">A verificar sistema...</small>
+      </div>
+    </section>
+
+    <section class="saude-sistema" aria-labelledby="tituloSaude">
+      <div class="secao-cabecalho-admin">
+        <div>
+          <p class="etiqueta">Monitorização</p>
+          <h2 id="tituloSaude">Saúde do sistema</h2>
+        </div>
+        <button id="btnActualizarSaude" class="botao botao-principal" type="button">Executar diagnóstico</button>
+      </div>
+
+      <div class="grelha-saude">
+        <article class="cartao-saude" id="cartaoSessao">
+          <span class="estado-ponto"></span>
+          <div><small>Autenticação</small><strong id="saudeSessao">A verificar...</strong><p id="detalheSessao">Sessão e permissões.</p></div>
+        </article>
+        <article class="cartao-saude" id="cartaoApi">
+          <span class="estado-ponto"></span>
+          <div><small>API / Apps Script</small><strong id="saudeApi">A verificar...</strong><p id="detalheApi">Comunicação com o servidor.</p></div>
+        </article>
+        <article class="cartao-saude" id="cartaoPrazos">
+          <span class="estado-ponto"></span>
+          <div><small>Prazos jurídicos</small><strong id="saudePrazos">A verificar...</strong><p id="detalhePrazos">Situações que exigem atenção.</p></div>
+        </article>
+        <article class="cartao-saude" id="cartaoDados">
+          <span class="estado-ponto"></span>
+          <div><small>Dados operacionais</small><strong id="saudeDados">A verificar...</strong><p id="detalheDados">Leitura do resumo institucional.</p></div>
+        </article>
+      </div>
+      <p id="mensagemDiagnostico" class="mensagem-formulario" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="atalhos-admin" aria-labelledby="tituloFerramentas">
+      <div class="secao-cabecalho-admin">
+        <div>
+          <p class="etiqueta">Ferramentas administrativas</p>
+          <h2 id="tituloFerramentas">Gestão e controlo</h2>
+        </div>
+      </div>
+
+      <div class="grelha-ferramentas">
+        <a class="ferramenta-admin ferramenta-destaque" href="administracao-utilizadores.html">
+          <span class="ferramenta-numero">01</span><h3>Utilizadores e Permissões</h3><p>Gerir utilizadores, perfis, estado de acesso e permissões institucionais.</p><strong>Abrir gestão →</strong>
+        </a>
+        <a class="ferramenta-admin" href="auditoria.html">
+          <span class="ferramenta-numero">02</span><h3>Auditoria</h3><p>Consultar quem realizou cada operação, quando e com que resultado.</p><strong>Abrir auditoria →</strong>
+        </a>
+        <a class="ferramenta-admin" href="notificacoes.html">
+          <span class="ferramenta-numero">03</span><h3>Centro de Notificações</h3><p>Acompanhar situações urgentes, alertas e ocorrências que merecem atenção.</p><strong>Ver notificações →</strong>
+        </a>
+        <a class="ferramenta-admin" href="teste-versao-1.html">
+          <span class="ferramenta-numero">04</span><h3>Diagnóstico Técnico</h3><p>Executar os testes automáticos da versão e validar APIs e páginas centrais.</p><strong>Testar versão →</strong>
+        </a>
+        <a class="ferramenta-admin" href="relatorios.html">
+          <span class="ferramenta-numero">05</span><h3>Relatórios e Estatísticas</h3><p>Analisar indicadores operacionais e apoiar a gestão institucional.</p><strong>Abrir relatórios →</strong>
+        </a>
+        <a class="ferramenta-admin" href="documentos-casos.html">
+          <span class="ferramenta-numero">06</span><h3>Gestão Documental</h3><p>Acompanhar documentos associados aos casos e verificar a organização documental.</p><strong>Abrir documentos →</strong>
+        </a>
+        <a class="ferramenta-admin" href="pesquisa-global.html">
+          <span class="ferramenta-numero">07</span><h3>Pesquisa Global</h3><p>Localizar rapidamente utentes, triagens, casos e outros registos do sistema.</p><strong>Abrir pesquisa →</strong>
+        </a>
+        <article class="ferramenta-admin ferramenta-futura">
+          <span class="ferramenta-numero">08</span><h3>Backup e Restauro</h3><p>Área reservada para cópias de segurança, restauro e política de retenção.</p><strong>Em preparação</strong>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB</strong><p>A validar acesso administrativo...</p></div></div>
+  <script src="js/centro-administracao.js?v=1"></script>
+</body>
+</html>
