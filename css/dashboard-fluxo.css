@@ -1,0 +1,72 @@
+.recomendacao-fluxo {
+  margin-top: 22px;
+  padding: 16px 18px;
+  display: grid;
+  gap: 4px;
+  background: #fff8f9;
+  border: 1px solid #e6a7b2;
+  border-left: 5px solid var(--vermelho);
+  border-radius: 12px;
+}
+
+.recomendacao-fluxo[hidden] {
+  display: none;
+}
+
+.recomendacao-rotulo {
+  color: var(--vermelho);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.recomendacao-fluxo strong {
+  color: var(--preto);
+  font-size: 1rem;
+}
+
+.recomendacao-fluxo small {
+  color: var(--texto-suave);
+  line-height: 1.45;
+}
+
+.recomendacao-fluxo-urgente {
+  background: #fff4f4;
+  border-color: #d97b88;
+  border-left-color: #9e0b1f;
+}
+
+.botao-fluxo-recomendado {
+  outline: 3px solid rgba(200, 16, 46, 0.25);
+  outline-offset: 3px;
+  box-shadow: 0 10px 24px rgba(200, 16, 46, 0.18);
+  transform: translateY(-1px);
+}
+
+.botao-fluxo-recomendado::before {
+  content: "Recomendado";
+  position: absolute;
+  top: -9px;
+  left: 14px;
+  z-index: 2;
+  padding: 3px 8px;
+  color: #fff;
+  background: var(--vermelho);
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 620px) {
+  .recomendacao-fluxo {
+    margin-top: 18px;
+    padding: 14px 15px;
+  }
+
+  .botao-fluxo-recomendado::before {
+    left: 12px;
+  }
+}
