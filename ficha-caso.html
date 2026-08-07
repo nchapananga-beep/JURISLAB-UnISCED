@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet" href="css/ficha-caso.css?v=4">
   <link rel="stylesheet" href="css/ficha-caso-timeline.css?v=1">
-  <link rel="stylesheet" href="css/ficha-caso-tabs.css?v=1">
+  <link rel="stylesheet" href="css/ficha-caso-tabs.css?v=2">
   <link rel="stylesheet" href="css/ficha-caso-melhorias.css?v=1">
 </head>
 <body class="pagina-ficha-caso">
@@ -47,61 +47,17 @@
         <input type="hidden" name="idCaso" id="idCasoAtendimento">
         <input type="hidden" name="idUtente" id="idUtenteAtendimento">
         <div class="grelha-formulario">
-          <div class="campo">
-            <label for="tipoAtendimento">Tipo de atendimento *</label>
-            <select id="tipoAtendimento" name="tipoAtendimento" required>
-              <option value="">Seleccione</option>
-              <option>Primeiro atendimento</option>
-              <option>Acompanhamento</option>
-              <option>Esclarecimento</option>
-              <option>Recepção de documentos</option>
-              <option>Comunicação de resultado</option>
-            </select>
-          </div>
-          <div class="campo">
-            <label for="modalidadeAtendimento">Modalidade *</label>
-            <select id="modalidadeAtendimento" name="modalidade" required>
-              <option value="">Seleccione</option>
-              <option>Presencial</option>
-              <option>Telefone</option>
-              <option>Email</option>
-              <option>Videochamada</option>
-              <option>WhatsApp</option>
-            </select>
-          </div>
-          <div class="campo campo-largo">
-            <label for="resumoAtendimento">Resumo do atendimento *</label>
-            <textarea id="resumoAtendimento" name="resumoAtendimento" rows="4" required></textarea>
-          </div>
-          <div class="campo campo-largo">
-            <label for="analiseJuridica">Análise jurídica</label>
-            <textarea id="analiseJuridica" name="analiseJuridica" rows="4"></textarea>
-          </div>
-          <div class="campo campo-largo">
-            <label for="orientacaoPrestada">Orientação prestada *</label>
-            <textarea id="orientacaoPrestada" name="orientacaoPrestada" rows="4" required></textarea>
-          </div>
-          <div class="campo campo-largo">
-            <label for="documentosRecebidos">Documentos recebidos</label>
-            <textarea id="documentosRecebidos" name="documentosRecebidos" rows="3" placeholder="Indique os documentos entregues pelo utente."></textarea>
-          </div>
-          <div class="campo campo-largo">
-            <label for="proximaAccao">Próxima acção *</label>
-            <textarea id="proximaAccao" name="proximaAccao" rows="3" required></textarea>
-          </div>
-          <div class="campo">
-            <label for="dataProximaAccao">Data da próxima acção</label>
-            <input id="dataProximaAccao" name="dataProximaAccao" type="date">
-          </div>
-          <div class="campo">
-            <label for="responsavelAtendimento">Responsável *</label>
-            <input id="responsavelAtendimento" name="responsavel" type="text" required>
-          </div>
+          <div class="campo"><label for="tipoAtendimento">Tipo de atendimento *</label><select id="tipoAtendimento" name="tipoAtendimento" required><option value="">Seleccione</option><option>Primeiro atendimento</option><option>Acompanhamento</option><option>Esclarecimento</option><option>Recepção de documentos</option><option>Comunicação de resultado</option></select></div>
+          <div class="campo"><label for="modalidadeAtendimento">Modalidade *</label><select id="modalidadeAtendimento" name="modalidade" required><option value="">Seleccione</option><option>Presencial</option><option>Telefone</option><option>Email</option><option>Videochamada</option><option>WhatsApp</option></select></div>
+          <div class="campo campo-largo"><label for="resumoAtendimento">Resumo do atendimento *</label><textarea id="resumoAtendimento" name="resumoAtendimento" rows="4" required></textarea></div>
+          <div class="campo campo-largo"><label for="analiseJuridica">Análise jurídica</label><textarea id="analiseJuridica" name="analiseJuridica" rows="4"></textarea></div>
+          <div class="campo campo-largo"><label for="orientacaoPrestada">Orientação prestada *</label><textarea id="orientacaoPrestada" name="orientacaoPrestada" rows="4" required></textarea></div>
+          <div class="campo campo-largo"><label for="documentosRecebidos">Documentos recebidos</label><textarea id="documentosRecebidos" name="documentosRecebidos" rows="3" placeholder="Indique os documentos entregues pelo utente."></textarea></div>
+          <div class="campo campo-largo"><label for="proximaAccao">Próxima acção *</label><textarea id="proximaAccao" name="proximaAccao" rows="3" required></textarea></div>
+          <div class="campo"><label for="dataProximaAccao">Data da próxima acção</label><input id="dataProximaAccao" name="dataProximaAccao" type="date"></div>
+          <div class="campo"><label for="responsavelAtendimento">Responsável *</label><input id="responsavelAtendimento" name="responsavel" type="text" required></div>
         </div>
-        <div class="acoes-formulario">
-          <button class="botao botao-principal" id="btnGuardarAtendimento" type="submit">Guardar atendimento</button>
-          <button class="botao botao-secundario" id="btnCancelarAtendimento" type="button">Cancelar</button>
-        </div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnGuardarAtendimento" type="submit">Guardar atendimento</button><button class="botao botao-secundario" id="btnCancelarAtendimento" type="button">Cancelar</button></div>
         <p id="mensagemAtendimento" class="mensagem-formulario" role="status"></p>
       </form>
     </div>
@@ -110,25 +66,11 @@
   <div class="modal-fundo oculto" id="modalReabertura" role="dialog" aria-modal="true" aria-labelledby="tituloModalReabertura">
     <div class="modal-cartao modal-menor">
       <button class="modal-fechar" id="btnFecharReabertura" type="button" aria-label="Fechar">×</button>
-      <p class="etiqueta">Retomar acompanhamento</p>
-      <h2 id="tituloModalReabertura">Reabrir caso</h2>
-      <p id="resumoCasoReabertura" class="resumo-seleccionado"></p>
+      <p class="etiqueta">Retomar acompanhamento</p><h2 id="tituloModalReabertura">Reabrir caso</h2><p id="resumoCasoReabertura" class="resumo-seleccionado"></p>
       <form id="formReabertura" novalidate>
         <input type="hidden" name="idCaso" id="idCasoReabertura">
-        <div class="grupo-campos">
-          <div class="campo">
-            <label for="motivoReabertura">Motivo da reabertura *</label>
-            <textarea id="motivoReabertura" name="motivoReabertura" rows="5" required placeholder="Indique os novos factos, documentos ou razões para retomar o caso."></textarea>
-          </div>
-          <div class="campo">
-            <label for="responsavelReabertura">Responsável pela reabertura *</label>
-            <input id="responsavelReabertura" name="responsavel" type="text" required>
-          </div>
-        </div>
-        <div class="acoes-formulario">
-          <button class="botao botao-principal" id="btnGuardarReabertura" type="submit">Confirmar reabertura</button>
-          <button class="botao botao-secundario" id="btnCancelarReabertura" type="button">Cancelar</button>
-        </div>
+        <div class="grupo-campos"><div class="campo"><label for="motivoReabertura">Motivo da reabertura *</label><textarea id="motivoReabertura" name="motivoReabertura" rows="5" required placeholder="Indique os novos factos, documentos ou razões para retomar o caso."></textarea></div><div class="campo"><label for="responsavelReabertura">Responsável pela reabertura *</label><input id="responsavelReabertura" name="responsavel" type="text" required></div></div>
+        <div class="acoes-formulario"><button class="botao botao-principal" id="btnGuardarReabertura" type="submit">Confirmar reabertura</button><button class="botao botao-secundario" id="btnCancelarReabertura" type="button">Cancelar</button></div>
         <p id="mensagemReabertura" class="mensagem-formulario" role="status"></p>
       </form>
     </div>
@@ -138,7 +80,7 @@
   <script src="js/ficha-caso.js?v=3"></script>
   <script src="js/ficha-caso-indicadores.js?v=1"></script>
   <script src="js/ficha-caso-timeline.js?v=1"></script>
-  <script src="js/ficha-caso-auditoria.js?v=1"></script>
-  <script src="js/ficha-caso-tabs.js?v=1"></script>
+  <script src="js/ficha-caso-auditoria.js?v=2"></script>
+  <script src="js/ficha-caso-tabs.js?v=2"></script>
 </body>
 </html>
