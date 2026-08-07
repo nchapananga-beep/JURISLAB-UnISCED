@@ -6,7 +6,7 @@
   <meta name="description" content="Painel principal do JURISLAB UnISCED">
   <title>Painel | JURISLAB UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/dashboard.css?v=8">
+  <link rel="stylesheet" href="css/dashboard.css?v=9">
 </head>
 <body class="pagina-dashboard">
   <header class="dashboard-topo">
@@ -29,16 +29,16 @@
     </div>
 
     <section class="modulos-dashboard"><div class="secao-cabecalho"><p class="etiqueta">Módulos</p><h2>Escolha uma área de trabalho</h2></div><div class="grelha-dashboard">
-      <article class="modulo-dashboard modulo-activo" data-modulo="JURISLAB Aconselha"><span>01</span><h3>JURISLAB Aconselha</h3><p>Gestão de utentes, triagens, casos, consultas, prazos, atendimentos e encaminhamentos jurídicos.</p><div class="acoes-modulo">
-        <a class="botao-modulo botao-modulo-principal" href="aconselha.html">Novo atendimento</a>
-        <a class="botao-modulo botao-modulo-secundario" href="pedidos-publicos.html">Pedidos Públicos</a>
-        <a class="botao-modulo botao-modulo-secundario" href="gestao-aconselha.html">Abrir gestão</a>
-        <a class="botao-modulo botao-modulo-agenda" href="consultas.html">Agenda de Consultas</a>
-        <a class="botao-modulo botao-modulo-prazos" href="prazos.html">Controlo de Prazos</a>
-        <a class="botao-modulo botao-modulo-distribuicao" href="distribuicao-casos.html">Distribuição de Casos</a>
-        <a class="botao-modulo botao-modulo-secundario" href="relatorios.html">Relatórios e Estatísticas</a>
-        <a class="botao-modulo botao-modulo-principal" href="pesquisa-global.html">Pesquisa Global</a>
-        <a class="botao-modulo botao-modulo-auditoria" href="auditoria.html" data-auditoria="true">Auditoria</a>
+      <article class="modulo-dashboard modulo-activo" data-modulo="JURISLAB Aconselha"><span>01</span><h3>JURISLAB Aconselha</h3><p>Gestão de utentes, triagens, casos, consultas, prazos, atendimentos e encaminhamentos jurídicos.</p><div class="acoes-modulo acoes-modulo-fluxo" aria-label="Fluxo de trabalho do JURISLAB Aconselha">
+        <a class="botao-modulo botao-modulo-secundario botao-fluxo" href="pedidos-publicos.html" data-etapa="1"><span class="numero-etapa">1</span><span class="texto-etapa">Pedidos Públicos</span></a>
+        <a class="botao-modulo botao-modulo-secundario botao-fluxo" href="gestao-aconselha.html" data-etapa="2"><span class="numero-etapa">2</span><span class="texto-etapa">Abrir Gestão</span></a>
+        <a class="botao-modulo botao-modulo-principal botao-fluxo" href="aconselha.html" data-etapa="3"><span class="numero-etapa">3</span><span class="texto-etapa">Novo Atendimento</span></a>
+        <a class="botao-modulo botao-modulo-agenda botao-fluxo" href="consultas.html" data-etapa="4"><span class="numero-etapa">4</span><span class="texto-etapa">Agenda de Consultas</span></a>
+        <a class="botao-modulo botao-modulo-distribuicao botao-fluxo" href="distribuicao-casos.html" data-etapa="5"><span class="numero-etapa">5</span><span class="texto-etapa">Distribuição de Casos</span></a>
+        <a class="botao-modulo botao-modulo-prazos botao-fluxo" href="prazos.html" data-etapa="6"><span class="numero-etapa">6</span><span class="texto-etapa">Controlo de Prazos</span></a>
+        <a class="botao-modulo botao-modulo-principal botao-fluxo" href="pesquisa-global.html" data-etapa="7"><span class="numero-etapa">7</span><span class="texto-etapa">Pesquisa Global</span></a>
+        <a class="botao-modulo botao-modulo-auditoria botao-fluxo" href="auditoria.html" data-auditoria="true" data-etapa="8"><span class="numero-etapa">8</span><span class="texto-etapa">Auditoria</span></a>
+        <a class="botao-modulo botao-modulo-secundario botao-fluxo botao-fluxo-final" href="relatorios.html" data-etapa="9"><span class="numero-etapa">9</span><span class="texto-etapa">Relatórios e Estatísticas</span></a>
       </div></article>
       <article class="modulo-dashboard" data-modulo="JURISLAB Tribunal"><span>02</span><h3>JURISLAB Tribunal</h3><p>Casos fictícios, equipas, audiências e avaliações.</p><button type="button" disabled>Em preparação</button></article>
       <article class="modulo-dashboard" data-modulo="JURISLAB Olimpíadas"><span>03</span><h3>JURISLAB Olimpíadas</h3><p>Inscrições, provas, pontuações e classificações.</p><button type="button" disabled>Em preparação</button></article>
