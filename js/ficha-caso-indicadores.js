@@ -31,7 +31,31 @@
     return dias + (dias === 1 ? " dia" : " dias");
   }
 
+  function criarBotaoRelatorio() {
+    if (document.getElementById("btnRelatorioPdf")) return;
+
+    const acoes = document.querySelector(".acoes-ficha");
+    const btnImprimir = document.getElementById("btnImprimir");
+    if (!acoes || !btnImprimir) return;
+
+    const botao = document.createElement("button");
+    botao.id = "btnRelatorioPdf";
+    botao.type = "button";
+    botao.className = "botao botao-principal";
+    botao.textContent = "Gerar relatório PDF";
+
+    botao.addEventListener("click", function () {
+      const idCaso = new URLSearchParams(location.search).get("idCaso") || "";
+      if (!idCaso) return;
+      location.href = "relatorio-caso.html?idCaso=" + encodeURIComponent(idCaso);
+    });
+
+    acoes.insertBefore(botao, btnImprimir);
+  }
+
   function criarEstrutura() {
+    criarBotaoRelatorio();
+
     if (document.getElementById("indicadoresCaso")) return document.getElementById("indicadoresCaso");
     const cabecalho = document.querySelector(".ficha-cabecalho");
     if (!cabecalho || !cabecalho.parentNode) return null;
