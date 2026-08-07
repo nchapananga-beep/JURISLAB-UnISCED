@@ -29,7 +29,7 @@
       <div>
         <p class="etiqueta">Protecção dos dados</p>
         <h1>Backup e Restauro</h1>
-        <p>Crie cópias integrais da base de dados do JURISLAB e restaure uma versão anterior com confirmação administrativa.</p>
+        <p>Crie cópias integrais da base de dados do JURISLAB e prepare uma versão restaurada sem alterar a base que está em produção.</p>
       </div>
       <div class="backup-estado">
         <span>Versão</span>
@@ -61,7 +61,7 @@
         <div>
           <p class="etiqueta">Histórico</p>
           <h2>Backups disponíveis</h2>
-          <p>O restauro substitui os dados actuais pela versão seleccionada. Antes disso, o sistema cria automaticamente uma cópia de segurança do estado actual.</p>
+          <p>O restauro seguro cria uma nova cópia recuperada no Google Drive para validação. A base actualmente utilizada pelo JURISLAB não é alterada automaticamente.</p>
         </div>
         <button id="btnActualizar" class="botao botao-secundario" type="button">Actualizar lista</button>
       </div>
@@ -75,19 +75,19 @@
   <div class="modal-fundo oculto" id="modalRestauro" role="dialog" aria-modal="true" aria-labelledby="tituloRestauro">
     <div class="modal-cartao-restauro">
       <button id="btnFecharRestauro" class="modal-fechar" type="button" aria-label="Fechar">×</button>
-      <p class="etiqueta">Operação crítica</p>
-      <h2 id="tituloRestauro">Confirmar restauro</h2>
+      <p class="etiqueta">Restauro seguro</p>
+      <h2 id="tituloRestauro">Preparar versão restaurada</h2>
       <div id="resumoRestauro" class="resumo-restauro"></div>
       <div class="aviso-restauro">
-        <strong>Atenção</strong>
-        <p>O sistema fará primeiro um backup de segurança dos dados actuais. Em seguida, substituirá a estrutura e os dados das folhas pela cópia seleccionada.</p>
+        <strong>Modo protegido</strong>
+        <p>Será criada uma nova cópia restaurada no Google Drive. Os dados actualmente utilizados pelo sistema permanecerão intactos até que a versão recuperada seja validada.</p>
       </div>
       <div class="campo-confirmacao">
         <label for="confirmacaoRestauro">Para confirmar, escreva exactamente <strong>RESTAURAR</strong></label>
         <input id="confirmacaoRestauro" type="text" autocomplete="off" placeholder="RESTAURAR">
       </div>
       <div class="acoes-restauro">
-        <button id="btnConfirmarRestauro" class="botao botao-perigo" type="button" disabled>Restaurar esta versão</button>
+        <button id="btnConfirmarRestauro" class="botao botao-perigo" type="button" disabled>Preparar restauro</button>
         <button id="btnCancelarRestauro" class="botao botao-secundario" type="button">Cancelar</button>
       </div>
       <p id="mensagemRestauro" class="mensagem-formulario" role="status" aria-live="polite"></p>
@@ -95,6 +95,6 @@
   </div>
 
   <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB</strong><p>A validar acesso administrativo...</p></div></div>
-  <script src="js/backup-restauro.js?v=1"></script>
+  <script src="js/backup-restauro.js?v=2"></script>
 </body>
 </html>
