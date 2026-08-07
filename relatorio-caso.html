@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Relatório completo do caso no JURISLAB Aconselha">
+  <title>Relatório do Caso | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/relatorio-caso.css?v=1">
+</head>
+<body class="pagina-relatorio-caso">
+  <header class="relatorio-barra no-print">
+    <a href="dashboard.html" class="marca-relatorio">JURISLAB Aconselha</a>
+    <div class="relatorio-acoes">
+      <button id="btnVoltar" type="button" class="botao botao-secundario">Voltar à ficha</button>
+      <button id="btnPdf" type="button" class="botao botao-principal">Guardar como PDF</button>
+    </div>
+  </header>
+
+  <main class="folha-relatorio" id="folhaRelatorio">
+    <section class="capa-relatorio">
+      <div class="cabecalho-institucional">
+        <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-relatorio">
+        <div>
+          <strong>Universidade Aberta ISCED</strong>
+          <span>JURISLAB - Laboratório Online de Prática e Inovação Jurídica</span>
+          <span>JURISLAB Aconselha</span>
+        </div>
+      </div>
+
+      <div class="titulo-relatorio">
+        <p>RELATÓRIO COMPLETO DO CASO</p>
+        <h1 id="relTituloCaso">A carregar...</h1>
+        <strong id="relCodigoCaso"></strong>
+      </div>
+
+      <div class="metadados-capa">
+        <div><span>Estado</span><strong id="relEstadoCaso">...</strong></div>
+        <div><span>Área do Direito</span><strong id="relAreaDireito">...</strong></div>
+        <div><span>Data de abertura</span><strong id="relDataAbertura">...</strong></div>
+        <div><span>Data de emissão</span><strong id="relDataEmissao">...</strong></div>
+      </div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>1. Identificação do caso</h2>
+      <div id="relResumoCaso" class="grelha-dados-relatorio"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>2. Síntese e situação actual</h2>
+      <div id="relSituacaoActual" class="texto-relatorio"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>3. Linha temporal do caso</h2>
+      <div id="relTimeline" class="timeline-relatorio"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>4. Atendimentos realizados</h2>
+      <div id="relAtendimentos"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>5. Consultas</h2>
+      <div id="relConsultas"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>6. Prazos</h2>
+      <div id="relPrazos"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>7. Documentos</h2>
+      <div id="relDocumentos"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>8. Encaminhamentos</h2>
+      <div id="relEncaminhamentos"></div>
+    </section>
+
+    <section class="secao-relatorio">
+      <h2>9. Atribuições e responsáveis</h2>
+      <div id="relAtribuicoes"></div>
+    </section>
+
+    <section class="secao-relatorio" id="secaoAuditoriaRelatorio">
+      <h2>10. Registo de auditoria</h2>
+      <div id="relAuditoria"></div>
+    </section>
+
+    <section class="secao-relatorio assinatura-relatorio">
+      <h2>11. Fecho do relatório</h2>
+      <p>O presente relatório foi gerado automaticamente pelo JURISLAB Aconselha com base nos registos disponíveis no sistema à data da emissão.</p>
+      <div class="assinaturas">
+        <div><span>Responsável pelo caso</span><strong id="relResponsavelAssinatura">____________________________</strong></div>
+        <div><span>Supervisor</span><strong id="relSupervisorAssinatura">____________________________</strong></div>
+      </div>
+    </section>
+
+    <footer class="rodape-relatorio">
+      <span id="relRodapeCaso"></span>
+      <span>Documento gerado pelo JURISLAB UnISCED</span>
+    </footer>
+  </main>
+
+  <div id="ecraValidacao" class="ecrã-validacao"><div><strong>JURISLAB Aconselha</strong><p>A preparar o relatório...</p></div></div>
+  <script src="js/relatorio-caso.js?v=1"></script>
+</body>
+</html>
