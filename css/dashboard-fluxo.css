@@ -1,5 +1,115 @@
-.recomendacao-fluxo {
+.painel-fluxo-inteligente {
   margin-top: 22px;
+  padding: 18px;
+  background: #fafafa;
+  border: 1px solid #dedede;
+  border-radius: 14px;
+}
+
+.cabecalho-fluxo-inteligente {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cabecalho-fluxo-inteligente > div {
+  display: grid;
+  gap: 3px;
+}
+
+.rotulo-assistente {
+  color: var(--vermelho);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.cabecalho-fluxo-inteligente strong {
+  color: var(--preto);
+  line-height: 1.35;
+}
+
+.percentagem-fluxo {
+  flex: 0 0 auto;
+  color: var(--vermelho);
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.barra-progresso-fluxo {
+  height: 10px;
+  margin-top: 14px;
+  overflow: hidden;
+  background: #e8e8e8;
+  border-radius: 999px;
+}
+
+.barra-progresso-fluxo span {
+  width: 0;
+  height: 100%;
+  display: block;
+  background: linear-gradient(90deg, #8f0e24, var(--vermelho));
+  border-radius: inherit;
+  transition: width 0.35s ease;
+}
+
+.descricao-progresso-fluxo {
+  display: block;
+  margin-top: 8px;
+  color: var(--texto-suave);
+  line-height: 1.4;
+}
+
+.metricas-fluxo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.metrica-fluxo {
+  min-width: 0;
+  padding: 10px;
+  display: grid;
+  gap: 3px;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+}
+
+.metrica-fluxo span {
+  color: var(--texto-suave);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.metrica-fluxo strong {
+  color: var(--preto);
+  font-size: 1rem;
+}
+
+.metrica-alerta {
+  background: #fffaf1;
+  border-color: #e0b768;
+}
+
+.metrica-alerta strong {
+  color: #8d5b00;
+}
+
+.metrica-urgente {
+  background: #fff3f4;
+  border-color: #d97b88;
+}
+
+.metrica-urgente strong {
+  color: #9e0b1f;
+}
+
+.recomendacao-fluxo {
+  margin-top: 12px;
   padding: 16px 18px;
   display: grid;
   gap: 4px;
@@ -44,8 +154,14 @@
   transform: translateY(-1px);
 }
 
+.botao-fluxo-recomendado .numero-etapa {
+  color: #fff !important;
+  background: var(--vermelho) !important;
+  border-color: var(--vermelho) !important;
+}
+
 .botao-fluxo-recomendado::before {
-  content: "Recomendado";
+  content: "Próxima ação";
   position: absolute;
   top: -9px;
   left: 14px;
@@ -60,13 +176,70 @@
   text-transform: uppercase;
 }
 
+.botao-fluxo-concluido {
+  color: #27663a !important;
+  background: #f4fbf6 !important;
+  border-color: #7db58b !important;
+}
+
+.botao-fluxo-concluido .numero-etapa {
+  color: #fff !important;
+  background: #34824c !important;
+  border-color: #34824c !important;
+}
+
+.botao-fluxo-concluido::after {
+  content: "✓" !important;
+  color: #34824c;
+}
+
+.botao-fluxo-em-curso {
+  box-shadow: inset 4px 0 0 #c88a14;
+}
+
+.botao-fluxo-pendente {
+  box-shadow: inset 4px 0 0 var(--vermelho);
+}
+
+.estado-etapa-fluxo {
+  position: absolute;
+  right: 38px;
+  bottom: 5px;
+  max-width: calc(100% - 100px);
+  overflow: hidden;
+  color: currentColor;
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.72;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.botao-fluxo-controle .estado-etapa-fluxo {
+  display: none;
+}
+
 @media (max-width: 620px) {
-  .recomendacao-fluxo {
+  .painel-fluxo-inteligente {
     margin-top: 18px;
+    padding: 15px;
+  }
+
+  .metricas-fluxo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .recomendacao-fluxo {
     padding: 14px 15px;
   }
 
   .botao-fluxo-recomendado::before {
     left: 12px;
+  }
+
+  .estado-etapa-fluxo {
+    right: 36px;
+    bottom: 4px;
   }
 }
