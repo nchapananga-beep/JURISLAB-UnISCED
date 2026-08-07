@@ -17,10 +17,10 @@
   }
 
   function criarCartaoEstado() {
-    if (document.getElementById("cartaoEstadoCaso")) return;
+    if (document.getElementById("cartaoEstadoCaso")) return true;
 
     const resumo = document.getElementById("resumoCaso");
-    if (!resumo || !resumo.parentNode || !resumo.children.length) return;
+    if (!resumo || !resumo.parentNode || !resumo.children.length) return false;
 
     const estado = textoResumo("Estado");
     const prioridade = textoResumo("Prioridade");
@@ -53,13 +53,14 @@
     `;
 
     resumo.parentNode.insertBefore(cartao, resumo);
+    return true;
   }
 
   function criarAtalhos() {
-    if (document.getElementById("atalhosCaso")) return;
+    if (document.getElementById("atalhosCaso")) return true;
 
     const cabecalho = document.querySelector(".ficha-cabecalho");
-    if (!cabecalho || !cabecalho.parentNode) return;
+    if (!cabecalho || !cabecalho.parentNode) return false;
 
     const atalhos = document.createElement("section");
     atalhos.id = "atalhosCaso";
@@ -75,6 +76,7 @@
     `;
 
     cabecalho.parentNode.insertBefore(atalhos, cabecalho.nextSibling);
+    return true;
   }
 
   function prepararPainel(elemento, nome) {
@@ -91,7 +93,7 @@
     const timeline = document.getElementById("painelTimelineCaso");
     const grelha = document.querySelector(".grelha-seccoes");
 
-    if (!resumo || !timeline || !grelha) return false;
+    if (!resumo || !timeline || !grelha || !resumo.children.length) return false;
 
     const artigos = {
       atendimentos: document.getElementById("listaAtendimentos")?.closest("article"),
@@ -174,22 +176,33 @@
     return true;
   }
 
-  function iniciar() {
+  function tentarMontar() {
     criarCartaoEstado();
     criarAtalhos();
+    return criarSeparadores();
+  }
 
-    let tentativas = 0;
-    const temporizador = setInterval(function () {
-      tentativas++;
-      criarCartaoEstado();
+  function iniciar() {
+    if (tentarMontar()) return;
 
-      if (criarSeparadores() || tentativas >= 20) {
-        clearInterval(temporizador);
+    const observador = new MutationObserver(function () {
+      if (tentarMontar()) {
+        observador.disconnect();
       }
-    }, 250);
+    });
+
+    observador.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    setTimeout(function () {
+      tentarMontar();
+      if (document.getElementById("abasCaso")) observador.disconnect();
+    }, 20000);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(iniciar, 500);
+    setTimeout(iniciar, 350);
   });
 })();
