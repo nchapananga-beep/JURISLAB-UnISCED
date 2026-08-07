@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Verificação interna de relatórios do JURISLAB Aconselha">
+  <title>Validar Relatório | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/validar-relatorio.css?v=1">
+</head>
+<body class="pagina-validacao-relatorio">
+  <header class="validacao-topo">
+    <a class="marca marca-com-logo" href="dashboard.html">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Verificação interna de relatório</span></div>
+    </a>
+    <a class="botao botao-secundario" href="dashboard.html">Painel</a>
+  </header>
+
+  <main class="validacao-conteudo">
+    <section class="validacao-intro">
+      <p class="etiqueta">Controlo documental</p>
+      <h1>Verificar relatório</h1>
+      <p>Confirme se o código de controlo corresponde ao caso registado no JURISLAB Aconselha.</p>
+    </section>
+
+    <section class="validacao-cartao">
+      <form id="formValidacaoRelatorio">
+        <div class="campo">
+          <label for="idCasoValidacao">Código do caso</label>
+          <input id="idCasoValidacao" name="idCaso" type="text" placeholder="CAS-2026..." required>
+        </div>
+        <div class="campo">
+          <label for="codigoValidacao">Código de controlo</label>
+          <input id="codigoValidacao" name="codigo" type="text" placeholder="JURISLAB-..." required>
+        </div>
+        <button id="btnValidarRelatorio" class="botao botao-principal" type="submit">Verificar</button>
+      </form>
+      <div id="resultadoValidacao" class="resultado-validacao" aria-live="polite"></div>
+    </section>
+
+    <p class="nota-validacao">A verificação confirma a correspondência técnica do código com um caso existente no JURISLAB. Não constitui, por si só, assinatura digital qualificada ou certificação jurídica do conteúdo.</p>
+  </main>
+
+  <div id="ecraValidacao" class="ecrã-validacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/validar-relatorio.js?v=1"></script>
+</body>
+</html>
