@@ -313,11 +313,6 @@
   border: 1px solid #2f2f2f;
 }
 
-.botao-modulo-distribuicao,
-.botao-modulo-auditoria {
-  grid-column: 1 / -1;
-}
-
 .botao-modulo-distribuicao {
   color: #fff;
   background: #8f0e24;
@@ -328,6 +323,68 @@
   color: var(--vermelho);
   background: #fff;
   border: 1px solid var(--vermelho);
+}
+
+.acoes-modulo-fluxo {
+  position: relative;
+}
+
+.botao-fluxo {
+  position: relative;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-right: 42px;
+}
+
+.numero-etapa {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid currentColor;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.botao-modulo-secundario .numero-etapa,
+.botao-modulo-prazos .numero-etapa,
+.botao-modulo-auditoria .numero-etapa {
+  background: #fff;
+}
+
+.texto-etapa {
+  flex: 1;
+  text-align: left;
+}
+
+.botao-fluxo::after {
+  content: "→";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.15rem;
+  font-weight: 900;
+  opacity: 0.7;
+}
+
+.botao-fluxo-final {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.botao-fluxo-final .texto-etapa {
+  flex: 0 1 auto;
+  text-align: center;
+}
+
+.botao-fluxo-final::after {
+  content: "✓";
 }
 
 .modulo-dashboard button {
@@ -414,8 +471,16 @@
     grid-template-columns: 1fr;
   }
 
-  .botao-modulo-distribuicao,
-  .botao-modulo-auditoria {
+  .botao-fluxo,
+  .botao-fluxo-final {
     grid-column: auto;
+  }
+
+  .botao-fluxo::after {
+    content: "↓";
+  }
+
+  .botao-fluxo-final::after {
+    content: "✓";
   }
 }
