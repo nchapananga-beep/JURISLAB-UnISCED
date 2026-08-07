@@ -16,8 +16,26 @@
     return copia.textContent.trim() || "Não informado";
   }
 
+  function marcarResumoSemDuplicacoes() {
+    const repetidos = ["estado", "prioridade", "responsável", "supervisor"];
+
+    document.querySelectorAll("#resumoCaso .dado-resumo").forEach(function (item) {
+      const titulo = item.querySelector("strong");
+      if (!titulo) return;
+
+      const rotulo = titulo.textContent.trim().toLowerCase();
+      item.classList.toggle("dado-resumo-repetido", repetidos.includes(rotulo));
+    });
+
+    const resumo = document.getElementById("resumoCaso");
+    if (resumo) resumo.classList.add("painel-resumo-polido");
+  }
+
   function criarCartaoEstado() {
-    if (document.getElementById("cartaoEstadoCaso")) return true;
+    if (document.getElementById("cartaoEstadoCaso")) {
+      marcarResumoSemDuplicacoes();
+      return true;
+    }
 
     const resumo = document.getElementById("resumoCaso");
     if (!resumo || !resumo.parentNode || !resumo.children.length) return false;
@@ -53,6 +71,7 @@
     `;
 
     resumo.parentNode.insertBefore(cartao, resumo);
+    marcarResumoSemDuplicacoes();
     return true;
   }
 
@@ -179,6 +198,7 @@
   function tentarMontar() {
     criarCartaoEstado();
     criarAtalhos();
+    marcarResumoSemDuplicacoes();
     return criarSeparadores();
   }
 
@@ -186,9 +206,7 @@
     if (tentarMontar()) return;
 
     const observador = new MutationObserver(function () {
-      if (tentarMontar()) {
-        observador.disconnect();
-      }
+      if (tentarMontar()) observador.disconnect();
     });
 
     observador.observe(document.body, {
