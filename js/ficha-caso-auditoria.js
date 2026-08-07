@@ -75,6 +75,12 @@
     return true;
   }
 
+  function removerAuditoria() {
+    document.getElementById("painelAuditoriaCaso")?.remove();
+    document.querySelector('[data-aba-caso="auditoria"]')?.remove();
+    document.querySelector('[data-abrir-auditoria="1"]')?.remove();
+  }
+
   function renderizar(lista) {
     const alvo = document.getElementById("listaAuditoriaCaso");
     if (!alvo) return;
@@ -100,32 +106,41 @@
 
     try {
       const resultado = await chamarApi({
-        acao: "listarAuditoriaCaso",
+        acao: "listarAuditoria",
         token,
-        idCaso
+        pesquisa: idCaso,
+        modulo: "Todos",
+        resultado: "Todos",
+        dataInicial: "",
+        dataFinal: ""
       });
 
-      if (!resultado.sucesso && !Array.isArray(resultado.auditoria) && !Array.isArray(resultado.registos)) {
+      if (!resultado.sucesso) {
+        const mensagem = String(resultado.mensagem || "").toLowerCase();
+        if (mensagem.includes("permiss")) {
+          removerAuditoria();
+          return;
+        }
         renderizar([]);
         return;
       }
 
-      renderizar(resultado.auditoria || resultado.registos || []);
+      renderizar(resultado.registos || []);
     } catch (erro) {
       const alvo = document.getElementById("listaAuditoriaCaso");
-      if (alvo) alvo.innerHTML = '<div class="estado-vazio">A auditoria ficará disponível assim que a rota do servidor for activada.</div>';
+      if (alvo) alvo.innerHTML = '<div class="estado-vazio">Não foi possível carregar a auditoria neste momento.</div>';
     }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     criarPainel();
 
-    let tentativas = 0;
-    const temporizador = setInterval(function () {
-      tentativas++;
-      if (instalarAba() || tentativas >= 30) clearInterval(temporizador);
-    }, 250);
+    const observador = new MutationObserver(function () {
+      if (instalarAba()) observador.disconnect();
+    });
 
-    setTimeout(carregarAuditoria, 800);
+    observador.observe(document.body, { childList: true, subtree: true });
+    instalarAba();
+    setTimeout(carregarAuditoria, 1000);
   });
 })();
