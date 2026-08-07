@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Backup e Restauro do JURISLAB UnISCED">
+  <title>Backup e Restauro | JURISLAB</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/backup-restauro.css?v=1">
+</head>
+<body class="pagina-backup">
+  <header class="backup-topo">
+    <a class="marca marca-com-logo" href="centro-administracao.html">
+      <img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced">
+      <div class="marca-jurislab">
+        <span class="marca-principal">JURISLAB</span>
+        <span class="marca-subtitulo">Backup e Restauro</span>
+      </div>
+    </a>
+    <nav class="backup-nav">
+      <a href="centro-administracao.html">Administração</a>
+      <a href="auditoria.html">Auditoria</a>
+      <a href="dashboard.html">Painel</a>
+    </nav>
+  </header>
+
+  <main class="backup-conteudo">
+    <section class="backup-hero">
+      <div>
+        <p class="etiqueta">Protecção dos dados</p>
+        <h1>Backup e Restauro</h1>
+        <p>Crie cópias integrais da base de dados do JURISLAB e restaure uma versão anterior com confirmação administrativa.</p>
+      </div>
+      <div class="backup-estado">
+        <span>Versão</span>
+        <strong>1.1</strong>
+        <small>Protecção operacional</small>
+      </div>
+    </section>
+
+    <section class="backup-resumo" aria-label="Resumo de backups">
+      <article><span>Backups disponíveis</span><strong id="totalBackups">...</strong><small>Cópias encontradas</small></article>
+      <article><span>Último backup</span><strong id="ultimoBackup">...</strong><small id="ultimoBackupDetalhe">A verificar</small></article>
+      <article><span>Local de armazenamento</span><strong>Google Drive</strong><small>JURISLAB_BACKUPS</small></article>
+    </section>
+
+    <section class="backup-painel">
+      <div class="backup-cabecalho">
+        <div>
+          <p class="etiqueta">Cópia de segurança</p>
+          <h2>Criar novo backup</h2>
+          <p>A cópia inclui todas as folhas, dados, fórmulas e estrutura da base principal.</p>
+        </div>
+        <button id="btnCriarBackup" class="botao botao-principal" type="button">Criar backup agora</button>
+      </div>
+      <p id="mensagemBackup" class="mensagem-formulario" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="backup-painel">
+      <div class="backup-cabecalho">
+        <div>
+          <p class="etiqueta">Histórico</p>
+          <h2>Backups disponíveis</h2>
+          <p>O restauro substitui os dados actuais pela versão seleccionada. Antes disso, o sistema cria automaticamente uma cópia de segurança do estado actual.</p>
+        </div>
+        <button id="btnActualizar" class="botao botao-secundario" type="button">Actualizar lista</button>
+      </div>
+
+      <div id="listaBackups" class="lista-backups">
+        <div class="estado-vazio">A carregar backups...</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-fundo oculto" id="modalRestauro" role="dialog" aria-modal="true" aria-labelledby="tituloRestauro">
+    <div class="modal-cartao-restauro">
+      <button id="btnFecharRestauro" class="modal-fechar" type="button" aria-label="Fechar">×</button>
+      <p class="etiqueta">Operação crítica</p>
+      <h2 id="tituloRestauro">Confirmar restauro</h2>
+      <div id="resumoRestauro" class="resumo-restauro"></div>
+      <div class="aviso-restauro">
+        <strong>Atenção</strong>
+        <p>O sistema fará primeiro um backup de segurança dos dados actuais. Em seguida, substituirá a estrutura e os dados das folhas pela cópia seleccionada.</p>
+      </div>
+      <div class="campo-confirmacao">
+        <label for="confirmacaoRestauro">Para confirmar, escreva exactamente <strong>RESTAURAR</strong></label>
+        <input id="confirmacaoRestauro" type="text" autocomplete="off" placeholder="RESTAURAR">
+      </div>
+      <div class="acoes-restauro">
+        <button id="btnConfirmarRestauro" class="botao botao-perigo" type="button" disabled>Restaurar esta versão</button>
+        <button id="btnCancelarRestauro" class="botao botao-secundario" type="button">Cancelar</button>
+      </div>
+      <p id="mensagemRestauro" class="mensagem-formulario" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div class="ecrã-validacao" id="ecraValidacao"><div><strong>JURISLAB</strong><p>A validar acesso administrativo...</p></div></div>
+  <script src="js/backup-restauro.js?v=1"></script>
+</body>
+</html>
