@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           </div>
           <div class="backup-acoes">
             ${backup.urlDrive ? `<a class="botao botao-secundario" href="${escapar(backup.urlDrive)}" target="_blank" rel="noopener">Abrir no Drive</a>` : ""}
-            <button class="botao botao-perigo" type="button" data-restaurar="${indice}">Restaurar</button>
+            <button class="botao botao-perigo" type="button" data-restaurar="${indice}">Preparar restauro</button>
           </div>
         </article>`;
     }).join("");
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (!backupSeleccionado || confirmacaoRestauro.value.trim() !== "RESTAURAR") return;
 
     btnConfirmarRestauro.disabled = true;
-    btnConfirmarRestauro.textContent = "A restaurar...";
+    btnConfirmarRestauro.textContent = "A preparar...";
     mostrarMensagem(mensagemRestauro, "", "");
 
     try {
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       mostrarMensagem(
         mensagemRestauro,
-        resultado.mensagem || (resultado.sucesso ? "Restauro concluído com sucesso." : "Não foi possível restaurar o backup."),
+        resultado.mensagem || (resultado.sucesso ? "Cópia restaurada preparada com sucesso." : "Não foi possível preparar o restauro."),
         resultado.sucesso ? "sucesso" : "erro"
       );
 
@@ -234,13 +234,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         setTimeout(function () {
           fecharModal();
           carregarBackups();
-        }, 1600);
+        }, 1800);
       }
     } catch (erro) {
       mostrarMensagem(mensagemRestauro, "Não foi possível contactar o servidor.", "erro");
     } finally {
       btnConfirmarRestauro.disabled = confirmacaoRestauro.value.trim() !== "RESTAURAR";
-      btnConfirmarRestauro.textContent = "Restaurar esta versão";
+      btnConfirmarRestauro.textContent = "Preparar restauro";
     }
   });
 
