@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Teste técnico da versão 1.0 do JURISLAB Aconselha">
+  <title>Teste Versão 1.0 | JURISLAB Aconselha</title>
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/teste-versao-1.css?v=1">
+</head>
+<body class="pagina-teste-v1">
+  <header class="teste-v1-topo">
+    <a class="marca marca-com-logo" href="dashboard.html"><img src="./assets/imagens/logo-unisced.png?v=4" alt="Logótipo da UnISCED" class="logo-unisced"><div class="marca-jurislab"><span class="marca-principal">JURISLAB Aconselha</span><span class="marca-subtitulo">Verificação da Versão 1.0</span></div></a>
+    <a class="botao botao-secundario" href="dashboard.html">Voltar ao Painel</a>
+  </header>
+
+  <main class="teste-v1-conteudo">
+    <section class="teste-v1-cabecalho">
+      <div><p class="etiqueta">Teste sem alteração de dados</p><h1>JURISLAB Aconselha 1.0</h1><p>Verificação técnica das principais leituras da API e das páginas centrais da aplicação.</p></div>
+      <button id="btnExecutarTestes" type="button" class="botao botao-principal">Executar testes</button>
+    </section>
+
+    <section class="teste-v1-resumo">
+      <article><span>Aprovados</span><strong id="testesAprovados">0</strong></article>
+      <article><span>Avisos</span><strong id="testesAvisos">0</strong></article>
+      <article><span>Falhas</span><strong id="testesFalhas">0</strong></article>
+      <article><span>Total</span><strong id="testesTotal">0</strong></article>
+    </section>
+
+    <section class="teste-v1-lista" id="listaTestesV1"></section>
+
+    <section class="atalhos-teste-v1">
+      <h2>Atalhos para teste manual</h2>
+      <div class="atalhos-grelha-v1">
+        <a href="pedidos-publicos.html">Pedidos Públicos</a>
+        <a href="gestao-aconselha.html">Utentes e Triagens</a>
+        <a href="casos.html">Casos</a>
+        <a href="consultas.html">Consultas</a>
+        <a href="prazos.html">Prazos</a>
+        <a href="documentos-casos.html">Documentos</a>
+        <a href="encaminhamentos.html">Encaminhamentos</a>
+        <a href="pesquisa-global.html">Pesquisa Global</a>
+        <a href="auditoria.html">Auditoria</a>
+        <a href="notificacoes.html">Notificações</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="validar-relatorio.html">Validar relatório</a>
+      </div>
+    </section>
+    <p class="nota-teste-v1">Os testes automáticos desta página são apenas de leitura e disponibilidade. Operações de escrita, como registar atendimento, criar consulta ou encerrar caso, devem ser confirmadas manualmente com registos de teste.</p>
+  </main>
+
+  <div id="ecraValidacao" class="ecrã-validacao"><div><strong>JURISLAB Aconselha</strong><p>A validar a sua sessão...</p></div></div>
+  <script src="js/teste-versao-1.js?v=1"></script>
+</body>
+</html>
