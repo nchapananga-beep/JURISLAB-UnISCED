@@ -313,11 +313,21 @@
   border: 1px solid #2f2f2f;
 }
 
-.botao-modulo-distribuicao {
+.botao-modulo-distribuicao,
+.botao-modulo-auditoria {
   grid-column: 1 / -1;
+}
+
+.botao-modulo-distribuicao {
   color: #fff;
   background: #8f0e24;
   border: 1px solid #8f0e24;
+}
+
+.botao-modulo-auditoria {
+  color: var(--vermelho);
+  background: #fff;
+  border: 1px solid var(--vermelho);
 }
 
 .modulo-dashboard button {
@@ -404,7 +414,8 @@
     grid-template-columns: 1fr;
   }
 
-  .botao-modulo-distribuicao {
+  .botao-modulo-distribuicao,
+  .botao-modulo-auditoria {
     grid-column: auto;
   }
 }
