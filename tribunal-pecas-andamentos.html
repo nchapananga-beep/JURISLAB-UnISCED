@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Peças processuais e andamentos do JURISLAB Tribunal">
+  <title>Peças e Andamentos | JURISLAB Tribunal</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/tribunal.css?v=4">
+</head>
+<body>
+  <header class="topo">
+    <div class="container navegacao">
+      <a class="marca marca-com-logo" href="tribunal-processos.html" aria-label="Voltar aos processos">
+        <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
+        <div class="marca-jurislab">
+          <span class="marca-principal">JURISLAB Tribunal</span>
+          <span class="marca-subtitulo">Peças Processuais e Andamentos</span>
+        </div>
+      </a>
+      <nav class="menu tribunal-menu-processos" aria-label="Navegação do Tribunal">
+        <a id="linkParticipantesTF" href="#">Participantes</a>
+        <a href="tribunal-processos.html">Processos</a>
+        <a href="dashboard.html">Painel</a>
+        <button id="btnSairTF" class="botao botao-contorno" type="button">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tribunal-processos-topo">
+      <div class="container">
+        <p class="etiqueta">Processo simulado</p>
+        <h1 id="tituloProcessoPA">Peças e Andamentos</h1>
+        <p id="subtituloProcessoPA">A carregar dados do processo...</p>
+      </div>
+    </section>
+
+    <section class="tribunal-secao tribunal-secao-cinza">
+      <div class="container">
+        <div id="resumoProcessoPA" class="tribunal-resumo-processo"></div>
+        <p id="mensagemGeralPA" class="mensagem-formulario" role="status" aria-live="polite"></p>
+
+        <div class="tribunal-abas" role="tablist" aria-label="Peças e andamentos">
+          <button id="abaPecas" class="tribunal-aba activa" type="button" role="tab" aria-selected="true">Peças processuais</button>
+          <button id="abaAndamentos" class="tribunal-aba" type="button" role="tab" aria-selected="false">Andamentos</button>
+        </div>
+
+        <section id="painelPecas" class="tribunal-painel-aba">
+          <div class="tribunal-lista-cabecalho tribunal-cabecalho-com-acoes">
+            <div>
+              <h2>Peças processuais</h2>
+              <span id="totalPecasTF">0 peças</span>
+            </div>
+            <button id="btnNovaPecaTF" class="botao botao-principal" type="button">Nova peça</button>
+          </div>
+
+          <div class="tribunal-filtros tribunal-filtros-pecas">
+            <div class="campo-filtro">
+              <label for="pesquisaPecaTF">Pesquisar</label>
+              <input id="pesquisaPecaTF" type="search" placeholder="Título, tipo ou responsável">
+            </div>
+            <div class="campo-filtro">
+              <label for="tipoPecaFiltroTF">Tipo</label>
+              <select id="tipoPecaFiltroTF"><option value="">Todos</option><option>Petição inicial</option><option>Contestação</option><option>Réplica</option><option>Requerimento</option><option>Despacho</option><option>Parecer</option><option>Alegações</option><option>Sentença</option><option>Acórdão</option><option>Recurso</option><option>Ata</option><option>Mandado</option><option>Notificação</option><option>Outro</option></select>
+            </div>
+            <div class="campo-filtro">
+              <label for="estadoPecaFiltroTF">Estado</label>
+              <select id="estadoPecaFiltroTF"><option value="">Todos</option><option>Rascunho</option><option>Submetida</option><option>Admitida</option><option>Rejeitada</option><option>Substituída</option><option>Arquivada</option></select>
+            </div>
+            <button id="btnFiltrarPecasTF" class="botao botao-principal tribunal-botao-filtro" type="button">Pesquisar</button>
+          </div>
+
+          <p id="mensagemPecasTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+          <div id="listaPecasTF" class="tribunal-lista-pecas"></div>
+        </section>
+
+        <section id="painelAndamentos" class="tribunal-painel-aba oculto">
+          <div class="tribunal-lista-cabecalho tribunal-cabecalho-com-acoes">
+            <div>
+              <h2>Linha do tempo processual</h2>
+              <span id="totalAndamentosTF">0 andamentos</span>
+            </div>
+            <button id="btnNovoAndamentoTF" class="botao botao-principal" type="button">Novo andamento</button>
+          </div>
+
+          <div class="tribunal-filtros tribunal-filtros-andamentos">
+            <div class="campo-filtro">
+              <label for="pesquisaAndamentoTF">Pesquisar</label>
+              <input id="pesquisaAndamentoTF" type="search" placeholder="Descrição ou responsável">
+            </div>
+            <div class="campo-filtro">
+              <label for="tipoAndamentoFiltroTF">Tipo</label>
+              <select id="tipoAndamentoFiltroTF"><option value="">Todos</option><option>Registo do processo</option><option>Participante</option><option>Peça processual</option><option>Despacho</option><option>Notificação</option><option>Audiência</option><option>Decisão</option><option>Prazo</option><option>Outro</option></select>
+            </div>
+            <button id="btnFiltrarAndamentosTF" class="botao botao-principal tribunal-botao-filtro" type="button">Pesquisar</button>
+          </div>
+
+          <p id="mensagemAndamentosTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+          <div id="listaAndamentosTF" class="tribunal-timeline"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalNovaPecaTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo" data-fechar-modal="peca"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloNovaPecaTF">
+      <div class="tribunal-modal-topo"><div><p class="etiqueta">Peça processual</p><h2 id="tituloNovaPecaTF">Registar nova peça</h2></div><button id="btnFecharPecaTF" class="tribunal-fechar-modal" type="button" aria-label="Fechar">×</button></div>
+      <form id="formNovaPecaTF" class="tribunal-formulario" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario"><label for="tipoPecaTF">Tipo de peça *</label><select id="tipoPecaTF" required><option value="">Seleccione</option><option>Petição inicial</option><option>Contestação</option><option>Réplica</option><option>Requerimento</option><option>Despacho</option><option>Parecer</option><option>Alegações</option><option>Sentença</option><option>Acórdão</option><option>Recurso</option><option>Ata</option><option>Mandado</option><option>Notificação</option><option>Outro</option></select></div>
+          <div class="campo-formulario"><label for="partePecaTF">Parte *</label><select id="partePecaTF" required><option value="">Seleccione</option><option>Autor</option><option>Réu</option><option>Tribunal</option><option>Ministério Público</option><option>Outra</option></select></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="tituloPecaTF">Título *</label><input id="tituloPecaTF" type="text" maxlength="180" required></div>
+          <div class="campo-formulario"><label for="versaoPecaTF">Versão</label><input id="versaoPecaTF" type="text" value="1.0" maxlength="20"></div>
+          <div class="campo-formulario"><label for="linkPecaTF">Link do documento no Drive</label><input id="linkPecaTF" type="url" placeholder="https://..."></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="observacoesPecaTF">Observações</label><textarea id="observacoesPecaTF" rows="4" maxlength="1000"></textarea></div>
+        </div>
+        <p id="mensagemNovaPecaTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+        <div class="tribunal-form-acoes"><button id="btnCancelarPecaTF" class="botao tribunal-botao-neutro" type="button">Cancelar</button><button id="btnGuardarPecaTF" class="botao botao-principal" type="submit">Registar peça</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div id="modalNovoAndamentoTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo" data-fechar-modal="andamento"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloNovoAndamentoTF">
+      <div class="tribunal-modal-topo"><div><p class="etiqueta">Movimento processual</p><h2 id="tituloNovoAndamentoTF">Registar andamento</h2></div><button id="btnFecharAndamentoTF" class="tribunal-fechar-modal" type="button" aria-label="Fechar">×</button></div>
+      <form id="formNovoAndamentoTF" class="tribunal-formulario" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario"><label for="tipoAndamentoTF">Tipo *</label><select id="tipoAndamentoTF" required><option value="">Seleccione</option><option>Despacho</option><option>Notificação</option><option>Audiência</option><option>Decisão</option><option>Prazo</option><option>Outro</option></select></div>
+          <div class="campo-formulario"><label for="linkAndamentoTF">Link de documento</label><input id="linkAndamentoTF" type="url" placeholder="https://..."></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="descricaoAndamentoTF">Descrição *</label><textarea id="descricaoAndamentoTF" rows="5" maxlength="1500" required></textarea></div>
+        </div>
+        <p id="mensagemNovoAndamentoTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+        <div class="tribunal-form-acoes"><button id="btnCancelarAndamentoTF" class="botao tribunal-botao-neutro" type="button">Cancelar</button><button id="btnGuardarAndamentoTF" class="botao botao-principal" type="submit">Registar andamento</button></div>
+      </form>
+    </section>
+  </div>
+
+  <script src="js/config.js?v=1"></script>
+  <script src="js/tribunal-pecas-andamentos.js?v=1"></script>
+</body>
+</html>
