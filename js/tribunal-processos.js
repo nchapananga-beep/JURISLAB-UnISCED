@@ -80,6 +80,7 @@ function tfRenderizarProcessos(processos) {
             <a class="tribunal-acao-link" href="tribunal-participantes.html?idProcesso=${id}">Participantes e equipas</a>
             <a class="tribunal-acao-link" href="tribunal-pecas-andamentos.html?idProcesso=${id}">Peças e andamentos</a>
             <a class="tribunal-acao-link" href="tribunal-prazos-audiencias.html?idProcesso=${id}">Prazos e audiências</a>
+            <a class="tribunal-acao-link" href="tribunal-decisoes-avaliacao.html?idProcesso=${id}">Decisões e avaliação</a>
           </div>
         </div>
         <div class="tribunal-processo-dados">
