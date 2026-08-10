@@ -7,6 +7,28 @@
   <title>Decisões e Avaliação | JURISLAB Tribunal</title>
   <link rel="stylesheet" href="css/style.css?v=5">
   <link rel="stylesheet" href="css/tribunal.css?v=4">
+  <style>
+    @media (max-width: 640px) {
+      #painelDecisoesTF .tribunal-lista-cabecalho,
+      #painelAvaliacoesTF .tribunal-lista-cabecalho {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+      #painelDecisoesTF .tribunal-lista-cabecalho > div,
+      #painelAvaliacoesTF .tribunal-lista-cabecalho > div {
+        width: 100%;
+      }
+      #btnNovaDecisaoTF,
+      #btnNovaAvaliacaoTF {
+        width: 100%;
+        min-height: 48px;
+        white-space: normal;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="topo">
