@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão de prazos e audiências do JURISLAB Tribunal">
+  <title>Prazos e Audiências | JURISLAB Tribunal</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/tribunal.css?v=4">
+</head>
+<body>
+  <header class="topo">
+    <div class="container navegacao">
+      <a class="marca marca-com-logo" href="dashboard.html" aria-label="Painel do JURISLAB">
+        <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
+        <div class="marca-jurislab">
+          <span class="marca-principal">JURISLAB Tribunal</span>
+          <span class="marca-subtitulo">Tribunal Fictício da Clínica Jurídica da UnISCED</span>
+        </div>
+      </a>
+      <nav class="menu tribunal-menu-processos" aria-label="Navegação do Tribunal">
+        <a href="tribunal-processos.html">Processos</a>
+        <a href="tribunal.html">Tribunal</a>
+        <a href="dashboard.html">Painel</a>
+        <button id="btnSairTF" class="botao botao-contorno" type="button">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tribunal-processos-topo">
+      <div class="container tribunal-processos-topo-conteudo">
+        <div>
+          <p class="etiqueta">Gestão processual</p>
+          <h1>Prazos e Audiências</h1>
+          <p id="subtituloProcessoTF">A carregar processo...</p>
+        </div>
+        <a id="voltarProcessoTF" class="botao botao-secundario" href="tribunal-processos.html">Voltar aos processos</a>
+      </div>
+    </section>
+
+    <section class="tribunal-secao tribunal-secao-cinza">
+      <div class="container">
+        <div id="resumoProcessoTF" class="tribunal-resumo-processo"></div>
+        <p id="mensagemPaginaTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+
+        <div class="tribunal-abas" role="tablist" aria-label="Prazos e audiências">
+          <button class="tribunal-aba activa" id="abaPrazosTF" type="button" data-alvo="painelPrazosTF">Prazos</button>
+          <button class="tribunal-aba" id="abaAudienciasTF" type="button" data-alvo="painelAudienciasTF">Audiências</button>
+        </div>
+
+        <section id="painelPrazosTF" class="tribunal-painel-aba">
+          <div class="tribunal-lista-cabecalho">
+            <div>
+              <p class="etiqueta">Controlo de prazos</p>
+              <h2>Prazos do processo</h2>
+            </div>
+            <button id="btnNovoPrazoTF" class="botao botao-principal" type="button">Novo prazo</button>
+          </div>
+
+          <div class="tribunal-filtros tribunal-filtros-duplos">
+            <div class="campo-filtro campo-filtro-pesquisa">
+              <label for="pesquisaPrazoTF">Pesquisar</label>
+              <input id="pesquisaPrazoTF" type="search" placeholder="Acto ou responsável">
+            </div>
+            <div class="campo-filtro">
+              <label for="estadoPrazoTF">Estado</label>
+              <select id="estadoPrazoTF">
+                <option value="">Todos</option>
+                <option>Em curso</option>
+                <option>Cumprido</option>
+                <option>Vencido</option>
+                <option>Suspenso</option>
+                <option>Cancelado</option>
+              </select>
+            </div>
+            <button id="btnPesquisarPrazoTF" class="botao botao-principal tribunal-botao-filtro" type="button">Pesquisar</button>
+          </div>
+
+          <p id="mensagemPrazosTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+          <div id="listaPrazosTF" class="tribunal-lista-processos"></div>
+        </section>
+
+        <section id="painelAudienciasTF" class="tribunal-painel-aba oculto">
+          <div class="tribunal-lista-cabecalho">
+            <div>
+              <p class="etiqueta">Agenda processual</p>
+              <h2>Audiências do processo</h2>
+            </div>
+            <button id="btnNovaAudienciaTF" class="botao botao-principal" type="button">Agendar audiência</button>
+          </div>
+
+          <div class="tribunal-filtros tribunal-filtros-duplos">
+            <div class="campo-filtro campo-filtro-pesquisa">
+              <label for="pesquisaAudienciaTF">Pesquisar</label>
+              <input id="pesquisaAudienciaTF" type="search" placeholder="Tipo, sala, juiz ou secretário">
+            </div>
+            <div class="campo-filtro">
+              <label for="estadoAudienciaTF">Estado</label>
+              <select id="estadoAudienciaTF">
+                <option value="">Todos</option>
+                <option>Agendada</option>
+                <option>Realizada</option>
+                <option>Adiada</option>
+                <option>Cancelada</option>
+              </select>
+            </div>
+            <button id="btnPesquisarAudienciaTF" class="botao botao-principal tribunal-botao-filtro" type="button">Pesquisar</button>
+          </div>
+
+          <p id="mensagemAudienciasTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+          <div id="listaAudienciasTF" class="tribunal-lista-processos"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalPrazoTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo" data-fechar-modal="prazo"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloModalPrazoTF">
+      <div class="tribunal-modal-topo">
+        <div><p class="etiqueta">Novo prazo</p><h2 id="tituloModalPrazoTF">Registar prazo processual</h2></div>
+        <button id="btnFecharPrazoTF" class="tribunal-fechar-modal" type="button" aria-label="Fechar">×</button>
+      </div>
+      <form id="formPrazoTF" class="tribunal-formulario" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="actoPrazoTF">Acto ou tarefa *</label>
+            <input id="actoPrazoTF" type="text" maxlength="180" required>
+          </div>
+          <div class="campo-formulario">
+            <label for="responsavelPrazoTF">Responsável</label>
+            <input id="responsavelPrazoTF" type="text" maxlength="150">
+          </div>
+          <div class="campo-formulario">
+            <label for="dataInicioPrazoTF">Data de início *</label>
+            <input id="dataInicioPrazoTF" type="date" required>
+          </div>
+          <div class="campo-formulario">
+            <label for="diasPrazoTF">Dias *</label>
+            <input id="diasPrazoTF" type="number" min="1" step="1" required>
+          </div>
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="observacoesPrazoTF">Observações</label>
+            <textarea id="observacoesPrazoTF" rows="4" maxlength="1000"></textarea>
+          </div>
+        </div>
+        <p id="mensagemModalPrazoTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+        <div class="tribunal-form-acoes">
+          <button id="btnCancelarPrazoTF" class="botao tribunal-botao-neutro" type="button">Cancelar</button>
+          <button id="btnGuardarPrazoTF" class="botao botao-principal" type="submit">Registar prazo</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div id="modalAudienciaTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo" data-fechar-modal="audiencia"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloModalAudienciaTF">
+      <div class="tribunal-modal-topo">
+        <div><p class="etiqueta">Agenda</p><h2 id="tituloModalAudienciaTF">Agendar audiência</h2></div>
+        <button id="btnFecharAudienciaTF" class="tribunal-fechar-modal" type="button" aria-label="Fechar">×</button>
+      </div>
+      <form id="formAudienciaTF" class="tribunal-formulario" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario">
+            <label for="tipoAudienciaTF">Tipo de audiência *</label>
+            <select id="tipoAudienciaTF" required>
+              <option value="">Seleccione</option>
+              <option>Audiência preliminar</option>
+              <option>Tentativa de conciliação</option>
+              <option>Audiência de julgamento</option>
+              <option>Leitura da sentença</option>
+              <option>Sessão de recurso</option>
+            </select>
+          </div>
+          <div class="campo-formulario">
+            <label for="dataAudienciaTF">Data *</label>
+            <input id="dataAudienciaTF" type="date" required>
+          </div>
+          <div class="campo-formulario">
+            <label for="horaAudienciaTF">Hora *</label>
+            <input id="horaAudienciaTF" type="time" required>
+          </div>
+          <div class="campo-formulario">
+            <label for="salaAudienciaTF">Sala</label>
+            <input id="salaAudienciaTF" type="text" maxlength="120">
+          </div>
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="linkAudienciaTF">Link online</label>
+            <input id="linkAudienciaTF" type="url" maxlength="500" placeholder="https://...">
+          </div>
+          <div class="campo-formulario">
+            <label for="juizAudienciaTF">Juiz</label>
+            <input id="juizAudienciaTF" type="text" maxlength="150">
+          </div>
+          <div class="campo-formulario">
+            <label for="secretarioAudienciaTF">Secretário</label>
+            <input id="secretarioAudienciaTF" type="text" maxlength="150">
+          </div>
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="observacoesAudienciaTF">Observações</label>
+            <textarea id="observacoesAudienciaTF" rows="4" maxlength="1000"></textarea>
+          </div>
+        </div>
+        <p id="mensagemModalAudienciaTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+        <div class="tribunal-form-acoes">
+          <button id="btnCancelarAudienciaTF" class="botao tribunal-botao-neutro" type="button">Cancelar</button>
+          <button id="btnGuardarAudienciaTF" class="botao botao-principal" type="submit">Agendar audiência</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="js/config.js?v=1"></script>
+  <script src="js/tribunal-prazos-audiencias.js?v=1"></script>
+</body>
+</html>
