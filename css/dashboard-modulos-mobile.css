@@ -1,0 +1,95 @@
+.resumo-modulo-mobile {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .modulo-dashboard {
+    min-height: 0;
+    padding: 26px 22px;
+  }
+
+  .modulo-dashboard > span {
+    margin-bottom: 16px;
+  }
+
+  .modulo-dashboard h3 {
+    margin-bottom: 10px;
+  }
+
+  .resumo-modulo-mobile {
+    display: block;
+    margin-top: 18px;
+  }
+
+  .resumo-modulo-mobile > small {
+    display: block;
+    padding: 12px 14px;
+    color: var(--texto-suave);
+    background: #f8f8f8;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    line-height: 1.45;
+  }
+
+  .acoes-modulo-compactas {
+    margin-top: 12px;
+    padding-top: 0;
+  }
+
+  .botao-toggle-fluxo {
+    width: 100%;
+    margin-top: 0 !important;
+    color: var(--vermelho) !important;
+    background: #fff !important;
+    border: 1px solid var(--vermelho) !important;
+    cursor: pointer;
+  }
+
+  .modulo-aconselha .painel-fluxo-inteligente,
+  .modulo-aconselha .recomendacao-fluxo,
+  .modulo-aconselha .acoes-modulo-fluxo {
+    max-height: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height .28s ease, opacity .2s ease, margin .28s ease, padding .28s ease;
+  }
+
+  .modulo-aconselha.modulo-fluxo-expandido .painel-fluxo-inteligente {
+    max-height: 680px;
+    margin-top: 18px;
+    padding: 15px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modulo-aconselha.modulo-fluxo-expandido .recomendacao-fluxo:not([hidden]) {
+    max-height: 220px;
+    margin-top: 12px;
+    padding: 14px 15px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modulo-aconselha.modulo-fluxo-expandido .acoes-modulo-fluxo {
+    max-height: 1100px;
+    margin-top: 0;
+    padding-top: 18px;
+    padding-bottom: 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modulo-tribunal .acoes-modulo {
+    margin-top: 12px;
+    padding-top: 0;
+  }
+
+  .modulo-aconselha .acoes-modulo-compactas,
+  .modulo-tribunal .acoes-modulo {
+    grid-template-columns: 1fr;
+  }
+}
