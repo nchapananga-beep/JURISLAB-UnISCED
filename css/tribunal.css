@@ -56,6 +56,9 @@
 .tribunal-processo-numero { display: inline-block; margin-bottom: 7px; color: var(--tf-vermelho); font-weight: 800; }
 .tribunal-processo-identificacao h3 { margin-bottom: 7px; font-size: 1.18rem; }
 .tribunal-processo-identificacao p { color: var(--tf-texto-suave); }
+.tribunal-processo-acoes { margin-top: 12px; }
+.tribunal-acao-link { display: inline-flex; align-items: center; min-height: 38px; padding: 0 13px; border: 1px solid var(--tf-vermelho); border-radius: 8px; color: var(--tf-vermelho); font-weight: 700; }
+.tribunal-acao-link:hover { background: var(--tf-vermelho); color: #fff; }
 .tribunal-processo-dados { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
 .tribunal-processo-dados div { min-width: 0; }
 .tribunal-processo-dados span { display: block; color: var(--tf-texto-suave); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
@@ -77,19 +80,36 @@
 .tribunal-botao-neutro { background: #ececec; color: var(--tf-preto); }
 .tribunal-modal-aberto { overflow: hidden; }
 
+.tribunal-resumo-processo { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin-bottom: 18px; }
+.tribunal-resumo-processo > div { padding: 16px 18px; background: #fff; border: 1px solid var(--tf-borda); border-radius: 12px; }
+.tribunal-resumo-processo span { display: block; color: var(--tf-texto-suave); font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; }
+.tribunal-resumo-processo strong { display: block; margin-top: 5px; overflow-wrap: anywhere; }
+.tribunal-filtros-participantes { grid-template-columns: minmax(230px,2fr) minmax(160px,1fr) minmax(150px,1fr) auto; }
+.tribunal-lista-participantes { display: grid; gap: 14px; }
+.tribunal-participante-item { display: grid; grid-template-columns: minmax(240px,1.3fr) minmax(360px,2fr); gap: 22px; align-items: center; padding: 20px 22px; background: #fff; border: 1px solid var(--tf-borda); border-radius: 14px; box-shadow: 0 5px 18px rgba(31,31,31,.05); }
+.tribunal-participante-principal { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.tribunal-avatar { width: 46px; height: 46px; flex: 0 0 46px; display: grid; place-items: center; border-radius: 50%; background: var(--tf-vermelho-claro); color: var(--tf-vermelho); font-weight: 800; font-size: 1.15rem; }
+.tribunal-participante-principal h3 { margin-bottom: 3px; font-size: 1.08rem; }
+.tribunal-participante-principal p { color: var(--tf-texto-suave); overflow-wrap: anywhere; }
+.tribunal-participante-dados { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+.tribunal-participante-dados span { display: block; color: var(--tf-texto-suave); font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; }
+.tribunal-participante-dados strong { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+.tribunal-estado-activo { color: #246b3c; }
+
 @media (max-width: 900px) {
   .tribunal-grelha { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .tribunal-fluxo { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .tribunal-filtros { grid-template-columns: 1fr 1fr; }
-  .tribunal-processo-item { grid-template-columns: 1fr; }
+  .tribunal-filtros, .tribunal-filtros-participantes { grid-template-columns: 1fr 1fr; }
+  .tribunal-processo-item, .tribunal-participante-item { grid-template-columns: 1fr; }
+  .tribunal-resumo-processo { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 
 @media (max-width: 620px) {
   .tribunal-hero { padding: 62px 0 56px; }
   .tribunal-secao { padding: 56px 0; }
-  .tribunal-grelha, .tribunal-fluxo, .tribunal-filtros, .tribunal-form-grid { grid-template-columns: 1fr; }
+  .tribunal-grelha, .tribunal-fluxo, .tribunal-filtros, .tribunal-filtros-participantes, .tribunal-form-grid { grid-template-columns: 1fr; }
   .tribunal-processos-topo-conteudo { align-items: stretch; flex-direction: column; }
-  .tribunal-processo-dados { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .tribunal-processo-dados, .tribunal-participante-dados, .tribunal-resumo-processo { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .tribunal-campo-largo { grid-column: auto; }
   .tribunal-form-acoes { flex-direction: column-reverse; }
   .tribunal-form-acoes .botao { width: 100%; }
