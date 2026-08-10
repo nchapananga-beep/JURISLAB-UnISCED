@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Participantes e equipas do JURISLAB Tribunal">
+  <title>Participantes e Equipas | JURISLAB Tribunal</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/tribunal.css?v=3">
+</head>
+<body>
+  <header class="topo">
+    <div class="container navegacao">
+      <a class="marca marca-com-logo" href="tribunal-processos.html" aria-label="Voltar aos processos">
+        <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
+        <div class="marca-jurislab">
+          <span class="marca-principal">JURISLAB Tribunal</span>
+          <span class="marca-subtitulo">Participantes e Equipas</span>
+        </div>
+      </a>
+      <nav class="menu tribunal-menu-processos" aria-label="Navegação do Tribunal">
+        <a href="tribunal-processos.html">Processos</a>
+        <a href="dashboard.html">Painel</a>
+        <button id="btnSairTF" class="botao botao-contorno" type="button">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tribunal-processos-topo">
+      <div class="container tribunal-processos-topo-conteudo">
+        <div>
+          <p class="etiqueta">Participantes e Equipas</p>
+          <h1 id="tituloProcessoParticipantes">A carregar processo...</h1>
+          <p id="subtituloProcessoParticipantes">Estamos a obter os dados do processo.</p>
+        </div>
+        <button id="btnAbrirNovoParticipante" class="botao botao-principal" type="button">Adicionar participante</button>
+      </div>
+    </section>
+
+    <section class="tribunal-secao tribunal-secao-cinza">
+      <div class="container">
+        <div class="tribunal-resumo-processo" id="resumoProcessoParticipantes">
+          <div><span>Número</span><strong id="resumoNumeroProcesso">—</strong></div>
+          <div><span>Estado</span><strong id="resumoEstadoProcesso">—</strong></div>
+          <div><span>Fase</span><strong id="resumoFaseProcesso">—</strong></div>
+          <div><span>Área</span><strong id="resumoAreaProcesso">—</strong></div>
+        </div>
+
+        <div class="tribunal-filtros tribunal-filtros-participantes">
+          <div class="campo-filtro campo-filtro-pesquisa">
+            <label for="tfPesquisaParticipante">Pesquisar</label>
+            <input id="tfPesquisaParticipante" type="search" placeholder="Nome, email ou papel">
+          </div>
+          <div class="campo-filtro">
+            <label for="tfEquipaParticipante">Equipa</label>
+            <select id="tfEquipaParticipante">
+              <option value="">Todas</option>
+              <option>Autor</option>
+              <option>Réu</option>
+              <option>Tribunal</option>
+              <option>Ministério Público</option>
+              <option>Outra</option>
+            </select>
+          </div>
+          <div class="campo-filtro">
+            <label for="tfEstadoParticipante">Estado</label>
+            <select id="tfEstadoParticipante">
+              <option value="">Todos</option>
+              <option>Activo</option>
+              <option>Inactivo</option>
+              <option>Substituído</option>
+              <option>Concluído</option>
+            </select>
+          </div>
+          <button id="btnPesquisarParticipante" class="botao botao-principal tribunal-botao-filtro" type="button">Pesquisar</button>
+        </div>
+
+        <p id="mensagemParticipantesTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+
+        <div class="tribunal-lista-cabecalho">
+          <h2>Equipa do processo</h2>
+          <span id="totalParticipantesTF">0 participantes</span>
+        </div>
+
+        <div id="listaParticipantesTF" class="tribunal-lista-participantes"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalNovoParticipanteTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo" data-fechar-modal="true"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloNovoParticipanteTF">
+      <div class="tribunal-modal-topo">
+        <div>
+          <p class="etiqueta">Nova participação</p>
+          <h2 id="tituloNovoParticipanteTF">Adicionar participante ao processo</h2>
+        </div>
+        <button id="btnFecharNovoParticipante" class="tribunal-fechar-modal" type="button" aria-label="Fechar">×</button>
+      </div>
+
+      <form id="formNovoParticipanteTF" class="tribunal-formulario" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario">
+            <label for="nomeParticipanteTF">Nome *</label>
+            <input id="nomeParticipanteTF" type="text" maxlength="160" required>
+          </div>
+          <div class="campo-formulario">
+            <label for="emailParticipanteTF">Email</label>
+            <input id="emailParticipanteTF" type="email" maxlength="180">
+          </div>
+          <div class="campo-formulario">
+            <label for="papelParticipanteTF">Papel processual *</label>
+            <select id="papelParticipanteTF" required>
+              <option value="">Seleccione</option>
+              <option>Juiz</option><option>Juiz Presidente</option><option>Juiz Vogal</option>
+              <option>Advogado do Autor</option><option>Advogado do Réu</option>
+              <option>Ministério Público</option><option>Secretário Judicial</option>
+              <option>Oficial de Justiça</option><option>Parte</option><option>Testemunha</option>
+              <option>Perito</option><option>Tutor</option><option>Supervisor</option>
+              <option>Observador</option><option>Estudante</option>
+            </select>
+          </div>
+          <div class="campo-formulario">
+            <label for="equipaParticipanteTF">Equipa</label>
+            <select id="equipaParticipanteTF">
+              <option value="">Seleccione</option>
+              <option>Autor</option><option>Réu</option><option>Tribunal</option>
+              <option>Ministério Público</option><option>Outra</option>
+            </select>
+          </div>
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="observacoesParticipanteTF">Observações</label>
+            <textarea id="observacoesParticipanteTF" rows="4" maxlength="1000"></textarea>
+          </div>
+        </div>
+
+        <p id="mensagemNovoParticipanteTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+        <div class="tribunal-form-acoes">
+          <button id="btnCancelarNovoParticipante" class="botao tribunal-botao-neutro" type="button">Cancelar</button>
+          <button id="btnGuardarNovoParticipante" class="botao botao-principal" type="submit">Adicionar participante</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="js/config.js?v=1"></script>
+  <script src="js/tribunal-participantes.js?v=1"></script>
+</body>
+</html>
