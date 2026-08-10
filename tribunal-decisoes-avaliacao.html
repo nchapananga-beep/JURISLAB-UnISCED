@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Decisões e avaliação do JURISLAB Tribunal">
+  <title>Decisões e Avaliação | JURISLAB Tribunal</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/tribunal.css?v=4">
+</head>
+<body>
+  <header class="topo">
+    <div class="container navegacao">
+      <a class="marca marca-com-logo" href="dashboard.html" aria-label="Painel do JURISLAB">
+        <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
+        <div class="marca-jurislab"><span class="marca-principal">JURISLAB Tribunal</span><span class="marca-subtitulo">Tribunal Fictício da Clínica Jurídica da UnISCED</span></div>
+      </a>
+      <nav class="menu tribunal-menu-processos" aria-label="Navegação do Tribunal">
+        <a href="tribunal-processos.html">Processos</a><a href="tribunal.html">Tribunal</a><a href="dashboard.html">Painel</a><button id="btnSairTF" class="botao botao-contorno" type="button">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tribunal-processos-topo">
+      <div class="container tribunal-processos-topo-conteudo">
+        <div><p class="etiqueta">Fecho e desempenho</p><h1>Decisões e Avaliação</h1><p id="subtituloProcessoTF">A carregar processo...</p></div>
+        <a class="botao botao-secundario" href="tribunal-processos.html">Voltar aos processos</a>
+      </div>
+    </section>
+
+    <section class="tribunal-secao tribunal-secao-cinza">
+      <div class="container">
+        <div id="resumoProcessoTF" class="tribunal-resumo-processo"></div>
+        <p id="mensagemPaginaTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+
+        <div class="tribunal-abas" role="tablist" aria-label="Decisões e avaliação">
+          <button class="tribunal-aba activa" type="button" data-alvo="painelDecisoesTF">Decisões</button>
+          <button class="tribunal-aba" type="button" data-alvo="painelAvaliacoesTF">Avaliação</button>
+        </div>
+
+        <section id="painelDecisoesTF" class="tribunal-painel-aba">
+          <div class="tribunal-lista-cabecalho"><div><p class="etiqueta">Resultado processual</p><h2>Decisões do processo</h2></div><button id="btnNovaDecisaoTF" class="botao botao-principal" type="button">Nova decisão</button></div>
+          <p id="mensagemDecisoesTF" class="mensagem-formulario"></p>
+          <div id="listaDecisoesTF" class="tribunal-lista-processos"></div>
+        </section>
+
+        <section id="painelAvaliacoesTF" class="tribunal-painel-aba oculto">
+          <div class="tribunal-lista-cabecalho"><div><p class="etiqueta">Desempenho</p><h2>Avaliações dos participantes</h2></div><button id="btnNovaAvaliacaoTF" class="botao botao-principal" type="button">Nova avaliação</button></div>
+          <p id="mensagemAvaliacoesTF" class="mensagem-formulario"></p>
+          <div id="listaAvaliacoesTF" class="tribunal-lista-processos"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalDecisaoTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true">
+      <div class="tribunal-modal-topo"><div><p class="etiqueta">Decisão</p><h2>Registar decisão</h2></div><button id="btnFecharDecisaoTF" class="tribunal-fechar-modal" type="button">×</button></div>
+      <form id="formDecisaoTF" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario"><label for="tipoDecisaoTF">Tipo *</label><select id="tipoDecisaoTF" required><option value="">Seleccione</option><option>Sentença</option><option>Despacho</option><option>Acórdão simulado</option><option>Decisão interlocutória</option></select></div>
+          <div class="campo-formulario"><label for="dataDecisaoTF">Data *</label><input id="dataDecisaoTF" type="date" required></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="tituloDecisaoTF">Título *</label><input id="tituloDecisaoTF" type="text" maxlength="180" required></div>
+          <div class="campo-formulario"><label for="juizDecisaoTF">Juiz</label><input id="juizDecisaoTF" type="text" maxlength="150"></div>
+          <div class="campo-formulario"><label for="resultadoDecisaoTF">Resultado</label><input id="resultadoDecisaoTF" type="text" maxlength="150"></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="resumoDecisaoTF">Resumo</label><textarea id="resumoDecisaoTF" rows="3"></textarea></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="fundamentacaoDecisaoTF">Fundamentação</label><textarea id="fundamentacaoDecisaoTF" rows="4"></textarea></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="dispositivoDecisaoTF">Dispositivo *</label><textarea id="dispositivoDecisaoTF" rows="4" required></textarea></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="linkDecisaoTF">Documento</label><input id="linkDecisaoTF" type="url" placeholder="https://..."></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="observacoesDecisaoTF">Observações</label><textarea id="observacoesDecisaoTF" rows="3"></textarea></div>
+        </div>
+        <p id="mensagemModalDecisaoTF" class="mensagem-formulario"></p>
+        <div class="tribunal-form-acoes"><button id="btnCancelarDecisaoTF" class="botao tribunal-botao-neutro" type="button">Cancelar</button><button id="btnGuardarDecisaoTF" class="botao botao-principal" type="submit">Registar decisão</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div id="modalAvaliacaoTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true">
+      <div class="tribunal-modal-topo"><div><p class="etiqueta">Avaliação</p><h2>Avaliar participante</h2></div><button id="btnFecharAvaliacaoTF" class="tribunal-fechar-modal" type="button">×</button></div>
+      <form id="formAvaliacaoTF" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario tribunal-campo-largo"><label for="participanteAvaliacaoTF">Participante *</label><select id="participanteAvaliacaoTF" required><option value="">Seleccione</option></select></div>
+          <div class="campo-formulario"><label>Argumentação jurídica *</label><input id="argumentacaoTF" type="number" min="0" max="20" step="0.5" required></div>
+          <div class="campo-formulario"><label>Domínio processual *</label><input id="dominioTF" type="number" min="0" max="20" step="0.5" required></div>
+          <div class="campo-formulario"><label>Oralidade *</label><input id="oralidadeTF" type="number" min="0" max="20" step="0.5" required></div>
+          <div class="campo-formulario"><label>Ética e postura *</label><input id="eticaTF" type="number" min="0" max="20" step="0.5" required></div>
+          <div class="campo-formulario"><label>Trabalho em equipa *</label><input id="equipaTF" type="number" min="0" max="20" step="0.5" required></div>
+          <div class="campo-formulario"><label>Qualidade das peças *</label><input id="pecasTF" type="number" min="0" max="20" step="0.5" required></div>
+          <div class="campo-formulario tribunal-campo-largo"><label for="comentarioAvaliacaoTF">Comentário</label><textarea id="comentarioAvaliacaoTF" rows="4"></textarea></div>
+        </div>
+        <p id="mensagemModalAvaliacaoTF" class="mensagem-formulario"></p>
+        <div class="tribunal-form-acoes"><button id="btnCancelarAvaliacaoTF" class="botao tribunal-botao-neutro" type="button">Cancelar</button><button id="btnGuardarAvaliacaoTF" class="botao botao-principal" type="submit">Registar avaliação</button></div>
+      </form>
+    </section>
+  </div>
+
+  <script src="js/config.js?v=1"></script>
+  <script src="js/tribunal-decisoes-avaliacao.js?v=1"></script>
+</body>
+</html>
