@@ -6,135 +6,36 @@
   <meta name="description" content="JURISLAB Tribunal — Tribunal Fictício da Clínica Jurídica da UnISCED">
   <title>JURISLAB Tribunal | UnISCED</title>
   <link rel="stylesheet" href="css/style.css?v=5">
-  <link rel="stylesheet" href="css/tribunal.css?v=1">
+  <link rel="stylesheet" href="css/tribunal.css?v=2">
 </head>
 <body>
   <header class="topo">
     <div class="container navegacao">
       <a class="marca marca-com-logo" href="index.html" aria-label="Página inicial do JURISLAB">
         <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
-        <div class="marca-jurislab">
-          <span class="marca-principal">JURISLAB</span>
-          <span class="marca-subtitulo">Laboratório Online de Prática e Inovação Jurídica</span>
-        </div>
+        <div class="marca-jurislab"><span class="marca-principal">JURISLAB</span><span class="marca-subtitulo">Laboratório Online de Prática e Inovação Jurídica</span></div>
       </a>
       <button class="menu-botao" id="menuBotao" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
-      <nav class="menu" id="menuPrincipal" aria-label="Navegação principal">
-        <a href="index.html">Início</a>
-        <a href="#funcionalidades">Funcionalidades</a>
-        <a href="#fluxo">Fluxo</a>
-        <a class="botao botao-contorno" href="login.html">Entrar</a>
-      </nav>
+      <nav class="menu" id="menuPrincipal" aria-label="Navegação principal"><a href="index.html">Início</a><a href="#funcionalidades">Funcionalidades</a><a href="#fluxo">Fluxo</a><a class="botao botao-contorno" href="login.html">Entrar</a></nav>
     </div>
   </header>
 
   <main>
-    <section class="tribunal-hero">
-      <div class="container">
-        <p class="etiqueta">Tribunal Fictício da Clínica Jurídica</p>
-        <h1>JURISLAB Tribunal</h1>
-        <p class="tribunal-intro">Ambiente académico para registo, tramitação e acompanhamento de processos simulados, audiências, peças processuais, prazos e decisões.</p>
-        <div class="tribunal-acoes">
-          <a class="botao botao-principal" href="#funcionalidades">Explorar o módulo</a>
-          <a class="botao botao-secundario" href="index.html">Voltar ao JURISLAB</a>
-        </div>
-      </div>
-    </section>
+    <section class="tribunal-hero"><div class="container"><p class="etiqueta">Tribunal Fictício da Clínica Jurídica</p><h1>JURISLAB Tribunal</h1><p class="tribunal-intro">Ambiente académico para registo, tramitação e acompanhamento de processos simulados, audiências, peças processuais, prazos e decisões.</p><div class="tribunal-acoes"><a class="botao botao-principal" href="tribunal-processos.html">Abrir gestão de processos</a><a class="botao botao-secundario" href="index.html">Voltar ao JURISLAB</a></div></div></section>
 
-    <section class="tribunal-secao" id="funcionalidades">
-      <div class="container">
-        <div class="tribunal-cabecalho">
-          <p class="etiqueta">Gestão do Tribunal Fictício</p>
-          <h2>Uma visão única de todo o processo simulado</h2>
-          <p>O módulo está a ser construído por etapas. A primeira camada funcional já está preparada no backend e as áreas abaixo serão ligadas progressivamente ao Apps Script.</p>
-        </div>
+    <section class="tribunal-secao" id="funcionalidades"><div class="container"><div class="tribunal-cabecalho"><p class="etiqueta">Gestão do Tribunal Fictício</p><h2>Uma visão única de todo o processo simulado</h2><p>A gestão de processos já está ligada ao backend do Apps Script. As restantes áreas serão activadas progressivamente.</p></div><div class="tribunal-grelha">
+      <article class="tribunal-cartao"><span class="tribunal-cartao-numero">01</span><h3>Processos</h3><p>Registo, consulta, estado, fase processual e acompanhamento dos processos simulados.</p><a class="tribunal-link" href="tribunal-processos.html">Abrir processos →</a></article>
+      <article class="tribunal-cartao"><span class="tribunal-cartao-numero">02</span><h3>Novo Processo</h3><p>Criação de processo com identificação automática e numeração anual.</p><a class="tribunal-link" href="tribunal-processos.html">Criar processo →</a></article>
+      <article class="tribunal-cartao"><span class="tribunal-cartao-numero">03</span><h3>Participantes e Equipas</h3><p>Juízes, advogados, tutores, testemunhas, peritos e demais intervenientes.</p><span class="tribunal-link tribunal-link-indisponivel">Em preparação</span></article>
+      <article class="tribunal-cartao"><span class="tribunal-cartao-numero">04</span><h3>Peças e Andamentos</h3><p>Histórico processual e documentos associados a cada acto do processo.</p><span class="tribunal-link tribunal-link-indisponivel">Em preparação</span></article>
+      <article class="tribunal-cartao"><span class="tribunal-cartao-numero">05</span><h3>Prazos e Audiências</h3><p>Controlo de prazos simulados, agendamento e acompanhamento das audiências.</p><span class="tribunal-link tribunal-link-indisponivel">Em preparação</span></article>
+      <article class="tribunal-cartao"><span class="tribunal-cartao-numero">06</span><h3>Decisões e Avaliação</h3><p>Registo de decisões e avaliação académica dos estudantes participantes.</p><span class="tribunal-link tribunal-link-indisponivel">Em preparação</span></article>
+    </div></div></section>
 
-        <div class="tribunal-grelha">
-          <article class="tribunal-cartao">
-            <span class="tribunal-cartao-numero">01</span>
-            <h3>Processos</h3>
-            <p>Registo, consulta, estado, fase processual e acompanhamento dos processos simulados.</p>
-            <span class="tribunal-link tribunal-link-indisponivel">Ligação ao backend em preparação</span>
-          </article>
-
-          <article class="tribunal-cartao">
-            <span class="tribunal-cartao-numero">02</span>
-            <h3>Novo Processo</h3>
-            <p>Formulário de criação de processo com identificação automática e numeração anual.</p>
-            <span class="tribunal-link tribunal-link-indisponivel">Interface em preparação</span>
-          </article>
-
-          <article class="tribunal-cartao">
-            <span class="tribunal-cartao-numero">03</span>
-            <h3>Participantes e Equipas</h3>
-            <p>Juízes, advogados, tutores, testemunhas, peritos e demais intervenientes.</p>
-            <span class="tribunal-link tribunal-link-indisponivel">Em preparação</span>
-          </article>
-
-          <article class="tribunal-cartao">
-            <span class="tribunal-cartao-numero">04</span>
-            <h3>Peças e Andamentos</h3>
-            <p>Histórico processual e documentos associados a cada ato do processo.</p>
-            <span class="tribunal-link tribunal-link-indisponivel">Em preparação</span>
-          </article>
-
-          <article class="tribunal-cartao">
-            <span class="tribunal-cartao-numero">05</span>
-            <h3>Prazos e Audiências</h3>
-            <p>Controlo de prazos simulados, agendamento e acompanhamento das audiências.</p>
-            <span class="tribunal-link tribunal-link-indisponivel">Em preparação</span>
-          </article>
-
-          <article class="tribunal-cartao">
-            <span class="tribunal-cartao-numero">06</span>
-            <h3>Decisões e Avaliação</h3>
-            <p>Registo de decisões e avaliação académica dos estudantes participantes.</p>
-            <span class="tribunal-link tribunal-link-indisponivel">Em preparação</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="tribunal-secao tribunal-secao-cinza" id="fluxo">
-      <div class="container">
-        <div class="tribunal-cabecalho">
-          <p class="etiqueta">Fluxo principal</p>
-          <h2>Do registo ao encerramento</h2>
-          <p>A arquitetura foi desenhada para acompanhar o ciclo completo do processo fictício sem misturar gestão administrativa e fase processual.</p>
-        </div>
-
-        <div class="tribunal-fluxo">
-          <div class="tribunal-etapa"><strong>1. Registo</strong><span>Criação e submissão do processo.</span></div>
-          <div class="tribunal-etapa"><strong>2. Distribuição</strong><span>Designação de responsáveis e equipas.</span></div>
-          <div class="tribunal-etapa"><strong>3. Tramitação</strong><span>Peças, prazos, andamentos e despachos.</span></div>
-          <div class="tribunal-etapa"><strong>4. Audiência</strong><span>Preparação e realização da sessão.</span></div>
-          <div class="tribunal-etapa"><strong>5. Decisão</strong><span>Sentença, acórdão ou outra decisão simulada.</span></div>
-          <div class="tribunal-etapa"><strong>6. Avaliação</strong><span>Apreciação académica dos participantes.</span></div>
-          <div class="tribunal-etapa"><strong>7. Encerramento</strong><span>Fecho e arquivo do processo.</span></div>
-        </div>
-
-        <div class="tribunal-nota">
-          <strong>Estado atual:</strong> a estrutura de dados e o backend inicial de processos já foram testados. O próximo passo é ligar esta página ao Web App do Apps Script para listar e criar processos diretamente pela interface.
-        </div>
-      </div>
-    </section>
+    <section class="tribunal-secao tribunal-secao-cinza" id="fluxo"><div class="container"><div class="tribunal-cabecalho"><p class="etiqueta">Fluxo principal</p><h2>Do registo ao encerramento</h2><p>A arquitetura acompanha o ciclo completo do processo fictício sem misturar gestão administrativa e fase processual.</p></div><div class="tribunal-fluxo"><div class="tribunal-etapa"><strong>1. Registo</strong><span>Criação e submissão do processo.</span></div><div class="tribunal-etapa"><strong>2. Distribuição</strong><span>Designação de responsáveis e equipas.</span></div><div class="tribunal-etapa"><strong>3. Tramitação</strong><span>Peças, prazos, andamentos e despachos.</span></div><div class="tribunal-etapa"><strong>4. Audiência</strong><span>Preparação e realização da sessão.</span></div><div class="tribunal-etapa"><strong>5. Decisão</strong><span>Sentença, acórdão ou outra decisão simulada.</span></div><div class="tribunal-etapa"><strong>6. Avaliação</strong><span>Apreciação académica dos participantes.</span></div><div class="tribunal-etapa"><strong>7. Encerramento</strong><span>Fecho e arquivo do processo.</span></div></div><div class="tribunal-nota"><strong>Estado actual:</strong> a gestão de processos já está ligada à API do JURISLAB e preparada para criar e listar registos em TF_PROCESSOS.</div></div></section>
   </main>
 
-  <footer class="rodape" id="contactos">
-    <div class="container rodape-conteudo">
-      <div class="rodape-marca">
-        <div class="rodape-logo-caixa">
-          <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced-rodape">
-        </div>
-        <div class="rodape-identidade">
-          <strong>JURISLAB Tribunal</strong>
-          <p>Tribunal Fictício da Clínica Jurídica da UnISCED</p>
-        </div>
-      </div>
-      <p class="rodape-direitos">© <span id="anoActual"></span> UnISCED. Todos os direitos reservados.</p>
-    </div>
-  </footer>
-
+  <footer class="rodape" id="contactos"><div class="container rodape-conteudo"><div class="rodape-marca"><div class="rodape-logo-caixa"><img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced-rodape"></div><div class="rodape-identidade"><strong>JURISLAB Tribunal</strong><p>Tribunal Fictício da Clínica Jurídica da UnISCED</p></div></div><p class="rodape-direitos">© <span id="anoActual"></span> UnISCED. Todos os direitos reservados.</p></div></footer>
   <script src="js/app.js?v=2"></script>
 </body>
 </html>
