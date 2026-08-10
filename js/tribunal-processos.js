@@ -78,6 +78,7 @@ function tfRenderizarProcessos(processos) {
           <p>${tfEscapar(processo.Autor || "—")} <strong>vs.</strong> ${tfEscapar(processo.Reu || "—")}</p>
           <div class="tribunal-processo-acoes">
             <a class="tribunal-acao-link" href="tribunal-participantes.html?idProcesso=${id}">Participantes e equipas</a>
+            <a class="tribunal-acao-link" href="tribunal-pecas-andamentos.html?idProcesso=${id}">Peças e andamentos</a>
           </div>
         </div>
         <div class="tribunal-processo-dados">
