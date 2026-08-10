@@ -1,0 +1,112 @@
+/* Uniformização dos módulos principais do dashboard */
+
+.modulo-dashboard {
+  height: 100%;
+}
+
+.modulo-aconselha,
+.modulo-tribunal {
+  min-height: 390px;
+}
+
+.resumo-modulo-mobile {
+  display: grid;
+  gap: 14px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.resumo-modulo-mobile > small {
+  display: block;
+  min-height: 42px;
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.acoes-modulo-compactas {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.botao-toggle-fluxo {
+  margin-top: 0 !important;
+  min-height: 44px;
+  color: var(--vermelho) !important;
+  background: #fff !important;
+  border: 1px solid var(--vermelho) !important;
+  cursor: pointer;
+}
+
+/* O Aconselha abre compacto por padrão, inclusive no laptop. */
+.modulo-aconselha .acoes-modulo-fluxo,
+.modulo-aconselha #painelFluxoInteligente,
+.modulo-aconselha #recomendacaoFluxo {
+  display: none;
+}
+
+.modulo-aconselha.modulo-fluxo-expandido .acoes-modulo-fluxo {
+  display: grid;
+  margin-top: 22px;
+  padding-top: 0;
+}
+
+.modulo-aconselha.modulo-fluxo-expandido #painelFluxoInteligente,
+.modulo-aconselha.modulo-fluxo-expandido #recomendacaoFluxo {
+  display: grid;
+}
+
+.modulo-aconselha.modulo-fluxo-expandido {
+  grid-column: span 2;
+}
+
+.modulo-tribunal .acoes-modulo {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+@media (min-width: 901px) {
+  .modulo-aconselha,
+  .modulo-tribunal {
+    min-height: 390px;
+  }
+
+  .modulo-aconselha .resumo-modulo-mobile,
+  .modulo-tribunal .resumo-modulo-mobile {
+    display: grid;
+  }
+
+  .modulo-aconselha.modulo-fluxo-expandido {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .modulo-aconselha.modulo-fluxo-expandido {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .modulo-aconselha,
+  .modulo-tribunal {
+    min-height: 0;
+  }
+
+  .resumo-modulo-mobile {
+    margin-top: 18px;
+    padding-top: 0;
+  }
+
+  .resumo-modulo-mobile > small {
+    min-height: 0;
+  }
+
+  .acoes-modulo-compactas,
+  .modulo-tribunal .acoes-modulo {
+    grid-template-columns: 1fr;
+  }
+
+  .modulo-aconselha.modulo-fluxo-expandido {
+    grid-column: auto;
+  }
+}
