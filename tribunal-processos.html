@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestão de processos simulados do JURISLAB Tribunal">
+  <title>Processos | JURISLAB Tribunal</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/tribunal.css?v=2">
+</head>
+<body>
+  <header class="topo">
+    <div class="container navegacao">
+      <a class="marca marca-com-logo" href="dashboard.html" aria-label="Painel do JURISLAB">
+        <img src="./assets/imagens/logo-unisced.png?v=5" alt="Logótipo da UnISCED" class="logo-unisced">
+        <div class="marca-jurislab">
+          <span class="marca-principal">JURISLAB Tribunal</span>
+          <span class="marca-subtitulo">Tribunal Fictício da Clínica Jurídica da UnISCED</span>
+        </div>
+      </a>
+      <nav class="menu tribunal-menu-processos" aria-label="Navegação do Tribunal">
+        <a href="tribunal.html">Tribunal</a>
+        <a href="dashboard.html">Painel</a>
+        <button id="btnSairTF" class="botao botao-contorno" type="button">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tribunal-processos-topo">
+      <div class="container tribunal-processos-topo-conteudo">
+        <div>
+          <p class="etiqueta">JURISLAB Tribunal</p>
+          <h1>Processos simulados</h1>
+          <p>Registe, consulte e acompanhe os processos do Tribunal Fictício.</p>
+        </div>
+        <button id="btnAbrirNovoProcesso" class="botao botao-principal" type="button">Novo processo</button>
+      </div>
+    </section>
+
+    <section class="tribunal-secao tribunal-secao-cinza">
+      <div class="container">
+        <div class="tribunal-filtros">
+          <div class="campo-filtro campo-filtro-pesquisa">
+            <label for="tfPesquisa">Pesquisar</label>
+            <input id="tfPesquisa" type="search" placeholder="Número, título, autor ou réu">
+          </div>
+          <div class="campo-filtro">
+            <label for="tfEstado">Estado</label>
+            <select id="tfEstado">
+              <option value="">Todos</option>
+              <option>Rascunho</option>
+              <option>Submetido</option>
+              <option>Em análise</option>
+              <option>Aceite</option>
+              <option>Em preparação</option>
+              <option>Em tramitação</option>
+              <option>Audiência agendada</option>
+              <option>Em julgamento</option>
+              <option>Aguardando decisão</option>
+              <option>Decidido</option>
+              <option>Encerrado</option>
+              <option>Suspenso</option>
+              <option>Arquivado</option>
+              <option>Cancelado</option>
+            </select>
+          </div>
+          <div class="campo-filtro">
+            <label for="tfArea">Área do Direito</label>
+            <select id="tfArea">
+              <option value="">Todas</option>
+              <option>Direito Civil</option>
+              <option>Direito Penal</option>
+              <option>Direito do Trabalho</option>
+              <option>Direito Administrativo</option>
+              <option>Direito Comercial</option>
+              <option>Direito Fiscal</option>
+              <option>Direito Constitucional</option>
+              <option>Direito da Família</option>
+              <option>Direito das Sucessões</option>
+              <option>Direito da Terra</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <button id="btnPesquisarTF" class="botao botao-principal tribunal-botao-filtro" type="button">Pesquisar</button>
+        </div>
+
+        <p id="mensagemProcessosTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+
+        <div class="tribunal-lista-cabecalho">
+          <h2>Processos registados</h2>
+          <span id="totalProcessosTF">0 processos</span>
+        </div>
+
+        <div id="listaProcessosTF" class="tribunal-lista-processos"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalNovoProcessoTF" class="tribunal-modal oculto" aria-hidden="true">
+    <div class="tribunal-modal-fundo" data-fechar-modal="true"></div>
+    <section class="tribunal-modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloNovoProcessoTF">
+      <div class="tribunal-modal-topo">
+        <div>
+          <p class="etiqueta">Novo registo</p>
+          <h2 id="tituloNovoProcessoTF">Criar processo simulado</h2>
+        </div>
+        <button id="btnFecharNovoProcesso" class="tribunal-fechar-modal" type="button" aria-label="Fechar">×</button>
+      </div>
+
+      <form id="formNovoProcessoTF" class="tribunal-formulario" novalidate>
+        <div class="tribunal-form-grid">
+          <div class="campo-formulario">
+            <label for="tipoProcessoTF">Tipo de processo *</label>
+            <select id="tipoProcessoTF" required>
+              <option value="">Seleccione</option>
+              <option>Processo Civil</option>
+              <option>Processo Penal</option>
+              <option>Processo Laboral</option>
+              <option>Processo Administrativo</option>
+              <option>Processo Comercial</option>
+              <option>Processo Fiscal</option>
+              <option>Processo Constitucional</option>
+            </select>
+          </div>
+
+          <div class="campo-formulario">
+            <label for="areaDireitoTF">Área do Direito *</label>
+            <select id="areaDireitoTF" required>
+              <option value="">Seleccione</option>
+              <option>Direito Civil</option>
+              <option>Direito Penal</option>
+              <option>Direito do Trabalho</option>
+              <option>Direito Administrativo</option>
+              <option>Direito Comercial</option>
+              <option>Direito Fiscal</option>
+              <option>Direito Constitucional</option>
+              <option>Direito da Família</option>
+              <option>Direito das Sucessões</option>
+              <option>Direito da Terra</option>
+              <option>Outro</option>
+            </select>
+          </div>
+
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="tituloProcessoTF">Título do processo *</label>
+            <input id="tituloProcessoTF" type="text" maxlength="180" required placeholder="Ex.: Autor vs. Réu">
+          </div>
+
+          <div class="campo-formulario">
+            <label for="autorTF">Autor *</label>
+            <input id="autorTF" type="text" maxlength="150" required>
+          </div>
+
+          <div class="campo-formulario">
+            <label for="reuTF">Réu *</label>
+            <input id="reuTF" type="text" maxlength="150" required>
+          </div>
+
+          <div class="campo-formulario">
+            <label for="responsavelTF">Responsável</label>
+            <input id="responsavelTF" type="text" maxlength="150">
+          </div>
+
+          <div class="campo-formulario">
+            <label for="tutorTF">Tutor</label>
+            <input id="tutorTF" type="text" maxlength="150">
+          </div>
+
+          <div class="campo-formulario">
+            <label for="juizTF">Juiz</label>
+            <input id="juizTF" type="text" maxlength="150">
+          </div>
+
+          <div class="campo-formulario tribunal-campo-largo">
+            <label for="observacoesTF">Observações</label>
+            <textarea id="observacoesTF" rows="4" maxlength="1000"></textarea>
+          </div>
+        </div>
+
+        <p id="mensagemNovoProcessoTF" class="mensagem-formulario" role="status" aria-live="polite"></p>
+
+        <div class="tribunal-form-acoes">
+          <button id="btnCancelarNovoProcesso" class="botao tribunal-botao-neutro" type="button">Cancelar</button>
+          <button id="btnGuardarNovoProcesso" class="botao botao-principal" type="submit">Criar processo</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="js/config.js?v=1"></script>
+  <script src="js/tribunal-processos.js?v=1"></script>
+</body>
+</html>
