@@ -1,6 +1,18 @@
+<div align="center">
+
+<img src="assets/imagens/logo-unisced.png" alt="UniSCED" width="120" />
+
 # ⚖️ JURISLAB-UniSCED
 
-**Laboratório Online de Prática e Inovação Jurídica da UnISCED**
+### Laboratório Online de Prática e Inovação Jurídica da UnISCED
+
+**Direito · Formação prática · Inovação · Tecnologia**
+
+[![HTML](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](#)
+[![CSS](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=000000)](#)
+
+</div>
 
 O **JURISLAB-UniSCED** é uma plataforma concebida para apoiar a formação jurídica prática, a gestão de casos e a inovação aplicada ao Direito. O projecto procura aproximar aprendizagem, prática jurídica e tecnologia num ambiente digital organizado.
 
@@ -36,8 +48,6 @@ Após a consolidação do **JURISLAB Aconselha**, o desenvolvimento avança para
 
 ## 🛠️ Tecnologias
 
-O repositório utiliza tecnologias web, com destaque para:
-
 `HTML` · `CSS` · `JavaScript`
 
 ## 🔐 Nota sobre verificação documental
@@ -48,6 +58,12 @@ Os mecanismos internos de código de controlo e QR destinam-se à verificação 
 
 Projecto desenvolvido por **Nelsone David Bechane Chapananga**, integrando experiência jurídica, investigação académica e desenvolvimento de soluções digitais.
 
+[← Voltar ao perfil](https://github.com/nchapananga-beep)
+
 ---
 
-> **Prática jurídica, inovação e tecnologia num mesmo ambiente de aprendizagem.**
+<div align="center">
+
+**Prática jurídica, inovação e tecnologia num mesmo ambiente de aprendizagem.**
+
+</div>
